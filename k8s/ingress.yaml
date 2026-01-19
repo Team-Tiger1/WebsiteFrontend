@@ -17,6 +17,22 @@ spec:
                 port:
                   number: 80
 
+          - path: /userservice
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway-service
+                port:
+                  number: 80
+
+          - path: /productservice
+            pathType: Prefix
+            backend:
+              service:
+                name: api-gateway-service
+                port:
+                  number: 80
+
           - path: /actuator
             pathType: Prefix
             backend:
