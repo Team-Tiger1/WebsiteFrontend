@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website-frontend
+  template:
+    metadata:
+      labels:
+        app: website-frontend
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: website-frontend
+          image: ghcr.io/team-tiger1/websitefrontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: website-frontend
+spec:
+  selector:
+    app: website-frontend
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
