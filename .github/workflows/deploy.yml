@@ -34,4 +34,5 @@ jobs:
           KUBECONFIG: /home/daniel/.kube/config
         run: |
           kubectl apply -f k8s/deploy.yaml
+          kubectl apply -f k8s/ingress.yaml
           kubectl rollout restart deployment/website-frontend
