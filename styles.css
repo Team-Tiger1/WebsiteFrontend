@@ -18,14 +18,29 @@ h1{
     display: block;
     /* text-align: center; */
     font-weight: bold;
+    transition: 0.3s ease;
 }
 
-.navbar a:hover{
-    background-color: rgb(80, 130, 85);
+
+
+.navbar li a:hover,
+.navbar li a:active{
+    color: rgb(112, 115, 134);
+}
+
+.navbar li a:active::after{
+    content: "";
+    width: 30%;
+    height: 2px;
+    background-color: white;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
 }
 
 .navbar li{
     float: left;
+    position: relative;
 }
 
 body{
