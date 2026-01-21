@@ -282,7 +282,7 @@ footer.part1 .copyright{
 }
 
 /* making page responsive */
-@media (max-width:1150px) {
+@media (max-width:1200px) {
     #navbar{
         display: flex;
         flex-direction: column;
