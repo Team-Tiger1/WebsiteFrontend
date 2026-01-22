@@ -345,14 +345,11 @@ footer.part1 .copyright{
     padding: 0;
 }
 
-html{
+.auth-page{
     font-family: 'Courier New', Courier, monospace;
     font-size: 12pt;
     color: #222;
     text-align: center;
-}
-
-body{
     min-height: 100vh;
     background-image: url(img/logo.png);
     background-size: contain;
@@ -361,7 +358,7 @@ body{
     overflow: hidden;
 }
 
-.wrapper{
+.auth-page .wrapper{
     background-color: white;
     height: 100vh;
     width: max(40%, 600px);
@@ -374,7 +371,7 @@ body{
     justify-content: center;
 }
 
-.logo-container{
+.auth-page .logo-container{
     min-height: 100vh;
     display: flex;
     /* justify-content: flex-start;
@@ -382,13 +379,13 @@ body{
 }
 
 
-h2{
+.auth-page h2{
     font-size: 3rem;
     font-weight: 900;
     text-transform: uppercase;
 }
 
-form{
+.auth-page form{
     width: min(400px, 100%);
     margin-top: 20px;
     margin-bottom: 50px;
@@ -398,14 +395,14 @@ form{
     gap: 10px;
 }
 
-form > div{
+.auth-page form > div{
     width: 100%;
     display: flex;
     justify-content: center;
 
 }
 
-form label{
+.auth-page form label{
     flex-shrink: 0;
     height: 50px;
     width: 50px;
@@ -420,7 +417,7 @@ form label{
     font-weight: 500;
 }
 
-form input{
+.auth-page form input{
     box-sizing: border-box;
     flex-grow: 1;
     min-width: 0;
@@ -434,47 +431,47 @@ form input{
     transition: 100ms ease;
 }
 
-form input:hover{
+.auth-page form input:hover{
     border-color: green;
 }
 
-form input::placeholder{
+.auth-page form input::placeholder{
     color: black;
 }
 
-form button{
+.auth-page form button{
     text-transform: uppercase;
     padding: .85em 4em;
     cursor: pointer;
     transition: 100ms ease;
 }
 
-form button:hover{
+.auth-page form button:hover{
     background-color: rgb(198, 51, 34);
 }
 
-form button:focus{
+.auth-page form button:focus{
     outline: none;
     background-color: black;
 }
-a{
+.auth-page a{
     text-decoration: none;
     color: green;
 }
-a:hover{
+.auth-page a:hover{
     text-decoration: underline;
 }
 
 @media(max-width: 1100px){
-    .wrapper{
+    .auth-page .wrapper{
         width: min(600px, 100%);
         border-radius: 0;
     }   
 }
 
-form div.incorrect label{
+.auth-page form div.incorrect label{
     background-color: red;
 }
-form div.incorrect input{
+.auth-page form div.incorrect input{
     border-color: red;
 }
