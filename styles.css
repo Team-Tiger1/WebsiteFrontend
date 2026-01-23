@@ -475,3 +475,64 @@ footer.part1 .copyright{
 .auth-page form div.incorrect input{
     border-color: red;
 }
+
+/* dashboard */
+.dashboard {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 16px 60px;
+}
+
+.dashboard-header h2 {
+  margin: 0;
+}
+
+.text-muted {
+  opacity: 0.7;
+}
+
+/* summary boxes */
+
+.summary-boxes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin: 20px 0 30px;
+}
+
+.summary-box {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-top: 5px solid #3f6f4e;
+  
+}
+/* adding a hover */
+.summary-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.018);
+}
+
+.summary-title {
+  font-size: 14px;
+  opacity: 0.75;
+  margin: 0;
+}
+
+.summary-number {
+  font-size: 34px;
+  font-weight: 700;
+  margin: 10px 0 0;
+}
+
+.summary-note {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: 6px;
+}
+
+.unit {
+  font-size: 16px;
+}
