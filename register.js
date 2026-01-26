@@ -1,5 +1,5 @@
 const form = document.getElementById("registerForm");
-const msg = document.getElementById("msg");
+const msg = document.getElementById("errorMsg");
 const API = "https://thelastfork.shop/userservice";
 
 form.addEventListener("submit", function (event) {
@@ -9,16 +9,14 @@ form.addEventListener("submit", function (event) {
     const password = document.getElementById("password-input").value;
     const repeatPassword = document.getElementById("repeat-password-input").value;
 
-    if(password != repeatPassword){
+    if(password !== repeatPassword){
         msg.textContent="Passwords do not match, Please try again!";
         return;
     }
     msg.textContent = "Creating Account";
 
-    const body = {
-        email: email,
-        password: password
-    };
+    const body = {email, password};
+    
 
     fetch(API + "/users/register", {
         method: "POST",
@@ -27,15 +25,19 @@ form.addEventListener("submit", function (event) {
         },
         body: JSON.stringify(body)
     })
-    .then(function (response){
+    .then(async (response) =>{
         if (!response.ok){
             msg.textContent = "Register failed";
             return null;
         }
-        return response.json();
+        const contentType = response.headers.get("content-type") || "";
+        if (contentType.includes("application/json")){
+            return response.json();
+        }
+        return {};
     })
 
-    .then(function(data){
+    .then((data) => {
         if (data == null)
             return;
 
@@ -43,5 +45,9 @@ form.addEventListener("submit", function (event) {
         msg.textContent = "Account created! Redirection to login."
         window.location.href = "login.html";
     
-    });
     })
+    .catch((err) => {
+        console.err(err);
+        msg.textContent = "Network failure";
+    });
+    });
