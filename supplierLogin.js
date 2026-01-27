@@ -12,10 +12,11 @@ form.addEventListener("submit", async (e) => {
 
     if (!email || !password){
         msg.textContent = "Please enter an email and password";
+        return;
     }
 
     try{
-        const response = await fetch(`${API}/users/login`,
+        const response = await fetch(`${API}/vendors/login`,
         {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -33,7 +34,7 @@ form.addEventListener("submit", async (e) => {
             localStorage.setItem("accessToken", data.accessToken);
         }
         
-        window.location.href = "catalog.html";
+        window.location.href = "dashboard.html";
     } catch (err){
         console.error(err);
         msg.textContent = err.message;   

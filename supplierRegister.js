@@ -2,10 +2,16 @@ const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
 const API = "https://thelastfork.shop/userservice";
 
-form.addEventListener("submit", function (event) {
+form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
+    const name = document.getElementById("name-input").value.trim();
+    const streetAddress = document.getElementById("address-input").value.trim();
+    const postcode = document.getElementById("postcode-input").value.trim();
+    const description = document.getElementById("description-input").value.trim();
+    const phoneNumber = document.getElementById("number-input").value.trim();
     const email = document.getElementById("email-input").value.trim();
+    const category = document.getElementById("category-input").value.trim();
     const password = document.getElementById("password-input").value;
     const repeatPassword = document.getElementById("repeat-password-input").value;
 
@@ -15,10 +21,10 @@ form.addEventListener("submit", function (event) {
     }
     msg.textContent = "Creating Account";
 
-    const body = {email, password};
+    const body = {name, streetAddress, postcode, description, phoneNumber, email, category, password};
     
 
-    fetch(API + "/users/register", { 
+    fetch(API + "/vendors/register", { 
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -42,8 +48,8 @@ form.addEventListener("submit", function (event) {
             return;
 
         console.log("Register response", data);
-        msg.textContent = "Account created! Redirection to login."
-        window.location.href = "login.html";
+        msg.textContent = "Account created! Redirection to  supplier login."
+        window.location.href = "supplierLogin.html";
     
     })
     .catch((err) => {
