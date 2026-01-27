@@ -13,3 +13,13 @@ if (close){
         nav.classList.remove('active');
     })
 }
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("accountType");
+    window.location.href = "login.html";
+    });
+}

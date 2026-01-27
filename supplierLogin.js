@@ -32,6 +32,7 @@ form.addEventListener("submit", async (e) => {
 
         if (data.accessToken){
             localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("accountType", "supplier");
         }
         
         window.location.href = "dashboard.html";

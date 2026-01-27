@@ -11,12 +11,12 @@
     <nav class="navbar">
             <div class ="navlogo"><a href="dashboard">The Last Fork</a></div>
                 <ul id="navbar">
-                    <li><a class="active" href="dashboard">Dashboard</a></li>
-                    <li><a href="newproduct">Create Products</a></li>
-                    <li><a href="newbundle">Create Bundle</a></li>
-                    <li><a href="manage">Manage Pickups</a></li>
-                    <li><a href="analytics">Analytics</a></li>
-                    <li><a href="forecast">Forecast & Recommendations</a></li>
+                    <li><a class="active" href="dashboard.html">Dashboard</a></li>
+                    <li><a href="newproduct.html">Create Products</a></li>
+                    <li><a href="newbundle.html">Create Bundle</a></li>
+                    <li><a href="managehtml">Manage Pickups</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="forecast.html">Forecast & Recommendations</a></li>
 
                     <a href="#" id="close"><i class="fa fa-times" aria-hidden="true"></i></a>
 
@@ -24,8 +24,8 @@
                         <input type="text" placeholder="Search food..." />
                     </li>
 
-                    <li class="right"><button><a href="login">Login</a></button></li>
-                    <li class="right"><button><a href="catalog">Toggle</a></button></li>
+                    <li class="right"><button><a href="login.html">Login</a></button></li>
+                    <li class="right"><button><a href="catalog.html">Toggle</a></button></li>
                 </ul>
 
             <div id="mobile">
@@ -112,23 +112,7 @@
         </div>
     </footer>
     
-    <script>
-        const bar = document.getElementById('bar');
-        const close = document.getElementById('close');
-        const nav = document.getElementById('navbar');
-
-        if (bar){
-            bar.addEventListener('click', () => {
-                nav.classList.add('active');
-            })
-        }
-
-        if (close){
-            close.addEventListener('click', () => {
-                nav.classList.remove('active');
-            })
-        }
-    </script>
+        <script src="script.js"></script>
 
 </body>
 </html>

@@ -31,6 +31,7 @@ form.addEventListener("submit", async (e) => {
 
         if (data.accessToken){
             localStorage.setItem("accessToken", data.accessToken);
+            localStorage.setItem("accountType", "user");
         }
         
         window.location.href = "catalog.html";

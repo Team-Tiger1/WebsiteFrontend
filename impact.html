@@ -11,18 +11,18 @@
     <nav class="navbar">
             <div class ="navlogo"><a href="catalog">The Last Fork</a></div>
                 <ul>
-                    <li><a href="catalog">Catalog</a></li>
-                    <li><a href="orders">Orders</a></li>
-                    <li><a class="active" href="impact">Impact</a></li>
-                    <li><a href="report">Report Issue</a></li>
-                    <li><a href="cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+                    <li><a href="catalog.html">Catalog</a></li>
+                    <li><a href="orders.html">Orders</a></li>
+                    <li><a class="active" href="impact.html">Impact</a></li>
+                    <li><a href="report.html">Report Issue</a></li>
+                    <li><a href="cart.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
 
                     <li class="search">
                         <input type="text" placeholder="Search food..." />
                     </li>
 
-                    <li class="right"><button><a href="login">Login</a></button></li>
-                    <li class="right"><button><a href="dashboard">Toggle</a></button></li>
+                    <li class="right"><button><a href="login.html">Login</a></button></li>
+                    <li class="right"><button><a href="dashboard.html">Toggle</a></button></li>
                 </ul>
     </nav>
 
@@ -71,23 +71,6 @@
         </div>
     </footer>
     
-    <script>
-        const bar = document.getElementById('bar');
-        const close = document.getElementById('close');
-        const nav = document.getElementById('navbar');
-
-        if (bar){
-            bar.addEventListener('click', () => {
-                nav.classList.add('active');
-            })
-        }
-
-        if (close){
-            close.addEventListener('click', () => {
-                nav.classList.remove('active');
-            })
-        }
-    </script>
-
+    <script src="script.js"></script>
 </body>
 </html>
