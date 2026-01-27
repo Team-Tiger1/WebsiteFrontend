@@ -536,3 +536,32 @@ footer.part1 .copyright{
 .unit {
   font-size: 16px;
 }
+/* reservation table */
+
+.dashboard-section {
+  margin-top: 30px;
+}
+
+.reservation-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.reservation-table th,
+.reservation-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.reservation-table th {
+  background: #f6f6f6;
+  font-weight: 600;
+}
+
+.reservation-table tr:last-child td {
+  border-bottom: none;
+}
