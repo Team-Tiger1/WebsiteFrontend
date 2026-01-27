@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Last Fork</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <nav class="navbar">
+            <div class ="navlogo"><a href="dashboard.html">The Last Fork</a></div>
+                <ul id="navbar">
+                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a class="active" href="newproduct.html">Create Products</a></li>
+                    <li><a href="newbundle.html">Create Bundle</a></li>
+                    <li><a href="manage.html">Manage Pickups</a></li>
+                    <li><a href="analytics.html">Analytics</a></li>
+                    <li><a href="forecast.html">Forecast & Recommendations</a></li>
+
+                    <a href="#" id="close"><i class="fa fa-times" aria-hidden="true"></i></a>
+
+                    <li class="search">
+                        <input type="text" placeholder="Search food..." />
+                    </li>
+
+                    <li class="right"><button><a href="login.html">Login</a></button></li>
+                    <li class="right"><button><a href="catalog.html">Toggle</a></button></li>
+                </ul>
+
+            <div id="mobile">
+                <i id="bar" class="fa fa-outdent" aria-hidden="true"></i>
+                <a href="cart.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+            </div>
+    </nav>
+
+    <main class="dashboard">
+        <header class="dashboard-header"> 
+            <h2>Create Products</h2>
+            <p class="text-muted">
+                Add a new product to your catalogue.
+            </p>
+        </header>
+
+        
+        <section class="create-products">
+            <h3>Add new product</h3>
+
+            <form class="product-form">
+
+                <div class="form-group">
+                    <label for="productName">Product Name</label>
+                    <input type="text"
+                </div>
+            </form>
+
+        </section>
+
+    </main>
+
+    <footer class="part1">
+        <div class="col">
+            <img class="" src="" alt="">
+            <h4>Contact</h4>
+            <p> <strong>Address:</strong> Northcote House, The Queens's Drive, Exeter, Devon, EX4 4QJ, United Kingdom</p>
+            <p> <strong>Phone:</strong> +07766832743</p>
+            <p> <strong>Hours:</strong> 10:00-18:00, Mon - Sun</p>
+            <div class="follow">
+                <h4>Follow us</h4>
+                <div class="icon">
+                    <i class="fa fa-facebook" aria-hidden="true"></i>
+                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                    <i class="fa fa-instagram" aria-hidden="true"></i>
+                    <i class="fa fa-pinterest-p" aria-hidden="true"></i>
+                    <i class="fa fa-youtube-play" aria-hidden="true"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <h4>About</h4>
+            <a href="#">About us</a>
+            <a href="#">Delivery Information</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms and Conditions</a>
+            <a href="#">Contact Us</a>
+        </div>
+
+         <div class="col">
+            <h4>My Account</h4>
+            <a href="#">Sign In</a>
+            <a href="#">View Orders</a>
+            <a href="#">Help</a>
+        </div>
+
+        <div class="copyright">
+            <p>© 2026, The Last Fork</p>
+        </div>
+    </footer>
+    
+    <script>
+        const bar = document.getElementById('bar');
+        const close = document.getElementById('close');
+        const nav = document.getElementById('navbar');
+
+        if (bar){
+            bar.addEventListener('click', () => {
+                nav.classList.add('active');
+            })
+        }
+
+        if (close){
+            close.addEventListener('click', () => {
+                nav.classList.remove('active');
+            })
+        }
+    </script>
+
+</body>
+</html>
