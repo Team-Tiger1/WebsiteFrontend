@@ -1,6 +1,6 @@
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
-const API = "https://thelastfork.shop/userservice";
+const API = "https://thelastfork.shop/api";
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -15,7 +15,7 @@ form.addEventListener("submit", function (event) {
     }
     msg.textContent = "Creating Account";
 
-    const body = {email, password};
+    const body = { email, password };
     
 
     fetch(API + "/users/register", { 

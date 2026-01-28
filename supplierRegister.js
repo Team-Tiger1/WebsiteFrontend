@@ -1,6 +1,6 @@
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
-const API = "https://thelastfork.shop/userservice";
+const API = "https://thelastfork.shop/api";
 
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
