@@ -1,7 +1,7 @@
 
 //constants
-const product_API = "https://thelastfork.shop/productsservice";
-const user_API = "https://thelastfork.shop/userservice";
+const product_API = "https://thelastfork.shop/api";
+const user_API = "https://thelastfork.shop/api";
 const token = localStorage.getItem("accessToken");
 
 //to be used for the catalog
