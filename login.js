@@ -1,6 +1,6 @@
 const form = document.getElementById("loginForm");
 const msg = document.getElementById("errorMsg");
-const API = "http://localhost:8080/api";
+const API = "https://thelastfork.shop/api";
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();

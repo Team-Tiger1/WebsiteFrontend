@@ -564,3 +564,59 @@ footer.part1 .copyright{
 .reservation-table tr:last-child td {
   border-bottom: none;
 }
+
+/* bundle carousel */ 
+.bundle-carousel{
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 10px 0 20px;
+}
+
+.bundleCard{
+  min-width: 220px;
+  background: white;
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.bundleCard h3{
+  margin: 0 0 8px;
+}
+
+.bundleCard button{
+  margin-top: 10px;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+/*order page*/
+.orderWrapper{
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 16px 24px;
+}
+
+.orderTable{
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.ordersHeading{
+    text-align: center;
+    margin: 20px 0;
+}
+
+.key{
+    background: lightblue;
+}
+
+.r2{
+    text-align: left;
+    padding: 12px;
+}

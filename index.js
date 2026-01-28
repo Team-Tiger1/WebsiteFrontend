@@ -1,4 +1,4 @@
-const API = "http://localhost:8080/api";
+const API = "https://thelastfork.shop/api";
 const token = localStorage.getItem("accessToken");
 const accountType = localStorage.getItem("accountType");
 

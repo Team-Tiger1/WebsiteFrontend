@@ -46,12 +46,41 @@
         <section class="create-products">
             <h3>Add new product</h3>
 
-            <form class="product-form">
+            <form class="product-form" id="createProductForm">
 
                 <div class="form-group">
                     <label for="productName">Product Name</label>
-                    <input type="text">
+                    <input type="text"
+                    id="productName"
+                    name="name"
+                    placeholder="Enter product here"
+                    required>
                 </div>
+
+                <div class="form-group">
+                    <lable for="retailPrice">Retail Price</lable>
+                    <input
+                        type="number"
+                        id="retailPrice"
+                        name="name"
+                        placeholder="Enter price here"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="weight">Weight (KG) </label>
+                    <input 
+                        type="number"
+                        id="weight"
+                        name = "weight" 
+                        placeholder="Enter weight here"
+                        required>
+                </div>
+
+                <button type="submit" class="primary-btn">create product</button>
+                <p id="productMsg" class="text-muted"></p>
+                
+
             </form>
 
         </section>
@@ -98,7 +127,7 @@
         </div>
     </footer>
     
-    <script src="script.js"></script>
+    <script src="newproduct.js"></script>
 
 </body>
 </html>

@@ -27,8 +27,22 @@
     </nav>
 
     <main>
-        <h3>This is the page where we will display user orders</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum enim in ducimus consequuntur adipisci, veritatis at. Iste provident deleniti est veritatis architecto repellat, aliquam fuga illo atque possimus voluptatibus. Ratione.</p>
+        <!-- <h3>This is the page where we will display user orders</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum enim in ducimus consequuntur adipisci, veritatis at. Iste provident deleniti est veritatis architecto repellat, aliquam fuga illo atque possimus voluptatibus. Ratione.</p> -->
+        <h2 id="ordersHeading">My Reservations</h2>
+        <div class="orderWrapper">
+            <table class="orderTable">
+                <thead>
+                    <tr id="key">
+                        <th id="r2">Bundle</th>
+                        <th id="r2">Reservation ID</th>
+                        <th id="r2">Claim Code</th>
+                    </tr>
+                </thead>
+                <tbody id="ordersBody"></tbody>
+                <!-- populated rows frm backend-->
+            </table>
+        </div>
     </main>
 
         <footer class="part1">
