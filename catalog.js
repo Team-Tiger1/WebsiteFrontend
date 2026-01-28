@@ -1,7 +1,8 @@
+import {apiGet} from "./connection.js";
 
 //constants
-const product_API = "https://thelastfork.shop/api";
-const user_API = "https://thelastfork.shop/api";
+const product_API = "http://localhost:8080/api";
+const user_API = "http://localhost:8080/api";
 const token = localStorage.getItem("accessToken");
 
 //to be used for the catalog
@@ -19,12 +20,13 @@ async function loadCatalog(){
     msg.textContent = "Loading Vendors";
 
     //getting the vendors
-    const vendorsResponse = await fetch (user_API + "/vendors", {
-        method: "GET",
-        headers: {
-            "Authorization": "Bearer " + token
-        }
-    });
+    // const vendorsResponse = await fetch (user_API + "/vendors", {
+    //     method: "GET",
+    //     headers: {
+    //         "Authorization": "Bearer " + token
+    //     }
+    // });
+    const vendorsResponse = await apiGet("/vendors");
 
     if (vendorsResponse.status !== 200) {
         msg.textContent = "Error 404"

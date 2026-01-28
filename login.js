@@ -1,6 +1,6 @@
 const form = document.getElementById("loginForm");
 const msg = document.getElementById("errorMsg");
-const API = "https://thelastfork.shop/api";
+const API = "http://localhost:8080/api";
 
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -20,6 +20,7 @@ form.addEventListener("submit", async (e) => {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ email, password }),
+            credentials: "include",
         });
 
         if (!response.ok){
