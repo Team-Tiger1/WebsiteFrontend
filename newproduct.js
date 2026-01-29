@@ -1,4 +1,4 @@
-import {apiPost} from "./connection";
+import {apiPost} from "./connection.js";
 
 const form = document.getElementById("createProductForm");
 const msg = document.getElementById("productMsg");

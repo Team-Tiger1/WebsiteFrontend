@@ -1,4 +1,4 @@
-import {apiGet} from "./connection";
+import {apiGet} from "./connection.js";
 
 const API = "https://thelastfork.shop/api";
 const token = localStorage.getItem("accessToken");
