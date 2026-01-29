@@ -16,6 +16,9 @@ const msg = document.getElementById("msg");
 //     loadVendorsIntoCarousel();
 //     loadBundles();
 // }
+loadBundles();
+loadVendorsIntoCarousel;
+
 
 async function loadVendorsIntoCarousel(){
     try{

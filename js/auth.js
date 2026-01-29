@@ -1,5 +1,3 @@
-// split this into a get and post function and mkae it more beginner
-
 export const CONNECTION_URL = "https://thelastfork.shop/api";
 
 
