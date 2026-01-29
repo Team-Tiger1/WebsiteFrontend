@@ -2,6 +2,7 @@ h1{
     text-align: center;
 }
 
+
 .navbar{
     position: sticky;
     top: 0;
@@ -27,7 +28,6 @@ h1{
     text-decoration: none;
     padding: 16px 20px;
     display: block;
-    /* text-align: center; */
     font-weight: bold;
     transition: 0.3s ease;
 }
@@ -73,7 +73,6 @@ button{
     padding: 10px 16px; 
     margin-left: 10px;
     cursor: pointer;
-    /* width: 90px; */
 }
 
 button a{

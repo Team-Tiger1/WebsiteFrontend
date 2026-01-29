@@ -1,3 +1,4 @@
+import {apiGet, apiPost} from "./connection.js";
 
 //constants
 const API = "https://thelastfork.shop/api";
@@ -18,12 +19,9 @@ const msg = document.getElementById("msg");
 
 async function loadVendorsIntoCarousel(){
     try{
-        const response = await fetch (API + "/vendors", {
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + token
-            }
-        });
+
+        const response = await apiGet("/venders");
+
         if(!response.ok){
             msg.textContent("Could not get vendors");
             return;
@@ -83,16 +81,11 @@ async function loadBundles(params) {
                 break;
             }
             const vendorId = vendors[i].id;
-            const bundlesResponse = await fetch(
-                API + "/bundles/" + vendorId, {
-                method: "GET",
-                headers: {
-                Authorization: "Bearer " + token}
-            }
+            const bundlesResponse = await apiGet("/bundles/" + vendorId);
             
-            )
 
-            if (bundlesResponse.status != 200){
+
+            if (bundlesResponse.status !== 200){
                 continue
             }
 
@@ -105,7 +98,7 @@ async function loadBundles(params) {
                 bundlesFound.push(bundles[j]);
             }
 
-            if (bundlesFound.length == 0){
+            if (bundlesFound.length === 0){
             msg.textContent = "No bundles found";
             return;
             }
@@ -142,11 +135,8 @@ function createBundleCard(bundle){
 }
 
 async function reserveBundle(bundleId) {
-    const reserve = await fetch(API + "/reservations/" + bundleId, {
-        method: "POST",
-        headers: {
-        Authorization: "Bearer " + token}
-    })
+
+    const reserve = await apiPost("/reservations/" + bundleId);
 
     if (!reserve.ok){
         alert("reservation failed");

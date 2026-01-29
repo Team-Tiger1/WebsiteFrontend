@@ -20,6 +20,7 @@ form.addEventListener("submit", async (e) => {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({ email, password }),
+            credentials: "include",
         });
 
         if (!response.ok){

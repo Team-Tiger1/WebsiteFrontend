@@ -29,7 +29,8 @@ form.addEventListener("submit", async (event) => {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        credentials: "include"
     })
     .then(async (response) =>{
         if (!response.ok){
