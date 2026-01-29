@@ -1,49 +1,48 @@
+import {apiGet} from "./connection.js";
+
 const API = "https://thelastfork.shop/api";
 const token = localStorage.getItem("accessToken");
 const tableBody = document.getElementById("ordersBody");
 
-if(!token){
+if (!token) {
     window.location.href = "login.html";
-} else{
+} else {
     //if the user is logged in load their orders
     loadOrders();
 }
 
 //this functions loads the reservation for the user
-async function loadOrders(){
+async function loadOrders() {
     let response;
-    try{
-        response = await fetch (API + "/reservations",{
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + token
-            }
-        })
-    } catch(err){
+    try {
+
+        response = await apiGet("/reservations");
+
+    } catch (err) {
         console.error(err);
         return;
     }
 
     // if access token expires or they dont have one... log out
-    if (response.status == 401){
+    if (response.status === 401) {
         localStorage.removeItem("accessToken");
         window.location.href = "login.html"
         return;
     }
-    //converts the response to javascaript object
+    //converts the response to javascript object
     const reservation = await response.json();
     //refresh table
 
     //clears the table before adding new rows
     tableBody.innerHTML = "";
 
-    for (let i = 0; i<reservation.length; i++){
+    for (let i = 0; i < reservation.length; i++) {
         const r = reservation[i];
         const reservationId = r.reservationId;
         const bundleId = r.bundleId;
 
         let claimCode = "";
-        if(reservationId){
+        if (reservationId) {
             claimCode = await getClaimCode(reservationId);
         }
 
@@ -52,29 +51,24 @@ async function loadOrders(){
 }
 
 async function getClaimCode(reservationId) {
-    try{
-        const response = await fetch(API + "reservations/claimcode/" + encodeURIComponent(reservationId),
-        {method: "GET",
-        headers: {
-            Authorization: "Bearer " + token
-            }
+    try {
+        const response = await apiGet("/reservations/claimcode/" + encodeURIComponent(reservationId));
+
+        if (!response.ok) {
+            return "no code"
         }
-    )
-    if (!response.ok){
-        return "no code"
-    }
         const contentType = response.headers.get("content-type")
-        if (contentType.includes("application/json")){
+        if (contentType.includes("application/json")) {
             const data = await response.json();
             return data.claimCode;
         }
-    } catch{
+    } catch {
         console.error(err);
         return "error";
     }
 }
 
-function addReservation(bundleId, reservationId, claimCode){
+function addReservation(bundleId, reservationId, claimCode) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
         <td style="padding: 12px; border-top: 1px solid #ffffff;" title="${reservationId}">
@@ -83,5 +77,5 @@ function addReservation(bundleId, reservationId, claimCode){
     <td style="padding: 12px; border-top: 1px solid #ffffff;">${claimCode}</td>
   `;
 
-  tableBody.appendChild(tr);
+    tableBody.appendChild(tr);
 }

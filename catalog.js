@@ -20,7 +20,7 @@ const msg = document.getElementById("msg");
 async function loadVendorsIntoCarousel(){
     try{
 
-        const response = await apiGet("/venders");
+        const response = await apiGet("/vendors");
 
         if(!response.ok){
             msg.textContent("Could not get vendors");
@@ -61,12 +61,7 @@ async function loadBundles(params) {
     const bundlesFound = [];
     const collectedBundles = [];
     try{
-        const vendorsResponse = await fetch(API + "/vendors", {
-            method: "GET",
-            headers: {
-                Authorization: "Bearer " + token}
-            }
-        );
+        const vendorsResponse = await apiGet("/vendors");
 
         if(vendorsResponse.status !== 200){
             msg.textContent = "Could not load the vendors";
@@ -136,7 +131,7 @@ function createBundleCard(bundle){
 
 async function reserveBundle(bundleId) {
 
-    const reserve = await apiPost("/reservations/" + bundleId);
+    const reserve = await apiPost("/reservations/" + bundleId, {});
 
     if (!reserve.ok){
         alert("reservation failed");

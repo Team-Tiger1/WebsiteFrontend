@@ -1,3 +1,5 @@
+import {apiPost} from "./connection.js";
+
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
 const API = "https://thelastfork.shop/api";//"https://thelastfork.shop/api";
@@ -17,16 +19,7 @@ form.addEventListener("submit", function (event) {
 
     const body = { email, password };
     
-
-    fetch(API + "/users/register", { 
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(body),
-        credentials: "include"
-    })
-    .then(async (response) =>{
+    apiPost("/users/register", body).then(async (response) =>{
         if (!response.ok){
             msg.textContent = "Register failed";
             return null;
