@@ -20,7 +20,7 @@ if (!token){
 async function loadVendorsIntoCarousel(){
     try{
 
-        const response = await apiGet("/venders");
+        const response = await apiGet("/vendors");
 
         if(!response.ok){
             msg.textContent("Could not get vendors");
