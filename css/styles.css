@@ -350,7 +350,7 @@ footer.part1 .copyright{
     color: #222;
     text-align: center;
     min-height: 100vh;
-    background-image: url(img/logo.png);
+    background-image: url(../img/logo.png);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: right;

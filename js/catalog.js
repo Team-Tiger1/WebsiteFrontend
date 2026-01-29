@@ -30,7 +30,7 @@ async function loadVendorsIntoCarousel(){
         //get vendors
         const vendors = await response.json();
         
-        //clear the carousel each time incase more companies are added 
+        //clear the carousel each time in case more companies are added
         vendorCarousel.innerHTML = "";
 
         for (let i = 0; i < vendors.length; i++){
