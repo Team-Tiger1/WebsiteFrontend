@@ -1,4 +1,5 @@
 import {apiPost} from "./connection.js";
+import {refreshAccessToken} from "./auth.js";
 
 const form = document.getElementById("loginForm");
 const msg = document.getElementById("errorMsg");
@@ -17,20 +18,21 @@ form.addEventListener("submit", async (e) => {
     }
 
     try{
-        const response = apiPost("/users/login",{ email, password });
+        const response = await fetch(`${API}/users/login`,
+        {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({ email, password }),
+            credentials: "include",
+        });
 
 
         if (!response.ok){
             msg.textContent = "Invalid credentials. Please Try Again";
             return;
         }
-    
-        const data = await response.json();
 
-        if (data.accessToken){
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("accountType", "user");
-        }
+        await refreshAccessToken();
         
         window.location.href = "catalog.html";
     } catch (err){

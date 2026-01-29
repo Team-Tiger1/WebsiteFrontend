@@ -1,4 +1,5 @@
 import {apiPost} from "./connection.js";
+import {refreshAccessToken} from "./auth.js";
 
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
@@ -19,7 +20,16 @@ form.addEventListener("submit", function (event) {
 
     const body = { email, password };
     
-    apiPost("/users/register", body).then(async (response) =>{
+
+    fetch(API + "/users/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body),
+        credentials: "include"
+    })
+    .then(async (response) =>{
         if (!response.ok){
             msg.textContent = "Register failed";
             return null;
@@ -37,7 +47,9 @@ form.addEventListener("submit", function (event) {
 
         console.log("Register response", data);
         msg.textContent = "Account created! Redirection to login."
-        window.location.href = "login.html";
+        refreshAccessToken().then(() => {
+            window.location.href = "login.html";
+        })
     
     })
     .catch((err) => {

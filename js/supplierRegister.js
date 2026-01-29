@@ -1,4 +1,5 @@
 import {apiPost} from "./connection.js";
+import {refreshAccessToken} from "./auth.js";
 
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
@@ -25,7 +26,16 @@ form.addEventListener("submit", async (event) => {
 
     const body = {name, streetAddress, postcode, description, phoneNumber, email, category, password};
     
-    apiPost("/vendors/register", body).then(async (response) =>{
+
+    fetch(API + "/vendors/register", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body),
+        credentials: "include"
+    })
+    .then(async (response) =>{
         if (!response.ok){
             msg.textContent = "Register failed";
             return null;
@@ -43,7 +53,9 @@ form.addEventListener("submit", async (event) => {
 
         console.log("Register response", data);
         msg.textContent = "Account created! Redirection to  supplier login."
-        window.location.href = "supplierLogin.html";
+        refreshAccessToken().then(() => {
+            window.location.href = "supplierLogin.html";
+        })
     
     })
     .catch((err) => {
