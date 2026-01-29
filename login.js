@@ -1,3 +1,5 @@
+import {apiPost} from "./connection";
+
 const form = document.getElementById("loginForm");
 const msg = document.getElementById("errorMsg");
 const API = "https://thelastfork.shop/api";
@@ -15,13 +17,8 @@ form.addEventListener("submit", async (e) => {
     }
 
     try{
-        const response = await fetch(`${API}/users/login`,
-        {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({ email, password }),
-            credentials: "include",
-        });
+        const response = apiPost("/users/login",{ email, password });
+
 
         if (!response.ok){
             msg.textContent = "Invalid credentials. Please Try Again";
