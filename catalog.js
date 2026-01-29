@@ -9,12 +9,12 @@ const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 
 // if they have no access token log them out
-if (!token){
-    window.location.href = "login.html";
-} else{
-    loadVendorsIntoCarousel();
-    loadBundles();
-}
+// if (!token){
+//     window.location.href = "login.html";
+// } else{
+//     loadVendorsIntoCarousel();
+//     loadBundles();
+// }
 
 async function loadVendorsIntoCarousel(){
     try{
