@@ -18,7 +18,7 @@ async function loadVendorsIntoCarousel(){
         const response = await apiGet("/vendors");
 
         if(!response.ok){
-            msg.textContent("Could not get vendors");
+            msg.textContent = "Could not get vendors";
             return;
         }
 
@@ -42,7 +42,7 @@ async function loadVendorsIntoCarousel(){
             card.addEventListener("click", function(){
                 localStorage.setItem("vendorId", vendorId);
                 window.location.href = "vendor.html";
-            })
+            });
             vendorCarousel.appendChild(card);
         }
     } catch(err){
@@ -54,11 +54,10 @@ async function loadVendorsIntoCarousel(){
 async function loadBundles(params) {
     bundleCarousel.innerHTML = "";
     const bundlesFound = [];
-    const collectedBundles = [];
     try{
         const vendorsResponse = await apiGet("/vendors");
 
-        if(vendorsResponse.status !== 200){
+        if(vendorsResponse.status.ok){
             msg.textContent = "Could not load the vendors";
             return;
         }
@@ -75,7 +74,7 @@ async function loadBundles(params) {
             
 
 
-            if (bundlesResponse.status !== 200){
+            if (bundlesResponse.status.ok){
                 continue
             }
 
@@ -86,18 +85,19 @@ async function loadBundles(params) {
                     break;
                 }
                 bundlesFound.push(bundles[j]);
-            }
-
-            if (bundlesFound.length === 0){
-            msg.textContent = "No bundles found";
-            return;
-            }
-
-            //create the cards for each bundle
-            for (let k=0; k< bundlesFound.length; k++){
-                createBundleCard(bundlesFound[k]);
-            }      
+            } 
     } 
+
+        //create the cards for each bundle
+    for (let k=0; k< bundlesFound.length; k++){
+        createBundleCard(bundlesFound[k]);
+    }     
+
+    if (bundlesFound.length === 0){
+        msg.textContent = "No bundles found";
+        return;
+    }
+
     } catch(error){
         console.error(error);
         msg.textContent = "network error";
