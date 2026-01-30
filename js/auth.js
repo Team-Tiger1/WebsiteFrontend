@@ -44,14 +44,16 @@ export async function isAuthenticated(pageRole) {
         //Also check user type is allowed on this page
         const role = payloadJson.role;
         if(role === pageRole) {
-            return;
+            return true;
         }
         else {
             if(role === "USER") {
                 window.href.location = "catalog.html";
+                return false;
             }
             if(role === "VENDOR") {
                 window.href.location = "dashboard.html";
+                return false;
             }
 
         }

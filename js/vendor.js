@@ -36,37 +36,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     map.src = srcFirstHalf + locationURI + srcSecondHalf;
 
     //Load all bundles
-    // const bundleResponse = apiGet("/bundles/" + vendorId);
+    const bundleResponse = apiGet("/bundles/" + vendorId);
     const bundleContainer = document.getElementById("bundles-container");
 
     if(bundleResponse.status !== 200 || await bundleResponse.json().length === 0) {
         //Show message for no available bundles
-        const noBundleMessage =
-            `
-            
-            `
+        const noBundleMessage = `<div class="bundle">No Bundles Available</div>`
+        bundleContainer.insertAdjacentHTML('afterbegin', noBundleMessage);
     }
 
     const bundleList = await bundleResponse.json();
 
     for (let i = 0; i < bundleList.length; i++) {
+
+        const allergies = bundleJson.allergies;
+        let allergyHtml = ``;
+        for (let j = 0; j < allergies.length; j++) {
+            allergyHtml += `<p>${allergyHtml}</p>`;
+        }
+
         const bundleJson = bundleList[i];
         let html =
             `
             <div class="bundle">
               <div>
                 <p>${bundleJson.bundleName}</p>
-                <div>
-        <!--          Allergies-->
-                </div>
+                <div class="allergies">${allergyHtml}</div>
               </div>
               <div>
-                <p>bundleJson.price</p>
+                <p>${bundleJson.price}</p>
                 <button>Reserve</button>
               </div>
             </div>
             `
+
+
         bundleContainer.insertAdjacentHTML('afterbegin', html);
+
+
+
     }
 
 
