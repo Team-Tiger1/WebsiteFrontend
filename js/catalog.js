@@ -85,13 +85,13 @@ async function loadBundles(params) {
                     break;
                 }
                 bundlesFound.push(bundles[j]);
-            }
-            //create the cards for each bundle
-            for (let k=0; k< bundlesFound.length; k++){
-                createBundleCard(bundlesFound[k]);
-            }      
+            } 
     } 
 
+        //create the cards for each bundle
+    for (let k=0; k< bundlesFound.length; k++){
+        createBundleCard(bundlesFound[k]);
+    }     
 
     if (bundlesFound.length === 0){
         msg.textContent = "No bundles found";
