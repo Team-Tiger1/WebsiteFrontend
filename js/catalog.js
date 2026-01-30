@@ -42,10 +42,9 @@ async function loadVendorsIntoCarousel(){
             card.addEventListener("click", function(){
                 localStorage.setItem("vendorId", vendorId);
                 window.location.href = "vendor.html";
-            })
+            });
             vendorCarousel.appendChild(card);
         }
-        vendorCarousel.appendChild(card);
     } catch(err){
         console.error(err);
     }
@@ -58,7 +57,7 @@ async function loadBundles(params) {
     try{
         const vendorsResponse = await apiGet("/vendors");
 
-        if(vendorsResponse.status !== 200){
+        if(vendorsResponse.status.ok){
             msg.textContent = "Could not load the vendors";
             return;
         }
@@ -75,7 +74,7 @@ async function loadBundles(params) {
             
 
 
-            if (bundlesResponse.status !== 200){
+            if (bundlesResponse.status.ok){
                 continue
             }
 
