@@ -1,6 +1,7 @@
 import {apiGet} from "./connection.js";
+import { API_URL } from "./config.js";
 
-const API = "https://thelastfork.shop/api";
+const API = API_URL;
 const token = localStorage.getItem("accessToken");
 const tableBody = document.getElementById("ordersBody");
 

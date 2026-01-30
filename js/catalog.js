@@ -1,7 +1,8 @@
 import {apiGet, apiPost} from "./connection.js";
+import { API_URL } from "./config.js";
 
 //constants
-const API = "https://thelastfork.shop/api";
+const API = API_URL;
 const token = localStorage.getItem("accessToken");
 
 //to be used for the catalog

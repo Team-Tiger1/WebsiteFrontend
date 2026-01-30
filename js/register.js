@@ -1,9 +1,10 @@
 import {apiPost} from "./connection.js";
 import {refreshAccessToken} from "./auth.js";
+import { API_URL } from "./config.js";
 
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
-const API = "https://thelastfork.shop/api";//"https://thelastfork.shop/api";
+const API = API_URL;
 
 form.addEventListener("submit", function (event) {
     event.preventDefault();
