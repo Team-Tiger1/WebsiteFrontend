@@ -18,7 +18,7 @@ async function loadVendorsIntoCarousel(){
         const response = await apiGet("/vendors");
 
         if(!response.ok){
-            msg.textContent("Could not get vendors");
+            msg.textContent = "Could not get vendors";
             return;
         }
 
@@ -88,16 +88,18 @@ async function loadBundles(params) {
                 bundlesFound.push(bundles[j]);
             }
 
-            if (bundlesFound.length === 0){
-            msg.textContent = "No bundles found";
-            return;
-            }
-
             //create the cards for each bundle
             for (let k=0; k< bundlesFound.length; k++){
                 createBundleCard(bundlesFound[k]);
             }      
     } 
+
+
+    if (bundlesFound.length === 0){
+        msg.textContent = "No bundles found";
+        return;
+    }
+
     } catch(error){
         console.error(error);
         msg.textContent = "network error";
