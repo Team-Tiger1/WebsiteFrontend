@@ -51,57 +51,33 @@ async function loadVendorsIntoCarousel(){
 
 }
 
-async function loadBundles(params) {
-    bundleCarousel.innerHTML = "";
-    const bundlesFound = [];
-    try{
-        const vendorsResponse = await apiGet("/vendors");
 
-        if(vendorsResponse.status.ok){
-            msg.textContent = "Could not load the vendors";
+async function loadBundles(){
+    bundleCarousel.innerHTML = "";
+    msg.textContent = "";
+
+    try{
+        const response = await apiGet("/bundles");
+
+        if(!response.ok){
+            msg.textContent = "Could not load the bundles"
+            return;
+        }
+        const bundles = await response.json();
+
+        //if no bundles found 
+        if (bundles.length == 0){
+            msg.textContent = "No bundles found";
             return;
         }
 
-        const vendors = await vendorsResponse.json();
-
-        //go through each vendor 1 by 1 and add 10 bundles
-        for(let i =0; i< vendors.length; i++){
-            if(bundlesFound.length >=10){
-                break;
-            }
-            const vendorId = vendors[i].vendorId;
-            const bundlesResponse = await apiGet("/bundles/" + vendorId);
-            
-
-
-            if (bundlesResponse.status.ok){
-                continue
-            }
-
-            const bundles = await bundlesResponse.json()
-
-            for(let j=0; j< bundles.length; j++){
-                if(bundlesFound.length >= 10){
-                    break;
-                }
-                bundlesFound.push(bundles[j]);
-            } 
-    } 
-
-        //create the cards for each bundle
-    for (let k=0; k< bundlesFound.length; k++){
-        createBundleCard(bundlesFound[k]);
-    }     
-
-    if (bundlesFound.length === 0){
-        msg.textContent = "No bundles found";
-        return;
-    }
-
+        for (let i = 0; i<bundles.length; i++){
+            createBundleCard(bundles[i]);
+        }
     } catch(error){
         console.error(error);
-        msg.textContent = "network error";
-}
+        msg.textContent = "network failure";
+    }
 }
 
 function createBundleCard(bundle){
