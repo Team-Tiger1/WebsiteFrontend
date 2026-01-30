@@ -307,6 +307,8 @@ footer.part1 .copyright{
         box-shadow: 0 40px 60px rgba(0,0,0,0.1);
         padding: 80px 0 0 10px;
         transition: 0.3s;
+        background: #fff;
+        z-index: 99999;
     }
 
     #navbar.active{
@@ -318,15 +320,33 @@ footer.part1 .copyright{
     }
 
     #navbar li.search{
-        position: static;
-        transform: none;
-        width: 100%;
-        padding: 0 16px;
+        float: none;        
+        width: 100%;          
+        margin-bottom: 25px;
     }
 
     #navbar a {
         color: black;
     }
+
+    /* trying to fix the overlay issue  */
+    #nav-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.3s;
+        z-index: 99998;
+    }
+    #nav-overlay.active{
+        opacity:1;
+        pointer-events: auto;
+    }
+
 
     #mobile{
         display: flex;
