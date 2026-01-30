@@ -1,8 +1,9 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
+import { API_URL } from "./config.js";
 
 //constants
-const API = "https://thelastfork.shop/api";
+const API = API_URL;
 const token = localStorage.getItem("accessToken");
 
 //to be used for the catalog
@@ -19,7 +20,7 @@ const msg = document.getElementById("msg");
 // }
 isAuthenticated();
 loadBundles();
-loadVendorsIntoCarousel;
+loadVendorsIntoCarousel();
 
 
 async function loadVendorsIntoCarousel(){
@@ -41,14 +42,14 @@ async function loadVendorsIntoCarousel(){
         for (let i = 0; i < vendors.length; i++){
             //loop through each vendor and create their card in hte carousel
             const vendor = vendors[i];
-            const vendorId = vendor.id;
-            const vendorName = vendor.name;
+            const vendorId = vendor.vendorId;
+            const vendorName = vendor.vendorName;
 
             //creating card for carracel
             const card = document.createElement("div");
             card.className = "company"
             card.tabIndex = 0;
-            card.innerHTML = `<h1>${vendorName}</h1?>`
+            card.innerHTML = `<h1>${vendorName}</h1>`
             card.addEventListener("click", function(){
                 window.location.href = "vendor.html?vendorId=" + encodeURIComponent(vendorId);
             })
@@ -80,7 +81,7 @@ async function loadBundles(params) {
             if(bundlesFound.length >=10){
                 break;
             }
-            const vendorId = vendors[i].id;
+            const vendorId = vendors[i].vendorId;
             const bundlesResponse = await apiGet("/bundles/" + vendorId);
             
 
@@ -105,7 +106,7 @@ async function loadBundles(params) {
 
             //create the cards for each bundle
             for (let k=0; k< bundlesFound.length; k++){
-                createBundleCard(collectedBundles[k]);
+                createBundleCard(bundlesFound[k]);
             }      
     } 
     } catch(error){
@@ -118,8 +119,8 @@ function createBundleCard(bundle){
     const card = document.createElement("div");
     card.className = "bundleCard";
 
-    const bundleId = bundle.id || bundle.bundleId;
-    const name = bundle.name || "Bundle";
+    const bundleId = bundle.bundleId;
+    const name = bundle.bundleName;
     const price = bundle.price;
 
     card.innerHTML = `

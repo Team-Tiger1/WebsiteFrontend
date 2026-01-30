@@ -1,4 +1,5 @@
-export const CONNECTION_URL = "https://thelastfork.shop/api";
+import { API_URL } from "./config.js";
+export const CONNECTION_URL = API_URL;
 
 
 export async function refreshAccessToken() {
