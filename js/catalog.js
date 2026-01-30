@@ -55,7 +55,6 @@ async function loadVendorsIntoCarousel(){
             })
             vendorCarousel.appendChild(card);
         }
-        vendorCarousel.appendChild(card);
     } catch(err){
         console.error(err);
     }
