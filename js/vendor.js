@@ -1,6 +1,6 @@
 import { apiGet, apiPost } from "./connection.js";
 
-document.addEventListener('DOMContentLoaded', async (event) => {
+document.addEventListener('DOMContentLoaded', async () => {
     const vendorName = document.getElementById('vendorName');
     const vendorDescription = document.getElementById('vendorDescription');
     const phoneNumber = document.getElementById('phoneNumber');
@@ -11,29 +11,62 @@ document.addEventListener('DOMContentLoaded', async (event) => {
 
 
     const vendorId = localStorage.getItem("vendorId");
-
-    if(vendorId != null) {
-        let vendorResponse = await apiGet("/vendors/" + vendorId);
-
-        if(vendorResponse.status !== 200){
-            window.location.href = "404.html";
-        }
-
-        let data = await vendorResponse.json();
-        vendorName.innerHTML = data.companyName || "Unknown Company";
-        vendorDescription.innerHTML = data.description || "";
-        phoneNumber.innerHTML = data.phoneNumber || "Unknown Phone Number";
-        emailAddress.innerHTML = data.email || "Unknown Email Address";
-        streetAddress.innerHTML = data.streetAddress || "Unknown Street";
-        postcode.innerHTML = data.postcode || "Unknown Postcode";
-
-        const srcFirstHalf = "https://maps.google.com/maps?width=100%&height=600&hl=en&q=";
-        const locationURI = encodeURIComponent(data.streetAddress);
-        const srcSecondHalf = "&ie=UTF8&t=&z=14&iwloc=B&output=embed";
-        map.src = srcFirstHalf + locationURI + srcSecondHalf;
-
-    } else {
+    if(vendorId == null) {
         window.location.href = "catalog.html";
+        return;
+    }
+
+    let vendorResponse = await apiGet("/vendors/" + vendorId);
+
+    if(vendorResponse.status !== 200){
+        window.location.href = "404.html";
+    }
+
+    let data = await vendorResponse.json();
+    vendorName.innerHTML = data.companyName || "Unknown Company";
+    vendorDescription.innerHTML = data.description || "";
+    phoneNumber.innerHTML = data.phoneNumber || "Unknown Phone Number";
+    emailAddress.innerHTML = data.email || "Unknown Email Address";
+    streetAddress.innerHTML = data.streetAddress || "Unknown Street";
+    postcode.innerHTML = data.postcode || "Unknown Postcode";
+
+    const srcFirstHalf = "https://maps.google.com/maps?width=100%&height=600&hl=en&q=";
+    const locationURI = encodeURIComponent(data.streetAddress);
+    const srcSecondHalf = "&ie=UTF8&t=&z=14&iwloc=B&output=embed";
+    map.src = srcFirstHalf + locationURI + srcSecondHalf;
+
+    //Load all bundles
+    // const bundleResponse = apiGet("/bundles/" + vendorId);
+    const bundleContainer = document.getElementById("bundles-container");
+
+    if(bundleResponse.status !== 200 || await bundleResponse.json().length === 0) {
+        //Show message for no available bundles
+        const noBundleMessage =
+            `
+            
+            `
+    }
+
+    const bundleList = await bundleResponse.json();
+
+    for (let i = 0; i < bundleList.length; i++) {
+        const bundleJson = bundleList[i];
+        let html =
+            `
+            <div class="bundle">
+              <div>
+                <p>${bundleJson.bundleName}</p>
+                <div>
+        <!--          Allergies-->
+                </div>
+              </div>
+              <div>
+                <p>bundleJson.price</p>
+                <button>Reserve</button>
+              </div>
+            </div>
+            `
+        bundleContainer.insertAdjacentHTML('afterbegin', html);
     }
 
 

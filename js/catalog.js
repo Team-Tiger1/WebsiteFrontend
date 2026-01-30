@@ -1,26 +1,15 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
-import { API_URL } from "./config.js";
-
-//constants
-const API = API_URL;
-const token = localStorage.getItem("accessToken");
 
 //to be used for the catalog
 const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 
-// if they have no access token log them out
-// if (!token){
-//     window.location.href = "login.html";
-// } else{
-//     loadVendorsIntoCarousel();
-//     loadBundles();
-// }
-isAuthenticated();
-loadBundles();
-loadVendorsIntoCarousel();
+
+await isAuthenticated();
+await loadBundles();
+await loadVendorsIntoCarousel();
 
 
 async function loadVendorsIntoCarousel(){
@@ -51,7 +40,8 @@ async function loadVendorsIntoCarousel(){
             card.tabIndex = 0;
             card.innerHTML = `<h1>${vendorName}</h1>`
             card.addEventListener("click", function(){
-                window.location.href = "vendor.html?vendorId=" + encodeURIComponent(vendorId);
+                localStorage.setItem("vendorId", vendorId);
+                window.location.href = "vendor.html";
             })
             vendorCarousel.appendChild(card);
         }
