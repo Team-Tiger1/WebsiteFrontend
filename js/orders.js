@@ -64,7 +64,7 @@ async function getClaimCode(reservationId) {
             const data = await response.json();
             return data.claimCode;
         }
-    } catch {
+    } catch(err) {
         console.error(err);
         return "error";
     }
