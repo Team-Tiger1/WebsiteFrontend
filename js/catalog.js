@@ -1,4 +1,5 @@
 import {apiGet, apiPost} from "./connection.js";
+import {isAuthenticated} from "./auth.js";
 
 //constants
 const API = "https://thelastfork.shop/api";
@@ -16,6 +17,7 @@ const msg = document.getElementById("msg");
 //     loadVendorsIntoCarousel();
 //     loadBundles();
 // }
+isAuthenticated();
 loadBundles();
 loadVendorsIntoCarousel;
 

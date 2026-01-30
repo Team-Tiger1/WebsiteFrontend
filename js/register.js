@@ -46,9 +46,9 @@ form.addEventListener("submit", function (event) {
             return;
 
         console.log("Register response", data);
-        msg.textContent = "Account created! Redirection to login."
+        msg.textContent = "Account created! Redirection to catalog."
         refreshAccessToken().then(() => {
-            window.location.href = "login.html";
+            window.location.href = "catalog.html";
         })
     
     })
