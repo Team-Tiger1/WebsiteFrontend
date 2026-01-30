@@ -159,6 +159,7 @@ button:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     scroll-snap-align: start;
     cursor: grab;
+    box-sizing: border-box;
 }
 
 .company:hover{
