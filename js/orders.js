@@ -51,6 +51,7 @@ async function loadOrders() {
     }
 }
 
+// this function gets the claim code for a specfic reservation to be shown in the orders table
 async function getClaimCode(reservationId) {
     try {
         const response = await apiGet("/reservations/claimcode/" + encodeURIComponent(reservationId));
@@ -69,6 +70,7 @@ async function getClaimCode(reservationId) {
     }
 }
 
+//this function adds reservations to the orders table and is used for the load orders function
 function addReservation(bundleId, reservationId, claimCode) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
