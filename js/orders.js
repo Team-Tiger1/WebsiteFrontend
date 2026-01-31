@@ -12,7 +12,11 @@ if (!token) {
     loadOrders();
 }
 
-//this functions loads the reservation for the user
+/**
+ * Loads all the orders/reservations for the user.
+ * These orders are displayed in the orders table
+ * 
+ */
 async function loadOrders() {
     let response;
     try {
@@ -52,6 +56,13 @@ async function loadOrders() {
 }
 
 // this function gets the claim code for a specfic reservation to be shown in the orders table
+/**
+ * Gets the claim code for a specific reservationID
+ * This is the code shown to the supplier at collection
+ * 
+ * @param {*} reservationId 
+ * @returns 
+ */
 async function getClaimCode(reservationId) {
     try {
         const response = await apiGet("/reservations/claimcode/" + encodeURIComponent(reservationId));
@@ -71,6 +82,14 @@ async function getClaimCode(reservationId) {
 }
 
 //this function adds reservations to the orders table and is used for the load orders function
+/**
+ * takes each bundles/reservation info and inserts this into a row in
+ * the orders table
+ * 
+ * @param {*} bundleId 
+ * @param {*} reservationId 
+ * @param {*} claimCode 
+ */
 function addReservation(bundleId, reservationId, claimCode) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
@@ -79,6 +98,6 @@ function addReservation(bundleId, reservationId, claimCode) {
     </td>
     <td style="padding: 12px; border-top: 1px solid #ffffff;">${claimCode}</td>
   `;
-
+    //adds the row to the table body
     tableBody.appendChild(tr);
 }

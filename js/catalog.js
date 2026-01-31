@@ -6,12 +6,25 @@ const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 
-
+/**
+ * Loads the main page.
+ * Checks that the user is logged in (redirect if now)
+ * Loads the bundles into the bundles carousel and loads the vendors into
+ * their carousel.
+ */
 await isAuthenticated();
 await loadBundles();
 await loadVendorsIntoCarousel();
 
-
+/**
+ * Loads the list of vendors from the backend and displays them
+ * to be clickable cards so their can access each vendors page.
+ * This is shown in the vendors carousel.
+ * 
+ * When a vendor is clicked save the vendorId in local storage 
+ * then redirect to their page.
+ *  
+ */
 async function loadVendorsIntoCarousel(){
     try{
 
@@ -51,7 +64,11 @@ async function loadVendorsIntoCarousel(){
 
 }
 
-
+/**
+ * Loads the list of bundles for all vendors from the backend and displays them.
+ * They are shown as cards in the bundles carousel and each have a clickable reserve button.
+ * 
+ */
 async function loadBundles(){
     bundleCarousel.innerHTML = "";
     msg.textContent = "";
@@ -80,19 +97,33 @@ async function loadBundles(){
     }
 }
 
+/**
+ * Creates the bundle card and adds it to the bundle carousel
+ * Each card has a:
+ * - bundle name
+ * - price 
+ * - reserve button
+ * 
+ * When the reserve button is clicked it calls reserveBundle(param) with the bunlde ID as the paramater
+ * 
+ * @param {*} bundle 
+ */
 function createBundleCard(bundle){
     const card = document.createElement("div");
     card.className = "bundleCard";
 
+    //extracts the data about each bundle
     const bundleId = bundle.bundleId;
     const name = bundle.bundleName;
     const price = bundle.price;
 
+    //creates bundle card from the data using HTML
     card.innerHTML = `
     <h3>${name}</h3>
     <p>${price !== undefined ? "£" + price : ""}</p>
     <button class="reserveBtn">Reserve</button>`;
 
+    //the reserve button represents an event to reserve that bundle
     const btn = card.querySelector(".reserveBtn");
     btn.addEventListener("click", function(){
         reserveBundle(bundleId);
@@ -100,6 +131,17 @@ function createBundleCard(bundle){
     bundleCarousel.appendChild(card);
 }
 
+/**
+ * Sends a reservation request to the backend enpoint when
+ * the function is triggered at a click event on a bundle card
+ * if the reservation succeeds it reirects to the roder page where they 
+ * can see the resrevation/order information.
+ * 
+ * If the reservation fails an alert is shown to the user.
+ * 
+ * @param {*} bundleId 
+ * @returns 
+ */
 async function reserveBundle(bundleId) {
 
     const reserve = await apiPost("/reservations/" + bundleId, {});
@@ -111,101 +153,3 @@ async function reserveBundle(bundleId) {
 
     window.location.href = "orders.html";
 }
-
-
-
-
-
-
-// loadCatalog();
-
-// async function loadCatalog(){
-//     msg.textContent = "Loading Vendors";
-
-//     //getting the vendors
-//     const vendorsResponse = await fetch (user_API + "/vendors", {
-//         method: "GET",
-//         headers: {
-//             "Authorization": "Bearer " + token
-//         }
-//     });
-
-//     if (vendorsResponse.status !== 200) {
-//         msg.textContent = "Error 404"
-//         return;
-//     }
-
-//     const vendorsData = await vendorsResponse.json();
-//     //created array of the vendor objects
-//     bundleList.innerHTML = "";
-
-//     for (let i = 0; i < vendorsData.length; i++){
-//         const vendor = vendorsData[i];
-//         const vendorId = vendor.id || vendor.vendorId; //dont know currently which one is used... will ask dan
-
-//         if (!vendorId){
-//             continue
-//         }
-//         const bundlesResponse = await fetch (product_API + "/bundles/" + vendorId, {
-//             method: "GET",
-//             headers: {
-//             "Authorization": "Bearer " + token
-//         }
-//         });
-//         // if the vendor dosent have any skip
-//         if (bundlesResponse.status !== 200){
-//             continue
-//         }
-
-//         //array of the bundle objects
-//         const bundlesData = await bundlesResponse.json();
-//         for (let j = 0; j < bundlesData.length; j++){
-//             const bundle = bundlesData[j];
-//             addBundleToPage(bundle);
-//         }
-//     }
-
-//     msg.textContent= "";
-// }
-
-// //create bundle card for the page
-// function addBundleToPage(bundle){
-//     //card will have a price name description and button to reserve
-//     const card = document.createElement("div");
-//     card.className = "bundleCard";
-
-//     const bundleId = bundle.id || bundle.bundleId; // again need to ask dan which one is correct but just left all options for now
-//     const bundleName = bundle.name || bundle.title || "Bundle";
-//     const bundlePrice = bundle.price;
-
-//     //create card in HTML and populate data
-//     card.innerHTML = `
-//     <h3>${bundleName}</h3>
-//     <p>${ "£" + bundlePrice}</p>
-//     <button class="reserveButton">Reserve</button>`
-
-//     //reserve button 
-//     const reserveButton = card.querySelector(".reserveButton");
-//     reserveButton.addEventListener("click", function(){
-//         reserveBundle(bundleId);
-//     })
-
-//     //add the bundle to the page
-//     bundleList.appendChild(card);
-// } 
-
-// //when the custmer reserves a bundle send it to the orders apge where they can get their confirmation code and view other orders
-// async function reserveBundle(bundleId){
-//     const reserveResponse = await fetch(product_API + "/reservations/" + bundleId, {
-//         method: "POST",
-//         headers: {
-//             "Authorization": "Bearer " + token
-//         }
-//     });
-//     if (!reserveResponse.ok){
-//         msg.textContent("reservation failed");
-//         return;
-//     }
-//     window.location.href = "orders.html";
-// }
-
