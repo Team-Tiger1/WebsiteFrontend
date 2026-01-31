@@ -113,7 +113,7 @@ function createBundleCard(bundle){
     card.className = "bundleCard";
 
     //extracts the data about each bundle
-    const bundleId = bundle.bundleId;
+    const bundleId = bundle.bundleDescription;
     const name = bundle.bundleName;
     const price = bundle.price;
 
