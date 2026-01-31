@@ -91,7 +91,7 @@ async function loadBundles(){
         }
 
         for (let i = 0; i<bundles.length; i++){
-            createBundleCard(bundles[i]);
+            createBundleCard(bundles[i], bundleCarousel);
         }
     } catch(error){
         console.error(error);
@@ -194,7 +194,8 @@ async function loadCompanyBundles(){
         //add bundles for this vendor
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
-            if (bundle.vendorId === vendors[i].vendorId){
+            //check the name using the pattern in the bundle description
+            if (bundle.bundleDescription && bundle.bundleDescription.includes("bundle from " + vendorName)){
                 createBundleCard(bundle, carousel);
             }
         }
