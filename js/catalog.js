@@ -5,6 +5,7 @@ import {isAuthenticated} from "./auth.js";
 const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
+const companyBundles = document.getElementById("companyBundles");
 
 /**
  * Loads the main page.
@@ -15,6 +16,7 @@ const msg = document.getElementById("msg");
 await isAuthenticated();
 await loadBundles();
 await loadVendorsIntoCarousel();
+await loadCompanyBundles();
 
 /**
  * Loads the list of vendors from the backend and displays them
@@ -108,7 +110,7 @@ async function loadBundles(){
  * 
  * @param {*} bundle 
  */
-function createBundleCard(bundle){
+function createBundleCard(bundle, targetCarousel){
     const card = document.createElement("div");
     card.className = "bundleCard";
 
@@ -128,7 +130,8 @@ function createBundleCard(bundle){
     btn.addEventListener("click", function(){
         reserveBundle(bundleId);
     });
-    bundleCarousel.appendChild(card);
+    //append into the carousel specified
+    targetCarousel.appendChild(card);
 }
 
 /**
@@ -152,4 +155,54 @@ async function reserveBundle(bundleId) {
     }
 
     window.location.href = "orders.html";
+}
+
+
+/**
+ * Loads the company bundles for each vendor and displays them
+ * in the carousel for each company
+ * @returns 
+ */
+async function loadCompanyBundles(){
+    companyBundles.innerHTML = "";
+    msg.textContent = "";
+
+    const vensorResponse = await apiGet("/vendors");
+    if(!vensorResponse.ok){
+        msg.textContent = "Could not load company bundles";
+        return;
+    }
+    const vendors = await vensorResponse.json();
+
+    //get bundles for each vendor
+    const bundleResponse = await apiGet("/bundles");
+    if(!bundleResponse.ok){
+        msg.textContent = "Could not load company bundles";
+        return;
+    }
+    const bundles = await bundleResponse.json();
+
+    for(let i = 0; i<vendors.length; i++){
+        //create section for each vendor
+        const vendorName = vendors[i].vendorName;
+        const section = document.createElement("section");
+        const h3 = document.createElement("h3");
+        h3.textContent = vendorName;
+        const carousel = document.createElement("div");
+        carousel.className = "bundle-carousel";
+
+        //add bundles for this vendor
+        for (let j = 0; j<bundles.length; j++){
+            const bundle = bundles[j];
+            if (bundle.vendorId === vendors[i].vendorId){
+                createBundleCard(bundle, carousel);
+            }
+        }
+        //only add section if there are bundles for this vendor
+        if(carousel.children.length > 0){
+            section.appendChild(h3);
+            section.appendChild(carousel);
+            companyBundles.appendChild(section);
+        }
+    }
 }
