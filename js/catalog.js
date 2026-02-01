@@ -6,6 +6,7 @@ const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 const companyBundles = document.getElementById("companyBundles");
+const streak = document.querySelector(".streak");
 
 //category names to be displayed to users
 const categoryNameMap = {
@@ -31,6 +32,7 @@ await isAuthenticated("USER");
 await loadBundles();
 await loadVendorsIntoCarousel();
 await loadCompanyBundles();
+await getStreak();
 
 /**
  * Loads the list of vendors from the backend and displays them
@@ -225,5 +227,24 @@ async function loadCompanyBundles(){
             section.appendChild(carousel);
             companyBundles.appendChild(section);
         }
+    }
+}
+
+async function getStreak(){
+    try{
+        const response = await apiGet("/users/streak");
+
+        if(!response.ok){
+            console.error("Could not get streak");
+            return;
+        }
+
+        const data = await response.json();
+        const streakCount = data.streakCount || 0;
+
+        streak.textContent = `${streakCount} days!`;
+
+    } catch(err){
+        console.error(err);
     }
 }
