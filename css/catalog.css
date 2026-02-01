@@ -1,0 +1,123 @@
+h1{
+    text-align: center;
+}
+
+body{
+    margin: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main{
+    margin: 20px auto;
+    max-width: 900px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+}
+
+button{
+    background-color: #8fcbd3; 
+    margin-left: 10px; 
+    border-radius: 8px; 
+    padding: 10px 16px; 
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+button a{
+    color: white; 
+    font-weight: bold; 
+    font-size:  15px;
+    text-decoration: none;
+}
+
+button:hover {
+    background-color: #76b6be;
+  }
+
+/* bundle carousel */ 
+.bundle-carousel{
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 10px 0 20px;
+  }
+  
+.bundleCard{
+    min-width: 220px;
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+.bundleCard h3{
+    margin: 0 0 8px;
+    }
+
+.bundleCard button{
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    }
+
+.carrousel{
+    display: grid;
+    grid-auto-flow: column;
+    scroll-behavior: smooth;
+    grid-auto-columns: 240px;
+    grid-auto-rows: 110px;
+    gap: 1.2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding: 1rem;
+}
+
+.company {
+    background: white;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    display: flex;
+    padding: 1.2rem;
+    text-align: center;
+    align-items: center;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    scroll-snap-align: start;
+    cursor: grab;
+    box-sizing: border-box;
+}
+
+
+.company:hover{
+    outline-color: green;
+}
+
+.company:focus{
+    outline-color: green;
+}
+
+#mobile{
+    display: none;
+    align-items: center;
+}
+
+#close{
+    display: none;
+}
+
+#companyBundles section{
+    margin-bottom: 40px;
+    
+}

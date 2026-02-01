@@ -135,7 +135,7 @@ button:hover {
     display: grid;
     grid-auto-flow: column;
     scroll-behavior: smooth;
-    grid-auto-columns: 180px;
+    grid-auto-columns: 240px;
     grid-auto-rows: 110px;
     gap: 1.2rem;
     overflow-x: auto;
@@ -159,7 +159,9 @@ button:hover {
     box-shadow: 0 8px 20px rgba(0,0,0,0.08);
     scroll-snap-align: start;
     cursor: grab;
+    box-sizing: border-box;
 }
+
 
 .company:hover{
     outline-color: green;
