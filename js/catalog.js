@@ -230,6 +230,10 @@ async function loadCompanyBundles(){
     }
 }
 
+/**
+ * Gets the user's current streak from the backend
+ * @returns 
+ */
 async function getStreak(){
     try{
         const response = await apiGet("/users/streak");
