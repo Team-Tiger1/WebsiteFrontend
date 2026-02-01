@@ -7,7 +7,7 @@ const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 
 
-await isAuthenticated();
+await isAuthenticated("USER");
 await loadBundles();
 await loadVendorsIntoCarousel();
 

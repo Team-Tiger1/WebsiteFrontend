@@ -1,5 +1,48 @@
+.BREAD_BAKED_GOODS {
+    background-color: #d4a568;
+}
+
+.SWEET_TREATS_DESSERTS {
+    background-color: #FF69B4;
+}
+
+.MEAT_PROTEIN {
+    background-color: #A52A2A;
+}
+
+.FRUIT_VEGETABLES {
+    background-color: #2E7D32;
+}
+
+.DAIRY_EGGS {
+    background-color: #dba40d;
+}
+
+.READY_MEALS_HOT_FOOD {
+    background-color: #E64A19;
+}
+
+.SNACKS_SAVOURY_ITEMS {
+    background-color: crimson;
+}
+
+.BREAKFAST_ITEMS {
+    background-color: #0288D1;
+}
+
+.VEGAN_VEGETARIAN {
+    background-color: #4CAF50;
+}
+
+.DRINKS_BEVERAGES {
+    background-color: #9C27B0;
+}
+
+
 .vendorBody {
     padding: 60px;
+    max-width: 80vw;
+    /*margin: 0 auto;*/
 }
 
 .vendorBody h1 {
@@ -8,7 +51,7 @@
 
 .vendorBody h2 {
     margin-top: 20px;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .vendorBody p {
@@ -22,21 +65,118 @@
 
 .bundle {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: stretch;
     margin-top: 20px;
-    width: 80%;
-    padding: 20px;
+    width: 100%;
+    padding: 20px 0;
     background-color: white;
-    border-color: grey;
-    border-width: thin;
-    border-style: solid;
+    border: thin solid grey;
     border-radius: 10px;
     justify-content: space-between;
+    gap: 20px;
+}
+
+.bundle:hover {
+    cursor: pointer;
+    background-color: lightgrey;
 }
 
 .allergies p {
     background-color: grey;
     font-weight: bold;
     border-radius: 10px;
+}
+
+.bundle p {
+    font-weight: bold;
+}
+
+.bundle button {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+.bundle button:hover {
+    background-color: seagreen;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.row button {
+    max-height: 50px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.row h2 {
+    margin-bottom: 0;
+}
+
+.bundle .bundle-element {
+    padding-right: 20px;
+    padding-left: 20px;
+    align-items: center;
+}
+
+.bundle .category {
+    margin-left: 10px;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 5px 6px;
+    border-radius: 5px;
+    color: white;
+}
+
+.bundle-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.arrow {
+    height: 35px;
+    width: auto;
+    color: black;
+    position: relative;
+    top: 10px;
+    margin-left: 10px;
+}
+
+.drop-down {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    padding-top: 20px;
+    border-top: lightgrey solid 1px;
+}
+
+.drop-down p {
+    font-weight: normal;
+}
+
+.product-list {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.retail-price {
+    margin-top: 20px;
+}
+
+.collection-time {
+    margin-top: 10px;
+}
+
+.retail-price p {
+    font-weight: bold;
 }

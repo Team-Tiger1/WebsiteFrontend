@@ -1,4 +1,41 @@
-import { apiGet, apiPost } from "./connection.js";
+import {apiGet, apiPost} from "./connection.js";
+
+let bundleList = null;
+let sortOrder = "asc"
+
+const categoryNameMap = {
+    "BREAD_BAKED_GOODS": "Bread & Baked Goods",
+    "SWEET_TREATS_DESSERTS": "Sweet Treats",
+    "MEAT_PROTEIN": "Meat",
+    "FRUIT_VEGETABLES": "Fruit & Veg",
+    "DAIRY_EGGS": "Dairy & Eggs",
+    "READY_MEALS_HOT_FOOD": "Ready Meals & Hot Food",
+    "SNACKS_SAVOURY_ITEMS": "Snacks",
+    "BREAKFAST_ITEMS": "Breakfast",
+    "VEGAN_VEGETARIAN": "Vegan & Vegetarian",
+    "DRINKS_BEVERAGES": "Drinks"
+};
+
+const sortButton = document.getElementById("sortButton");
+sortButton.addEventListener("click", function (e) {
+    if (bundleList == null) {
+        return;
+    }
+    if (sortOrder === "asc") {
+        bundleList.sort((a, b) => b.price - a.price);
+        sortOrder = "desc"
+        sortButton.innerHTML = "Sort High-Low <span>↕</span>"
+    } else {
+        bundleList.sort((a, b) => a.price - b.price);
+        sortOrder = "asc"
+        sortButton.innerHTML = "Sort Low-High <span>↕</span>"
+    }
+    const bundleContainer = document.getElementById("bundles-container");
+
+    renderBundles(bundleContainer, bundleList);
+
+})
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const vendorName = document.getElementById('vendorName');
@@ -11,14 +48,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     const vendorId = localStorage.getItem("vendorId");
-    if(vendorId == null) {
+    if (vendorId == null) {
         window.location.href = "catalog.html";
         return;
     }
 
     let vendorResponse = await apiGet("/vendors/" + vendorId);
 
-    if(vendorResponse.status !== 200){
+    if (vendorResponse.status !== 200) {
         window.location.href = "404.html";
     }
 
@@ -36,46 +73,129 @@ document.addEventListener('DOMContentLoaded', async () => {
     map.src = srcFirstHalf + locationURI + srcSecondHalf;
 
     //Load all bundles
-    const bundleResponse = apiGet("/bundles/" + vendorId);
+    const bundleResponse = await apiGet("/bundles/" + vendorId);
     const bundleContainer = document.getElementById("bundles-container");
 
-    if(bundleResponse.status !== 200 || await bundleResponse.json().length === 0) {
+    if (bundleResponse.status !== 200 || bundleResponse.length === 0) {
         //Show message for no available bundles
         const noBundleMessage = `<div class="bundle">No Bundles Available</div>`
         bundleContainer.insertAdjacentHTML('afterbegin', noBundleMessage);
     }
 
-    const bundleList = await bundleResponse.json();
+    bundleList = await bundleResponse.json();
+    renderBundles(bundleContainer, bundleList);
+
+})
+
+function renderBundles(bundleContainer, bundleList) {
+
+    //Clear the old bundles
+    bundleContainer.innerHTML = '';
 
     for (let i = 0; i < bundleList.length; i++) {
 
-        const allergies = bundleJson.allergies;
-        let allergyHtml = ``;
-        for (let j = 0; j < allergies.length; j++) {
-            allergyHtml += `<p>${allergyHtml}</p>`;
-        }
-
         const bundleJson = bundleList[i];
+        // const allergies = bundleJson.allergies;
+        // let allergyHtml = ``;
+        // for (let j = 0; j < allergies.length; j++) {
+        //     allergyHtml += `<p>${allergyHtml}</p>`;
+        // }
+
         let html =
             `
-            <div class="bundle">
-              <div>
-                <p>${bundleJson.bundleName}</p>
-                <div class="allergies">${allergyHtml}</div>
-              </div>
-              <div>
-                <p>${bundleJson.price}</p>
-                <button>Reserve</button>
-              </div>
+            <div class="bundle" data-id="${bundleJson.bundleId}">
+                <div class="bundle-header">
+                  <div class="bundle-element">
+                    <p>${bundleJson.bundleName}</p>
+                    <p class="category ${bundleJson.category}"">${categoryNameMap[bundleJson.category]}</p>
+                  </div>
+                  <div class="bundle-element">
+                    <p>£${bundleJson.price.toFixed(2)}</p>
+                    <button>Reserve</button>
+                    <img class="arrow" src="../svg/down_arrow.svg" alt="">
+                  </div>
+                </div>
             </div>
             `
 
 
-        bundleContainer.insertAdjacentHTML('afterbegin', html);
+        bundleContainer.insertAdjacentHTML('beforeend', html);
+
+        //Add drop-down functionality
+        const currentBundle = bundleContainer.lastElementChild;
+        currentBundle.addEventListener("click", async function (e) {
+
+            //Flip the arrow
+            const arrow = currentBundle.querySelector(".arrow");
+            const dropDown = currentBundle.querySelector(".drop-down");
+
+            if (dropDown != null) {
+                const isHidden = dropDown.style.display === "none";
+                dropDown.style.display = isHidden ? "block" : "none";
+                arrow.style.transform = isHidden ? "rotate(0deg)" : "rotate(180deg)";
+                return;
+            }
+
+            const detailedBundleResponse = await apiGet("/bundles/detailed/" + bundleJson.bundleId);
+            if (detailedBundleResponse.status !== 200) {
+                return;
+            }
 
 
+            //Get more descriptive information
+            const detailedBundleJson = await detailedBundleResponse.json();
+
+            //Create the product's html
+            const productList = detailedBundleJson.productList;
+            let productHtml = `<b>Products</b>`;
+            for (let i = 0; i < productList.length; i++) {
+                const product = productList[i];
+                productHtml += `<div><p>1x </p><p>${product.name}: £${product.retailPrice.toFixed(2)}</p></div>`
+            }
+
+            //Convert times to be more readable
+            const collectionStartTime = new Date(detailedBundleJson.collectionStart);
+            const collectionEndTime = new Date(detailedBundleJson.collectionEnd);
+
+            const readableCollectionStart = collectionStartTime.toLocaleString("en-GB", {
+                day: "numeric",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+
+            const readableCollectionEnd = collectionEndTime.toLocaleString("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+            });
+
+
+            const dropDownHtml =
+                `
+            <div class="drop-down">
+            
+                <p>${detailedBundleJson.description}</p>
+                <div class="product-list"></div>
+                
+                <div class="retail-price"">
+                    <p>Retail Price: £</p>
+                    <p>${detailedBundleJson.retailPrice.toFixed(2)}</p>
+                </div>
+                
+                <div class="collection-time">
+                    <p style="font-weight: bold">Collection Time: </p><p>${readableCollectionStart} - ${readableCollectionEnd}</p>
+                </div>
+                
+            </div>
+            `;
+
+            currentBundle.insertAdjacentHTML('beforeend', dropDownHtml);
+            const productListHtml = currentBundle.querySelector(".product-list");
+            productListHtml.innerHTML = productHtml;
+
+        })
 
     }
 
 
-})
+}

@@ -31,8 +31,6 @@ function addHeader() {
 
 function addFooter() {
 
-
-
     return `<footer class="part1">
     <div class="col">
       <h4>Contact</h4>
