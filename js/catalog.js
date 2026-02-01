@@ -7,6 +7,20 @@ const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 const companyBundles = document.getElementById("companyBundles");
 
+//category names to be displayed to users
+const categoryNameMap = {
+    BREAD_BAKED_GOODS: "Bread & Baked Goods",
+    SWEET_TREATS_DESSERTS: "Sweet Treats",
+    MEAT_PROTEIN: "Meat",
+    FRUIT_VEGETABLES: "Fruit & Veg",
+    DAIRY_EGGS: "Dairy & Eggs",
+    READY_MEALS_HOT_FOOD: "Ready Meals & Hot Food",
+    SNACKS_SAVOURY_ITEMS: "Snacks",
+    BREAKFAST_ITEMS: "Breakfast",
+    VEGAN_VEGETARIAN: "Vegan & Vegetarian",
+    DRINKS_BEVERAGES: "Drinks"
+  };
+
 /**
  * Loads the main page.
  * Checks that the user is logged in (redirect if now)
@@ -124,7 +138,7 @@ function createBundleCard(bundle, targetCarousel){
     card.innerHTML = `
     <h3>${name}</h3>
     <span class="category ${category}"> 
-    ${category}
+    ${categoryNameMap[category] ?? category}
     </span>
     <p>${price !== undefined ? "£" + price : ""}</p>
     <button class="reserveBtn">Reserve</button>`;

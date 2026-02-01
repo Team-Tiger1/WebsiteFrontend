@@ -124,16 +124,15 @@ button:hover {
 
 /* Category */
 .bundleCard .category{
-    display: inline-block;
-    margin-left: 8px;
+    margin-left: 10px;
     font-weight: normal;
     font-size: 12px;
     padding: 5px 6px;
     border-radius: 5px;
     color: white;
-    width: fit-content;
+    display: inline-block;
     vertical-align: middle;
-}
+  }
 
 .bundleCard h3{
     display: inline;
