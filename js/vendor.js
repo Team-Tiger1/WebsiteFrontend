@@ -150,7 +150,8 @@ function renderBundles(bundleContainer, bundleList) {
             let productHtml = `<b>Products</b>`;
             for (let i = 0; i < productList.length; i++) {
                 const product = productList[i];
-                productHtml += `<div><p>1x </p><p>${product.name}: £${product.retailPrice.toFixed(2)}</p></div>`
+                console.log(product);
+                productHtml += `<div><p>${product.quantity}x </p><p>${product.productName}: £${product.price.toFixed(2)}</p></div>`
             }
 
             //Convert times to be more readable
