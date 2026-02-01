@@ -7,6 +7,20 @@ const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 const companyBundles = document.getElementById("companyBundles");
 
+//category names to be displayed to users
+const categoryNameMap = {
+    BREAD_BAKED_GOODS: "Bread & Baked Goods",
+    SWEET_TREATS_DESSERTS: "Sweet Treats",
+    MEAT_PROTEIN: "Meat",
+    FRUIT_VEGETABLES: "Fruit & Veg",
+    DAIRY_EGGS: "Dairy & Eggs",
+    READY_MEALS_HOT_FOOD: "Ready Meals & Hot Food",
+    SNACKS_SAVOURY_ITEMS: "Snacks",
+    BREAKFAST_ITEMS: "Breakfast",
+    VEGAN_VEGETARIAN: "Vegan & Vegetarian",
+    DRINKS_BEVERAGES: "Drinks"
+  };
+
 /**
  * Loads the main page.
  * Checks that the user is logged in (redirect if now)
@@ -116,12 +130,16 @@ function createBundleCard(bundle, targetCarousel){
 
     //extracts the data about each bundle
     const bundleId = bundle.bundleId;
-    const name = bundle.bundleDescription;
+    const name = bundle.bundleName;
+    const category = bundle.category;
     const price = bundle.price;
 
     //creates bundle card from the data using HTML
     card.innerHTML = `
     <h3>${name}</h3>
+    <span class="category ${category}"> 
+    ${categoryNameMap[category] ?? category}
+    </span>
     <p>${price !== undefined ? "£" + price : ""}</p>
     <button class="reserveBtn">Reserve</button>`;
 
@@ -167,12 +185,12 @@ async function loadCompanyBundles(){
     companyBundles.innerHTML = "";
     msg.textContent = "";
 
-    const vensorResponse = await apiGet("/vendors");
-    if(!vensorResponse.ok){
+    const vendorResponse = await apiGet("/vendors");
+    if(!vendorResponse.ok){
         msg.textContent = "Could not load company bundles";
         return;
     }
-    const vendors = await vensorResponse.json();
+    const vendors = await vendorResponse.json();
 
     //get bundles for each vendor
     const bundleResponse = await apiGet("/bundles");
@@ -181,7 +199,8 @@ async function loadCompanyBundles(){
         return;
     }
     const bundles = await bundleResponse.json();
-
+    
+    //loop through each vendor and create their section
     for(let i = 0; i<vendors.length; i++){
         //create section for each vendor
         const vendorName = vendors[i].vendorName;
@@ -195,10 +214,11 @@ async function loadCompanyBundles(){
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
             //check the name using the pattern in the bundle description
-            if (bundle.bundleDescription && bundle.bundleDescription.includes("bundle from " + vendorName)){
+            if (bundle.bundleName && bundle.bundleName.startsWith(vendorName + " ")){
                 createBundleCard(bundle, carousel);
             }
         }
+
         //only add section if there are bundles for this vendor
         if(carousel.children.length > 0){
             section.appendChild(h3);

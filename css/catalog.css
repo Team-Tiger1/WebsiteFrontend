@@ -121,3 +121,60 @@ button:hover {
     margin-bottom: 40px;
     
 }
+
+/* Category */
+.bundleCard .category{
+    margin-left: 10px;
+    font-weight: normal;
+    font-size: 12px;
+    padding: 5px 6px;
+    border-radius: 5px;
+    color: white;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+.bundleCard h3{
+    display: inline;
+    margin: 0;
+}
+
+.BREAD_BAKED_GOODS {
+    background-color: #d4a568;
+}
+
+.SWEET_TREATS_DESSERTS {
+    background-color: #FF69B4;
+}
+
+.MEAT_PROTEIN {
+    background-color: #A52A2A;
+}
+
+.FRUIT_VEGETABLES {
+    background-color: #2E7D32;
+}
+
+.DAIRY_EGGS {
+    background-color: #dba40d;
+}
+
+.READY_MEALS_HOT_FOOD {
+    background-color: #E64A19;
+}
+
+.SNACKS_SAVOURY_ITEMS {
+    background-color: crimson;
+}
+
+.BREAKFAST_ITEMS {
+    background-color: #0288D1;
+}
+
+.VEGAN_VEGETARIAN {
+    background-color: #4CAF50;
+}
+
+.DRINKS_BEVERAGES {
+    background-color: #9C27B0;
+}
