@@ -1,3 +1,5 @@
+
+
 h1{
     text-align: center;
 }
@@ -180,7 +182,8 @@ button:hover {
 }
 
 /*Streak banner*/
-.streak-banner {
+
+.streakBanner {
     width: 100%;
     max-width: 1000px;
     margin: 20px auto;
@@ -212,4 +215,10 @@ button:hover {
     font-size: 48px;
     font-weight: bold;
     color: #2E7D32;
+}
+
+.catalog-page{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    color: #222;
 }
