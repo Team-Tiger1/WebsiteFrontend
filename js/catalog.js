@@ -123,6 +123,9 @@ function createBundleCard(bundle, targetCarousel){
     //creates bundle card from the data using HTML
     card.innerHTML = `
     <h3>${name}</h3>
+    <span class="category ${category}"> 
+    ${category}
+    </span>
     <p>${price !== undefined ? "£" + price : ""}</p>
     <button class="reserveBtn">Reserve</button>`;
 
@@ -168,12 +171,12 @@ async function loadCompanyBundles(){
     companyBundles.innerHTML = "";
     msg.textContent = "";
 
-    const vensorResponse = await apiGet("/vendors");
-    if(!vensorResponse.ok){
+    const vendorResponse = await apiGet("/vendors");
+    if(!vendorResponse.ok){
         msg.textContent = "Could not load company bundles";
         return;
     }
-    const vendors = await vensorResponse.json();
+    const vendors = await vendorResponse.json();
 
     //get bundles for each vendor
     const bundleResponse = await apiGet("/bundles");
@@ -182,7 +185,8 @@ async function loadCompanyBundles(){
         return;
     }
     const bundles = await bundleResponse.json();
-
+    
+    //loop through each vendor and create their section
     for(let i = 0; i<vendors.length; i++){
         //create section for each vendor
         const vendorName = vendors[i].vendorName;
@@ -196,10 +200,11 @@ async function loadCompanyBundles(){
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
             //check the name using the pattern in the bundle description
-            if (bundle.bundleDescription && bundle.bundleName.includes(vendorName)){
+            if (bundle.bundleName && bundle.bundleName.startsWith(vendorName + " ")){
                 createBundleCard(bundle, carousel);
             }
         }
+
         //only add section if there are bundles for this vendor
         if(carousel.children.length > 0){
             section.appendChild(h3);
