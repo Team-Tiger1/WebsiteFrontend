@@ -116,7 +116,8 @@ function createBundleCard(bundle, targetCarousel){
 
     //extracts the data about each bundle
     const bundleId = bundle.bundleId;
-    const name = bundle.bundleDescription;
+    const name = bundle.bundleName;
+    const category = bundle.category;
     const price = bundle.price;
 
     //creates bundle card from the data using HTML
@@ -195,7 +196,7 @@ async function loadCompanyBundles(){
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
             //check the name using the pattern in the bundle description
-            if (bundle.bundleDescription && bundle.bundleDescription.includes("bundle from " + vendorName)){
+            if (bundle.bundleDescription && bundle.bundleName.includes(vendorName)){
                 createBundleCard(bundle, carousel);
             }
         }
