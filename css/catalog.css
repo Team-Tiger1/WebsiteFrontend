@@ -178,3 +178,38 @@ button:hover {
 .DRINKS_BEVERAGES {
     background-color: #9C27B0;
 }
+
+/*Streak banner*/
+.streak-banner {
+    width: 100%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 60px 20px;
+
+    background-image: url('img/logo.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+}
+
+.streak-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+}
+
+.steakHeader {
+    margin: 0;
+    font-size: 24px;
+    margin-bottom: 10px;
+    content: black;
+}
+
+.streakCount{
+    margin: 10px 0 0;
+    font-size: 48px;
+    font-weight: bold;
+    color: #2E7D32;
+}
