@@ -48,3 +48,20 @@ main{
     text-align: left;
     padding: 12px;
 }
+
+.orders-page{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    color: #222;
+}
+
+.pageWrap{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.pageWrap h2{
+    text-align: center;
+    margin: 18px 0 10px;
+}
