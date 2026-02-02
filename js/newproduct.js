@@ -139,13 +139,13 @@ form.addEventListener("submit", async (e) => {
 
   msg.textContent = "";
 
-  if (!name || isNaN(retailPrice) || isNaN(weight) || allergies.length === 0) {
+  if (!name || isNaN(retailPrice) || isNaN(weight)) {
     msg.textContent = "please fill in all the fields with valid data";
     return;
   }
 
   try {
-    const response = await createProduct({ name, retailPrice, weight, allergies });
+    const response = await apiPost("/products", { name, retailPrice, weight, allergies });
     if (!response.ok) {
       msg.textContent = "Failed to create product";
       return;
