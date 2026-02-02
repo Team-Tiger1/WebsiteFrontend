@@ -100,7 +100,6 @@
 
 
 // v3
-import { CONNECTION_URL } from "./connection.js"; // Adjust the import path as necessary
 /**
  * Creates a new product by sending a POST request to the backend.
  * specifies the product data in the request body.
