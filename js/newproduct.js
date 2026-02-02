@@ -5,7 +5,7 @@ const form = document.getElementById("createProductForm");
 const msg = document.getElementById("productMsg");
 const API = API_URL;
 
-form.addEventListener("sumbit", async (e) =>{
+form.addEventListener("submit", async (e) =>{
     e.preventDefault();
 
     const name = document.getElementById("productName").value;
