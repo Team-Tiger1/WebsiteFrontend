@@ -46,6 +46,8 @@ async function loadOrders() {
         const reservationId = r.reservationId;
         const bundleId = r.bundle.bundleId;
         const bundleName = r.bundle.name;
+        const pickupStartTime = r.bundle.pickupStartTime;
+        const pickupEndTime = r.bundle.pickupEndTime;
         const pickupTime = formatPickupTime(r.pickupStartTime, r.pickupEndTime);
 
 
