@@ -48,7 +48,7 @@ async function loadOrders() {
         const bundleName = r.bundle.name;
         const pickupStartTime = r.bundle.pickupStartTime;
         const pickupEndTime = r.bundle.pickupEndTime;
-        const pickupTime = formatPickupTime(r.pickupStartTime, r.pickupEndTime);
+        const pickupTime = formatPickupTime(r.bundle.pickupStartTime, r.bundle.pickupEndTime);
 
 
         let claimCode = "";
