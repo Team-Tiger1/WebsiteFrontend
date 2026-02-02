@@ -44,14 +44,15 @@ async function loadOrders() {
     for (let i = 0; i < reservation.length; i++) {
         const r = reservation[i];
         const reservationId = r.reservationId;
-        const bundleId = r.bundleId;
+        const bundleId = r.bundle.bundleId;
+        const bundleName = r.bundle.name;
 
         let claimCode = "";
         if (reservationId) {
             claimCode = await getClaimCode(reservationId);
         }
 
-        addReservation(bundleId, reservationId, claimCode);
+        addReservation(bundleId, reservationId, claimCode, pickupTime=formatPickupTime(r.bundle.pickupStartTime, r.bundle.pickupEndTime), bundleName);
     }
 }
 
@@ -89,15 +90,60 @@ async function getClaimCode(reservationId) {
  * @param {*} bundleId 
  * @param {*} reservationId 
  * @param {*} claimCode 
+ * @param {*} pickupTime 
  */
-function addReservation(bundleId, reservationId, claimCode) {
+function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleName) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
-        <td style="padding: 12px; border-top: 1px solid #ffffff;" title="${reservationId}">
+    <td style="padding: 12px; border-top: 1px solid #ffffff;">
+      ${bundleName ?? "-"}
+    </td>
+
+    <td style="padding: 12px; border-top: 1px solid #ffffff;" title="${reservationId}">
       ${reservationId ? reservationId.slice(0, 8) + "..." : "-"}
     </td>
-    <td style="padding: 12px; border-top: 1px solid #ffffff;">${claimCode}</td>
+
+    <td style="padding: 12px; border-top: 1px solid #ffffff;">
+      ${pickupTime}
+    </td>
+
+    <td style="padding: 12px; border-top: 1px solid #ffffff; font-weight: bold;">
+      ${claimCode ?? "-"}
+    </td>
   `;
     //adds the row to the table body
     tableBody.appendChild(tr);
+}
+
+/**
+ * Formats the pickup time for display in the orders table
+ * as it is stored as ISO strings in the backend
+ * so this converts the time to a readable format
+ * @param {*} start 
+ * @param {*} end 
+ * @returns 
+ */
+function formatPickupTime(start, end) {
+  if (!start || !end) return "-";
+
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+
+  const date = startDate.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+
+  const startTime = startDate.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const endTime = endDate.toLocaleTimeString("en-GB", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  return `${date}, ${startTime}–${endTime}`;
 }
