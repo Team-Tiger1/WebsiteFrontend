@@ -46,13 +46,15 @@ async function loadOrders() {
         const reservationId = r.reservationId;
         const bundleId = r.bundle.bundleId;
         const bundleName = r.bundle.name;
+        const pickupTime = formatPickupTime(r.pickupStartTime, r.pickupEndTime);
+
 
         let claimCode = "";
         if (reservationId) {
             claimCode = await getClaimCode(reservationId);
         }
 
-        addReservation(bundleId, reservationId, claimCode, pickupTime=formatPickupTime(r.bundle.pickupStartTime, r.bundle.pickupEndTime), bundleName);
+        addReservation(bundleId, reservationId, claimCode, pickupTime, bundleName);
     }
 }
 
