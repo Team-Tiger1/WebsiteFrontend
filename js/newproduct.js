@@ -1,46 +1,101 @@
-import {apiPost} from "./connection.js";
-import { API_URL } from "./config.js";
+// import {apiPost} from "./connection.js";
+// import { API_URL } from "./config.js";
+
+// const form = document.getElementById("createProductForm");
+// const msg = document.getElementById("productMsg");
+// const API = API_URL;
+
+// form.addEventListener("submit", async (e) =>{
+//     e.preventDefault();
+
+//     const name = document.getElementById("productName").value;
+//     const retailPrice = document.getElementById("retailPrice").value;
+//     const weight = document.getElementsById("weight").value;
+
+//     msg.textContent = "";
+
+//     if (!name || !retailPrice|| !weight ){
+//         msg.textContent = "please fill in all the fields";
+//         return
+//     }
+
+//     const accessToken = localStorage.getItem("accessToken");
+
+//     if (!accessToken){
+//         msg.textContent = "you must be logged in to create a product";
+//         return
+//     }
+
+//     try{
+//         const response = await apiPost("/products", {name, retailPrice, weight})
+
+
+//         if (!response.ok){
+//                 msg.textContent = "Failed to create product";
+//                 return;
+//             }
+
+//             // backend may return empty body
+//             msg.textContent = "Product created successfully";
+//             form.reset();
+
+//         } catch (err){
+//             console.error(err);
+//             msg.textContent = err.message;
+//         }
+// });
+
+// tobys verison 
+import { apiPost } from "./connection.js";
 
 const form = document.getElementById("createProductForm");
 const msg = document.getElementById("productMsg");
-const API = API_URL;
 
-form.addEventListener("submit", async (e) =>{
-    e.preventDefault();
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    const name = document.getElementById("productName").value;
-    const retailPrice = document.getElementById("retailPrice").value;
-    const weight = document.getElementsById("weight").value;
+  const name = document.getElementById("productName").value.trim();
+  const retailPrice = document.getElementById("retailPrice").value;
+  const weight = document.getElementById("weight").value;
 
-    msg.textContent = "";
+  msg.textContent = "";
 
-    if (!name || !retailPrice|| !weight ){
-        msg.textContent = "please fill in all the fields";
-        return
+  if (!name || !retailPrice || !weight) {
+    msg.textContent = "Please fill in all the fields";
+    return;
+  }
+
+  const accessToken = localStorage.getItem("accessToken");
+  if (!accessToken) {
+    msg.textContent = "You must be logged in to create a product";
+    return;
+  }
+
+  // Convert to numbers (recommended)
+  const productData = {
+    name,
+    retailPrice: Number(retailPrice),
+    weight: Number(weight),
+  };
+
+  // Optional: basic number validation
+  if (Number.isNaN(productData.retailPrice) || Number.isNaN(productData.weight)) {
+    msg.textContent = "Retail price and weight must be numbers";
+    return;
+  }
+
+  try {
+    const response = await apiPost("/products", productData);
+
+    if (!response.ok) {
+      msg.textContent = "Failed to create product";
+      return;
     }
 
-    const accessToken = localStorage.getItem("accessToken");
-
-    if (!accessToken){
-        msg.textContent = "you must be logged in to create a product";
-        return
-    }
-
-    try{
-        const response = await apiPost("/products", {name, retailPrice, weight})
-
-
-        if (!response.ok){
-                msg.textContent = "Failed to create product";
-                return;
-            }
-
-            // backend may return empty body
-            msg.textContent = "Product created successfully";
-            form.reset();
-
-        } catch (err){
-            console.error(err);
-            msg.textContent = err.message;
-        }
+    msg.textContent = "Product created successfully";
+    form.reset();
+  } catch (err) {
+    console.error(err);
+    msg.textContent = "Network error";
+  }
 });
