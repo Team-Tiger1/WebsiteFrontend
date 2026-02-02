@@ -120,7 +120,8 @@ form.addEventListener("submit", async (e) =>{
     }
 
     try{
-        const response = await apiPost("/products", {name, retailPrice, weight, allergies})
+      // create product
+        const response = await createProduct({ name, retailPrice, weight, allergies });
         if (!response.ok){
                 msg.textContent = "Failed to create product";
                 return;
@@ -135,3 +136,26 @@ form.addEventListener("submit", async (e) =>{
             msg.textContent = "network failure";
         }
 });
+
+import { CONNECTION_URL } from "./connection.js"; // Adjust the import path as necessary
+/**
+ * Creates a new product by sending a POST request to the backend.
+ * specifies the product data in the request body.
+ * @param {*} productData 
+ * @returns 
+ */
+async function createProduct(productData) {
+  const token = localStorage.getItem("accessToken");
+
+  const res = await fetch(CONNECTION_URL + "/products", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + token,
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(productData)
+  });
+
+  return res;
+}
