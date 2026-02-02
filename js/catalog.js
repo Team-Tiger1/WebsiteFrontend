@@ -148,7 +148,7 @@ function createBundleCard(bundle, targetCarousel){
     //the reserve button represents an event to reserve that bundle
     const btn = card.querySelector(".reserveBtn");
     btn.addEventListener("click", function(){
-        reserveBundle(bundleId);
+        openReservePopup(bundleId, name);
     });
     //append into the carousel specified
     targetCarousel.appendChild(card);
@@ -252,3 +252,41 @@ async function getStreak(){
         console.error(err);
     }
 }
+
+
+//Reservation popup elements
+const reservePopup = document.getElementById("reservePopup");
+const reserveDetails = document.getElementById("reserveDetails");
+const confirmReserveBtn = document.getElementById("confirmReserveBtn");
+const cancelReserveBtn = document.getElementById("cancelReserveBtn");
+
+let selectedBundleId = null;
+
+/**
+ * Opens the reserve confirmation popup
+ * @param {*} bundleId 
+ * @param {*} bundleName 
+ */
+function openReservePopup(bundleId, bundleName){
+    selectedBundleId = bundleId;
+    reserveDetails.textContent = `Are you sure you want to reserve the bundle: ${bundleName}?`;
+    reservePopup.showModal();
+}
+
+/**
+ * Event listeners for the confirm and cancel buttons
+ * on the reserve popup message
+ */
+confirmReserveBtn.addEventListener("click", async function(){
+    if(selectedBundleId){
+        await reserveBundle(selectedBundleId);
+        reservePopup.close();
+    }
+});
+
+cancelReserveBtn.addEventListener("click", function(){
+    selectedBundleId = null;
+    reservePopup.close();
+});
+
+
