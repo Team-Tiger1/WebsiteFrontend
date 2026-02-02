@@ -100,43 +100,6 @@
 
 
 // v3
-import {apiGet, apiPost} from "./connection.js";
-const form = document.getElementById("createProductForm");
-const msg = document.getElementById("productMsg");
-// listen for form submit
-form.addEventListener("submit", async (e) =>{
-    e.preventDefault();
-  // get form data
-    const name = document.getElementById("productName").value.trim();
-    const retailPrice = parseFloat(document.getElementById("retailPrice").value);
-    const weight = parseFloat(document.getElementById("weight").value);
-    const allergies = document.getElementById("allergies").value.split(",").map(a => a.trim()).filter(Boolean).map(a => a.toUpperCase());
-
-    msg.textContent = "";
-  // validate form data
-    if (!name || isNaN(retailPrice) || isNaN(weight) || allergies.length === 0){
-        msg.textContent = "please fill in all the fields with valid data";
-        return
-    }
-
-    try{
-      // create product
-        const response = await createProduct({ name, retailPrice, weight, allergies });
-        if (!response.ok){
-                msg.textContent = "Failed to create product";
-                return;
-            }
-
-            // backend may return empty body
-            msg.textContent = "Product created successfully";
-            form.reset();
-            
-        } catch (err){
-            console.error(err);
-            msg.textContent = "network failure";
-        }
-});
-
 import { CONNECTION_URL } from "./connection.js"; // Adjust the import path as necessary
 /**
  * Creates a new product by sending a POST request to the backend.
@@ -159,3 +122,40 @@ async function createProduct(productData) {
 
   return res;
 }
+
+
+import { apiPost } from "./connection.js";
+
+const form = document.getElementById("createProductForm");
+const msg = document.getElementById("productMsg");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const name = document.getElementById("productName").value.trim();
+  const retailPrice = parseFloat(document.getElementById("retailPrice").value);
+  const weight = parseFloat(document.getElementById("weight").value);
+
+  const allergies = document.getElementById("allergies").value.split(",").map(a => a.trim()).filter(Boolean).map(a => a.toUpperCase());
+
+  msg.textContent = "";
+
+  if (!name || isNaN(retailPrice) || isNaN(weight) || allergies.length === 0) {
+    msg.textContent = "please fill in all the fields with valid data";
+    return;
+  }
+
+  try {
+    const response = await createProduct({ name, retailPrice, weight, allergies });
+    if (!response.ok) {
+      msg.textContent = "Failed to create product";
+      return;
+    }
+
+    msg.textContent = "Product created successfully";
+    form.reset();
+  } catch (err) {
+    console.error(err);
+    msg.textContent = "network failure";
+  }
+});
