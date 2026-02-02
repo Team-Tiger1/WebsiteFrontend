@@ -109,7 +109,7 @@
 async function createProduct(productData) {
   const token = localStorage.getItem("accessToken");
 
-  const res = await fetch(CONNECTION_URL + "/products", {
+  const res = await fetch("https://thelastfork.shop/api" + "/products", {
     method: "POST",
     headers: {
       "Authorization": "Bearer " + token,
