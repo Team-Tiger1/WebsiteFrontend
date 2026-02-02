@@ -46,54 +46,92 @@
 // });
 
 // v2 
-import { apiPost } from "./connection.js";
+// import { apiPost } from "./connection.js";
 
+// const form = document.getElementById("createProductForm");
+// const msg = document.getElementById("productMsg");
+
+// form.addEventListener("submit", async (e) => {
+//   e.preventDefault();
+
+//   const name = document.getElementById("productName").value.trim();
+//   const retailPrice = document.getElementById("retailPrice").value;
+//   const weight = document.getElementById("weight").value;
+
+//   msg.textContent = "";
+
+//   if (!name || !retailPrice || !weight) {
+//     msg.textContent = "Please fill in all the fields";
+//     return;
+//   }
+
+//   const accessToken = localStorage.getItem("accessToken");
+//   if (!accessToken) {
+//     msg.textContent = "You must be logged in to create a product";
+//     return;
+//   }
+
+//   const productData = {
+//     name,
+//     retailPrice: Number(retailPrice),
+//     weight: Number(weight),
+//   };
+
+//   if (Number.isNaN(productData.retailPrice) || Number.isNaN(productData.weight)) {
+//     msg.textContent = "Retail price and weight must be numbers";
+//     return;
+//   }
+
+//   try {
+//     const response = await apiPost("/products", productData);
+
+//     if (!response.ok) {
+//       msg.textContent = "Failed to create product";
+//       return;
+//     }
+
+//     msg.textContent = "Product created successfully";
+//     form.reset();
+//   } catch (err) {
+//     console.error(err);
+//     msg.textContent = "Network error";
+//   }
+// });
+
+
+// v3
+import {apiGet, apiPost} from "./connection.js";
 const form = document.getElementById("createProductForm");
 const msg = document.getElementById("productMsg");
+// listen for form submit
+form.addEventListener("submit", async (e) =>{
+    e.preventDefault();
+  // get form data
+    const name = document.getElementById("productName").value.trim();
+    const retailPrice = parseFloat(document.getElementById("retailPrice").value);
+    const weight = parseFloat(document.getElementById("weight").value);
+    const allergies = document.getElementById("allergies").value.split(",").map(a => a.trim()).filter(Boolean).map(a => a.toUpperCase());
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const name = document.getElementById("productName").value.trim();
-  const retailPrice = document.getElementById("retailPrice").value;
-  const weight = document.getElementById("weight").value;
-
-  msg.textContent = "";
-
-  if (!name || !retailPrice || !weight) {
-    msg.textContent = "Please fill in all the fields";
-    return;
-  }
-
-  const accessToken = localStorage.getItem("accessToken");
-  if (!accessToken) {
-    msg.textContent = "You must be logged in to create a product";
-    return;
-  }
-
-  const productData = {
-    name,
-    retailPrice: Number(retailPrice),
-    weight: Number(weight),
-  };
-
-  if (Number.isNaN(productData.retailPrice) || Number.isNaN(productData.weight)) {
-    msg.textContent = "Retail price and weight must be numbers";
-    return;
-  }
-
-  try {
-    const response = await apiPost("/products", productData);
-
-    if (!response.ok) {
-      msg.textContent = "Failed to create product";
-      return;
+    msg.textContent = "";
+  // validate form data
+    if (!name || isNaN(retailPrice) || isNaN(weight) || allergies.length === 0){
+        msg.textContent = "please fill in all the fields with valid data";
+        return
     }
 
-    msg.textContent = "Product created successfully";
-    form.reset();
-  } catch (err) {
-    console.error(err);
-    msg.textContent = "Network error";
-  }
+    try{
+        const response = await apiPost("/products", {name, retailPrice, weight, allergies})
+        if (!response.ok){
+                msg.textContent = "Failed to create product";
+                return;
+            }
+
+            // backend may return empty body
+            msg.textContent = "Product created successfully";
+            form.reset();
+            
+        } catch (err){
+            console.error(err);
+            msg.textContent = "network failure";
+        }
 });

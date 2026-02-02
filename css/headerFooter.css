@@ -1,3 +1,13 @@
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+
 .navbar-logo {
     display: flex;
     align-items: center;
