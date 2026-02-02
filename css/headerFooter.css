@@ -6,13 +6,14 @@
 
 .navbar {
     position: sticky;
+    background-color: rgb(60, 109, 63);
     top: 0;
     left: 0;
+    width: 100%;
 }
 
 .navbar ul {
     list-style-type: none;
-    background-color: rgb(60, 109, 63);
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -21,6 +22,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .navbar li a {
