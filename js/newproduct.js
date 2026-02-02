@@ -45,7 +45,7 @@
 //         }
 // });
 
-// tobys verison 
+// v2 
 import { apiPost } from "./connection.js";
 
 const form = document.getElementById("createProductForm");
@@ -71,14 +71,12 @@ form.addEventListener("submit", async (e) => {
     return;
   }
 
-  // Convert to numbers (recommended)
   const productData = {
     name,
     retailPrice: Number(retailPrice),
     weight: Number(weight),
   };
 
-  // Optional: basic number validation
   if (Number.isNaN(productData.retailPrice) || Number.isNaN(productData.weight)) {
     msg.textContent = "Retail price and weight must be numbers";
     return;
