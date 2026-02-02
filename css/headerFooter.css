@@ -71,7 +71,7 @@
     padding-right: 40px;
 }
 
-/* making page responsive */
+/* making page responsive
 @media (max-width:700px) {
     #navbar{
         display: flex;
@@ -127,7 +127,7 @@
         font-size:  24px;
         display: initial;
     }
-}
+} */
 
 footer{
     display: flex;
