@@ -81,7 +81,7 @@ html, body {
 }
 
 #navbar {
-    padding-right: 40px;
+    padding-right: 0px;
 }
 
 /* making page responsive
@@ -141,6 +141,25 @@ html, body {
         display: initial;
     }
 } */
+@media (max-width: 700px){
+    .navbar ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar a {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .navbar-logo {
+        margin-right: 0;
+    }
+
+    .navbar ul li:first-child {
+        margin-right: 0;
+    }
+}
 
 footer{
     display: flex;

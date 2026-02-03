@@ -266,3 +266,56 @@ button:hover {
     margin-top: 20px;
     gap: 10px;
 }
+
+@media (max-width: 600px){
+    .streakBanner {
+        padding: 16px 0;
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+
+    .streak-card {
+        padding: 16px;
+    }
+
+    .steakHeader {
+        font-size: 20px;
+    }
+
+    .streakCount{
+        font-size: 36px;
+    }
+    
+    .carrousel{
+        display: grid;
+        grid-auto-flow: unset;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        overflow-x: visible;
+        padding: 12px;
+    }
+
+    .bundle-carousel{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        overflow-x: visible;
+        padding: 12px;
+    }
+
+    .bundleCard{
+        width: 100%;
+        min-width: 0;
+    }
+
+    .company{
+        width: 100%;
+        height: auto;
+        min-height: 90px;
+    }
+
+
+}
