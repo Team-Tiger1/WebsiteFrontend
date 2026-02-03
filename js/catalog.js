@@ -1,6 +1,8 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
+const bundleDetailsSave = new Map();
+
 //to be used for the catalog
 const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
@@ -331,8 +333,6 @@ cancelReserveBtn.addEventListener("click", function(){
     selectedBundleId = null;
     reservePopup.close();
 });
-
-const bundleDetailsSave = new Map();
 
 async function getBundleDetails(bundleId) {
     if (bundleDetailsSave.has(bundleId)) {
