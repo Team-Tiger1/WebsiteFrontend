@@ -107,7 +107,9 @@ async function loadBundles(){
         }
 
         for (let i = 0; i<bundles.length; i++){
-            createBundleCard(bundles[i], bundleCarousel);
+            const b = bundles[i];
+            const details = await getBundleDetails(b.bundleId);
+            createBundleCard(b, bundleCarousel, details);
         }
     } catch(error){
         console.error(error);
@@ -121,37 +123,77 @@ async function loadBundles(){
  * - bundle name
  * - price
  * - reserve button
+ * - allergies
+ * - pick up times
  *
  * When the reserve button is clicked it calls reserveBundle(param) with the bunlde ID as the paramater
  *
  * @param {*} bundle
  */
-function createBundleCard(bundle, targetCarousel){
-    const card = document.createElement("div");
-    card.className = "bundleCard";
+function createBundleCard(bundle, targetCarousel, details) {
+  const card = document.createElement("div");
+  card.className = "bundleCard";
 
-    //extracts the data about each bundle
-    const bundleId = bundle.bundleId;
-    const name = bundle.bundleName;
-    const category = bundle.category;
-    const price = bundle.price;
+  const bundleId = bundle.bundleId;
+  const name = bundle.bundleName;
+  const category = bundle.category;
+  const price = bundle.price;
 
-    //creates bundle card from the data using HTML
-    card.innerHTML = `
+  //if cant find the details set default texts
+  let pickupText = "Not available";
+  let allergyText = "None listed";
+
+  if (details) {
+    //pickup times
+    if (details.collectionStart && details.collectionEnd) {
+      const start = new Date(details.collectionStart);
+      const end = new Date(details.collectionEnd);
+
+      //format to readable string
+      const readableStart = start.toLocaleString("en-GB", {
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      //again for end time
+      const readableEnd = end.toLocaleString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      //set pickup text
+      pickupText = `${readableStart} - ${readableEnd}`;
+    }
+
+    // allergies
+    const a = details.allergies;
+    if (Array.isArray(a) && a.length > 0) {
+      allergyText = a.join(", ");
+    } else if (typeof a === "string" && a.trim() !== "") {
+      allergyText = a;
+    }
+  }
+  //create card in HTML
+  card.innerHTML = `
     <h3>${name}</h3>
-    <span class="category ${category}"> 
-    ${categoryNameMap[category] ?? category}
+    <span class="category ${category}">
+      ${categoryNameMap[category] ?? category}
     </span>
-    <p>${price !== undefined ? "£" + price : ""}</p>
-    <button class="reserveBtn">Reserve</button>`;
+    <p>${price !== undefined ? "£" + Number(price).toFixed(2) : ""}</p>
 
-    //the reserve button represents an event to reserve that bundle
-    const btn = card.querySelector(".reserveBtn");
-    btn.addEventListener("click", function(){
-        openReservePopup(bundleId, name);
-    });
-    //append into the carousel specified
-    targetCarousel.appendChild(card);
+    <p class="pickupTime">Pickup: ${pickupText}</p>
+    <p class="allergyInfo">Allergies: ${allergyText}</p>
+
+    <button class="reserveBtn">Reserve</button>
+  `;
+
+  const btn = card.querySelector(".reserveBtn");
+  btn.addEventListener("click", function () {
+    openReservePopup(bundleId, name);
+  });
+
+  targetCarousel.appendChild(card);
 }
 
 /**
@@ -215,9 +257,10 @@ async function loadCompanyBundles(){
         //add bundles for this vendor
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
+            const details = await getBundleDetails(bundle.bundleId);
             //check the name using the pattern in the bundle description
             if (bundle.bundleName && bundle.bundleName.startsWith(vendorName + " ")){
-                createBundleCard(bundle, carousel);
+                createBundleCard(bundle, carousel, details);
             }
         }
 
@@ -246,7 +289,7 @@ async function getStreak(){
         const data = await response.json();
         const streakCount = data.streakCount || 0;
 
-        streak.textContent = `${streakCount} days!`;
+        streak.textContent = `${streakCount} weeks!`;
 
     } catch(err){
         console.error(err);
@@ -289,4 +332,28 @@ cancelReserveBtn.addEventListener("click", function(){
     reservePopup.close();
 });
 
+const bundleDetailsSave = new Map();
 
+async function getBundleDetails(bundleId) {
+    if (bundleDetailsSave.has(bundleId)) {
+        return bundleDetailsSave.get(bundleId);
+    }
+    
+    try {
+        const response = await apiGet("/bundles/detailed/" + bundleId);
+
+        if (!response.ok) {
+            console.error("Could not get bundle details");
+            bundleDetailsSave.set(bundleId, null);
+            return null;
+        }
+
+        const bundle = await response.json();
+        bundleDetailsSave.set(bundleId, bundle);
+        return bundle;
+    } catch (err) {
+        console.error(err);
+        bundleDetailsSave.set(bundleId, null);
+        return null;
+    }
+}
