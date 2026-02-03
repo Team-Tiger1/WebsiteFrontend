@@ -306,6 +306,12 @@ button:hover {
         width: 85%;
         min-width: unset;
         scroll-snap-align: start;
+        overflow: hidden;
+    }
+
+    #companyBundles .bundle-carousel:has(> :only-child) > .bundleCard {
+        flex: 0 0 100%;
+        width: 100%;
     }
 
     .company{

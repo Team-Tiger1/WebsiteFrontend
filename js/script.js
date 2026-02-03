@@ -38,5 +38,5 @@ carousel.addEventListener("mousemove", (e)=>{
     e.preventDefault();
     const x = e.pageX - carousel.offsetLeft;
     const move = (x - startX) * 1.5
-    carousel.scrollLeft = scrollLeft - move;
+    carousel.scrollLeft = carousel.scrollLeft - move;
 });

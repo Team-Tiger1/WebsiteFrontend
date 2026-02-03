@@ -169,7 +169,7 @@ async function createProduct(productData) {
 }
 
 
-import { apiPost } from "./connection.js";
+//import { apiPost } from "./connection.js";
 
 const form = document.getElementById("createProductForm");
 const msg = document.getElementById("productMsg");
