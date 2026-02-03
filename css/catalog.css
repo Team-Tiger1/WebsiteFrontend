@@ -280,13 +280,13 @@ button:hover {
         margin: 0 auto;
     }
 
-    /* .streakHeader {
+    .streakHeader {
         font-size: 20px;
     }
 
     .streakCount{
         font-size: 36px;
-    } */
+    }
     
     .carrousel{
         grid-auto-columns: max-content;
