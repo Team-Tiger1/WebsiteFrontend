@@ -83,7 +83,7 @@ button:hover {
     scroll-behavior: smooth;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    padding: 12px 6px
+    padding: 12px 6px;
 }
 
 .company {
@@ -117,10 +117,6 @@ button:hover {
 
 #close{
     display: none;
-}
-
-#companyBundles section{
-    margin-bottom: 18px;  
 }
 
 #companyBundles section{
@@ -217,7 +213,7 @@ button:hover {
     content: black;
 }
 
-.streakCount{
+.streak{
     margin: 10px 0 0;
     font-size: 48px;
     font-weight: bold;
@@ -284,30 +280,22 @@ button:hover {
         margin: 0 auto;
     }
 
-    .steakHeader {
+    /* .streakHeader {
         font-size: 20px;
     }
 
     .streakCount{
         font-size: 36px;
-    }
+    } */
     
     .carrousel{
-        display: grid;
-        grid-auto-flow: column;
         grid-auto-columns: max-content;
-        overflow-x: auto;
-        overflow-y: hidden;
-        scroll-snap-type: x mandatory;
         -webkit-overflow-scrolling: touch;
         padding: 12px;
     }
 
       .bundle-carousel{
-        display: flex;
         gap: 12px;
-        overflow-x: auto;
-        overflow-y: hidden;
         padding: 12px 16px;
         -webkit-overflow-scrolling: touch;
         scroll-snap-type: x mandatory;
@@ -315,8 +303,8 @@ button:hover {
 
     .bundleCard{
         flex: 0 0 85%;
-        width: 100%;
-        min-width: 260px;
+        width: 85%;
+        min-width: unset;
         scroll-snap-align: start;
     }
 
