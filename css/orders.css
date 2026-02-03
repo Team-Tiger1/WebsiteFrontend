@@ -1,3 +1,9 @@
+main {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 h1{
     text-align: center;
 }
@@ -68,6 +74,11 @@ main{
 }
 
 @media (max-width: 600px){
+    main {
+        margin: 12px 0;
+        padding: 12px;
+        }
+
     .orderWrapper{
         padding: 0 10px 16px;
     }
