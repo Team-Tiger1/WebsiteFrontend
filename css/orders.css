@@ -22,9 +22,9 @@ main{
 
 /*order page*/
 .orderWrapper{
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 16px 24px;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .orderTable{
@@ -33,6 +33,7 @@ main{
     background: white;
     border-radius: 8px;
     overflow: hidden;
+    min-width: 650px;
 }
 
 .ordersHeading{
@@ -65,3 +66,15 @@ main{
     text-align: center;
     margin: 18px 0 10px;
 }
+
+@media (max-width: 600px){
+    .orderWrapper{
+        padding: 0 10px 16px;
+    }
+
+    .orderTable th, .orderTable td{
+        padding: 8px;
+        font-size: 14px;
+    }
+}
+
