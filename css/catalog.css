@@ -192,8 +192,9 @@ button:hover {
 .streakBanner {
     width: 100%;
     max-width: 1000px;
-    margin: 16px 0 10px;
+    margin: 16px auto 10px;
     padding: 24px 0;
+    box-sizing: border-box;
 
     background-image: url('img/logo.png');
     background-repeat: no-repeat;
@@ -271,7 +272,7 @@ button:hover {
     .streakBanner {
         margin: 12px auto;
         padding: 12px 0;
-        display: flex;
+        display: block;
         justify-content: center;
     }
 
