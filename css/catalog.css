@@ -1,4 +1,11 @@
+html, body {
+  width: 100%;
+  overflow-x: hidden;
+}
 
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 h1{
     text-align: center;
@@ -191,11 +198,6 @@ button:hover {
     margin: 16px auto 10px;
     padding: 24px 0;
     box-sizing: border-box;
-
-    background-image: url('img/logo.png');
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-position: center;
 }
 
 .streak-card {
@@ -265,6 +267,20 @@ button:hover {
 }
 
 @media (max-width: 600px){
+    .pageWrap{
+        max-width: 100%;
+        width: 100%;
+        padding: 0 12px;
+        margin: 0;
+    }
+
+    main{
+        max-width: 100%;
+        width: 100%;
+        margin: 12px 0;
+        padding: 12px;
+    }
+
     .streakBanner {
         margin: 12px auto;
         padding: 12px 0;
@@ -289,7 +305,6 @@ button:hover {
     }
     
     .carrousel{
-        grid-auto-columns: max-content;
         -webkit-overflow-scrolling: touch;
         padding: 12px;
     }
