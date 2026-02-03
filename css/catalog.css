@@ -331,9 +331,9 @@ button:hover {
 
     .company{
         width: auto;
-        min-width: none;
+        min-width: 0;
         scroll-snap-align: start;
-        padding: 14px 16px;
+        padding: 12px 14px;
         min-height: 90px;
     }
 
