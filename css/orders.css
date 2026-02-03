@@ -29,7 +29,7 @@ main{
 /*order page*/
 .orderWrapper{
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto !important;
     -webkit-overflow-scrolling: touch;
 }
 
