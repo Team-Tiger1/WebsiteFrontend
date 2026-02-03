@@ -290,7 +290,6 @@ button:hover {
         display: grid;
         grid-auto-flow: column;
         grid-auto-columns: max-content;
-        gap: 12px;
         overflow-x: auto;
         overflow-y: hidden;
         scroll-snap-type: x mandatory;
