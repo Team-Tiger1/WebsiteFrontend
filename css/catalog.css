@@ -289,9 +289,12 @@ button:hover {
     .carrousel{
         display: grid;
         grid-auto-flow: column;
-        grid-auto-columns: 85%;
+        grid-auto-columns: max-content;
         gap: 12px;
-        overflow-x: visible;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
         padding: 12px;
     }
 
@@ -313,8 +316,10 @@ button:hover {
     }
 
     .company{
-        width: 100%;
-        height: auto;
+        width: auto;
+        min-width: none;
+        scroll-snap-align: start;
+        padding: 14px 16px;
         min-height: 90px;
     }
 
