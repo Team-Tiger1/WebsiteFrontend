@@ -2,6 +2,8 @@ import {apiPost} from "./connection.js";
 import {refreshAccessToken} from "./auth.js";
 import { API_URL } from "./config.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
 const API = API_URL;
@@ -68,3 +70,4 @@ form.addEventListener("submit", async (event) => {
         msg.textContent = "Network failure";
     });
     });
+});
