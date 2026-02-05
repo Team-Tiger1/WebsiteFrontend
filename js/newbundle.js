@@ -32,7 +32,7 @@ async function loadVendorsProducts(){
             <input type="checkbox" name="bundleProducts" value="${product.productId}">
             <div class="product-info">
                 <strong>${product.name}</strong>
-                <p class="text-muted">£${product.retailPrice} • ${product.weight}kg</p>
+                <p class="text-muted">£${product.retailPrice} • ${product.weight}g</p>
             </div>
         `;
         productsList.appendChild(label);
