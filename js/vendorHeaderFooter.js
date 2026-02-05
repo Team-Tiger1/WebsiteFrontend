@@ -17,6 +17,7 @@ function addHeader() {
         <li><a href="manage.html">Manage Pickups</a></li>
         <li><a href="analytics.html">Analytics</a></li>
         <li><a href="forecast.html">Forecast</a></li>
+        <li><a href="#" id="logout">Log Out</a></li>
 
 
         <a href="#" id="close"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -105,3 +106,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+
+const logoutLink = document.getElementById("logout");
+// Add event listener to logout link
+// When clicked, it will clear the access token and redirect to the login
+if (logoutLink) {
+    logoutLink.addEventListener("click", () => {
+        localStorage.removeItem("accessToken");
+        window.location.href = "supplierLogin.html";
+    });
+} 

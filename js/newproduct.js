@@ -1,3 +1,8 @@
+import {apiGet, apiPost} from "./connection.js";
+import {isAuthenticated} from "./auth.js";
+
+await isAuthenticated("VENDOR");
+
 // import {apiPost} from "./connection.js";
 // import { API_URL } from "./config.js";
 
