@@ -15,7 +15,7 @@ form.addEventListener("submit", async (event) => {
     const description = document.getElementById("description-input").value.trim();
     const phoneNumber = document.getElementById("number-input").value.trim();
     const email = document.getElementById("email-input").value.trim();
-    const category = document.getElementById("category-input").value.trim();
+    const category = document.getElementById("category-input").value.trim().toUpperCase();
     const password = document.getElementById("password-input").value;
     const repeatPassword = document.getElementById("repeat-password-input").value;
 
