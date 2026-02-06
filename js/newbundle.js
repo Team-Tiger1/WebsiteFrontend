@@ -3,6 +3,7 @@ import {isAuthenticated} from "./auth.js";
 
 const productsList = document.getElementById("productsList");
 const msg = document.getElementById("bundleMsg");
+const form = document.getElementById("createBundleForm");
 
 // load the vendors products 
 async function loadVendorsProducts(){
@@ -16,7 +17,7 @@ async function loadVendorsProducts(){
     }
     const products = await productResponse.json();
 
-    if (productsList.length === 0) {
+    if (products.length === 0) {
             msg.textContent = "You have no products";
             return;
         }
@@ -52,10 +53,8 @@ form.addEventListener("submit", async (e) => {
     const collectionEnd = document.getElementById("collectionEnd").value;
 
     //collect all checked products 
-    const productSelected = document.querySelectorAll (
-        'input[name="bundleProducts"]:checked;
-    );
-    const selectedList = Array.from(checked).map(cb=> cb.value);
+    const productSelected = document.querySelectorAll ('input[name="bundleProducts"]:checked');
+    const productList = Array.from(productSelected).map(cb=> cb.value);
 
     if (!name) return (msg.textContent = "Enter a bundle name");
     if (!description) return (msg.textContent = "Enter a description");
@@ -67,12 +66,12 @@ form.addEventListener("submit", async (e) => {
     if (new Date(collectionEnd) <= new Date(collectionStart))
         return (msg.textContent = "Collection end must be after start");
 
-    if (selectedList.length === 0) return (msg.textContent = "Select at least one product");
+    if (productList.length === 0) return (msg.textContent = "Select at least one product");
 
     const bundleData = {
-        name, description, selectedList, price, category,
-        collectionStart: new Data(collectionStart).toISOString(),
-        collectionEnd: new Data(collectionEnd).toISOString(),
+        name, description, productListList, price, category,
+        collectionStart: new Date(collectionStart).toISOString(),
+        collectionEnd: new Date(collectionEnd).toISOString(),
         
     };
     //attempt post 
@@ -84,11 +83,19 @@ form.addEventListener("submit", async (e) => {
         msg.textContent = "failed to create bundle" + (text ? `: ${text}` : "");
         return;
         }
-    msg.textContent = "Bundle created!"
-    form.rest();
-    }
-};
+        msg.textContent = "bundle created"
+        form.reset();
 
+        // uncheck all checkboxes after reset 
+        const allChecks = document.querySelectorAll('input[name="bundleProducts"]');
+        allChecks.forEach(cb => (cb.checked = false));
+    } catch (err) {
+        console.error(err);
+        msg.textContent = err.message || "network failure";
+    }
+});
+
+    
 
 
 
