@@ -29,15 +29,15 @@ async function loadVendorsProducts(){
 
     
         label.innerHTML = `
-            <input type="checkbox" name="bundleProducts" value="${product.productId}">
+            <input type="checkbox" name="bundleProducts" value="${product.id}">
             <div class="product-info">
                 <strong>${product.name}</strong>
                 <p class="text-muted">£${product.retailPrice} • ${product.weight}g</p>
             </div>
         `;
         productsList.appendChild(label);
-    }
+    } 
 
 }
-// run when page loads 
+// run when page loads
 loadVendorsProducts();
