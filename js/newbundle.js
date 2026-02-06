@@ -69,7 +69,7 @@ form.addEventListener("submit", async (e) => {
     if (productList.length === 0) return (msg.textContent = "Select at least one product");
 
     const bundleData = {
-        name, description, productListList, price, category,
+        name, description, productList, price, category,
         collectionStart: new Date(collectionStart).toISOString(),
         collectionEnd: new Date(collectionEnd).toISOString(),
         
