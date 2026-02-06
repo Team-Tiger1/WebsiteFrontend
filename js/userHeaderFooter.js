@@ -76,6 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
         footer.innerHTML = addFooter();
     }
 
+    const logoutLink = document.getElementById("logout");
+    // Add event listener to logout link
+    // When clicked, it will clear the access token and redirect to the login
+    if (logoutLink) {
+        logoutLink.addEventListener("click", () => {
+            localStorage.removeItem("accessToken");
+            window.location.href = "login.html";
+        });
+    }
+
     const bar = document.getElementById('bar');
     const close = document.getElementById('close');
     const nav = document.getElementById('navbar');
@@ -103,13 +113,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
-
-const logoutLink = document.getElementById("logout");
-// Add event listener to logout link
-// When clicked, it will clear the access token and redirect to the login
-if (logoutLink) {
-    logoutLink.addEventListener("click", () => {
-        localStorage.removeItem("accessToken");
-        window.location.href = "login.html";
-    });
-}
