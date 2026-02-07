@@ -1,8 +1,6 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
-const bundleDetailsSave = new Map();
-
 //to be used for the catalog
 const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
@@ -110,8 +108,7 @@ async function loadBundles(){
 
         for (let i = 0; i<bundles.length; i++){
             const b = bundles[i];
-            const details = await getBundleDetails(b.bundleId);
-            createBundleCard(b, bundleCarousel, details);
+            createBundleCard(b, bundleCarousel);
         }
     } catch(error){
         console.error(error);
@@ -132,7 +129,7 @@ async function loadBundles(){
  *
  * @param {*} bundle
  */
-function createBundleCard(bundle, targetCarousel, details) {
+function createBundleCard(bundle, targetCarousel) {
   const card = document.createElement("div");
   card.className = "bundleCard";
 
@@ -140,42 +137,43 @@ function createBundleCard(bundle, targetCarousel, details) {
   const name = bundle.bundleName;
   const category = bundle.category;
   const price = bundle.price;
+  const startDate = bundle.collectionStart;
+  const endDate = bundle.collectionEnd;
+  const allergies = bundle.allergens;
 
   //if cant find the details set default texts
   let pickupText = "Not available";
   let allergyText = "None listed";
 
-  if (details) {
     //pickup times
-    if (details.collectionStart && details.collectionEnd) {
-      const start = new Date(details.collectionStart);
-      const end = new Date(details.collectionEnd);
+    if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
 
-      //format to readable string
-      const readableStart = start.toLocaleString("en-GB", {
+        //format to readable string
+        const readableStart = start.toLocaleString("en-GB", {
         day: "numeric",
         month: "short",
         hour: "2-digit",
         minute: "2-digit",
-      });
+        });
 
-      //again for end time
-      const readableEnd = end.toLocaleString("en-GB", {
+        //again for end time
+        const readableEnd = end.toLocaleString("en-GB", {
         hour: "2-digit",
         minute: "2-digit",
-      });
-      //set pickup text
-      pickupText = `${readableStart} - ${readableEnd}`;
+        });
+        //set pickup text
+        pickupText = `${readableStart} - ${readableEnd}`;
     }
 
     // allergies
-    const a = details.allergies;
+    const a = allergies;
     if (Array.isArray(a) && a.length > 0) {
-      allergyText = a.join(", ");
+        allergyText = a.join(", ");
     } else if (typeof a === "string" && a.trim() !== "") {
-      allergyText = a;
+        allergyText = a;
     }
-  }
   //create card in HTML
   card.innerHTML = `
     <h3>${name}</h3>
@@ -259,10 +257,9 @@ async function loadCompanyBundles(){
         //add bundles for this vendor
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
-            const details = await getBundleDetails(bundle.bundleId);
             //check the name using the pattern in the bundle description
             if (bundle.bundleName && bundle.bundleName.startsWith(vendorName + " ")){
-                createBundleCard(bundle, carousel, details);
+                createBundleCard(bundle, carousel);
             }
         }
 
@@ -334,26 +331,3 @@ cancelReserveBtn.addEventListener("click", function(){
     reservePopup.close();
 });
 
-async function getBundleDetails(bundleId) {
-    if (bundleDetailsSave.has(bundleId)) {
-        return bundleDetailsSave.get(bundleId);
-    }
-    
-    try {
-        const response = await apiGet("/bundles/detailed/" + bundleId);
-
-        if (!response.ok) {
-            console.error("Could not get bundle details");
-            bundleDetailsSave.set(bundleId, null);
-            return null;
-        }
-
-        const bundle = await response.json();
-        bundleDetailsSave.set(bundleId, bundle);
-        return bundle;
-    } catch (err) {
-        console.error(err);
-        bundleDetailsSave.set(bundleId, null);
-        return null;
-    }
-}
