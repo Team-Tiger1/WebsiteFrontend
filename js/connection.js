@@ -30,7 +30,7 @@ export async function apiPost(url, data, options = {}) {
     options.method = "POST";
     options.headers = {}
 
-    Add access token
+    // Add access token
     options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
 
     //Addig headers
