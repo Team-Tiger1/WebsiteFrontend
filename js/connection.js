@@ -28,14 +28,19 @@ export async function apiGet(url, options = {}) {
 
 export async function apiPost(url, data, options = {}) {
     options.method = "POST";
-    options.headers = {}
+    // options.headers = {}
 
     //Add access token
-    options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
+    // options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
 
-    //Addig headers
-    options.headers["Content-Type"] = "application/json";
-    options.headers["Accept"] = "application/json";
+    // //Addig headers
+    // options.headers["Content-Type"] = "application/json";
+    // options.headers["Accept"] = "application/json";
+    options.headers = {
+        "Authorization": "Bearer " + localStorage.getItem("accessToken"),
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    };
 
     //Add Data to body
     options.body = JSON.stringify(data);
