@@ -76,12 +76,7 @@ form.addEventListener("submit", async (e) => {
     };
     //attempt post 
     try {
-        const res = await apiPost("/bundles", bundleData, {
-            header: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        });
+        const res = await apiPost("/bundles", bundleData);
 
         if (!res.ok) {
         const text = await res.text();

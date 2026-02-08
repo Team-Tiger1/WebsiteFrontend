@@ -33,6 +33,10 @@ export async function apiPost(url, data, options = {}) {
     //Add access token
     options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
 
+    //Addig headers
+    options.headers["Content-Type"] = "application/json";
+    options.headers["Accept"] = "application/json";
+
     //Add Data to body
     options.body = JSON.stringify(data);
 
