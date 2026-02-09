@@ -1,0 +1,93 @@
+/* Page container */
+.create-products {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Form layout */
+.product-form {
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 24px;
+  border: 1px solid #e6e6e6;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.form-group textarea {
+  resize: vertical;
+}
+
+/* Products list */
+#productsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* Single product row */
+.product-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+/* Product info (name + meta) */
+.product-info strong {
+  display: block;
+  font-size: 14px;
+}
+
+.product-info p {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: #666666;
+}
+
+/* Quantity input */
+.qty-input {
+  width: 70px;
+  padding: 6px;
+  text-align: center;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Submit button */
+.primary-btn {
+  margin-top: 20px;
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+/* Message text */
+#bundleMsg {
+  margin-top: 12px;
+  font-size: 13px;
+}
