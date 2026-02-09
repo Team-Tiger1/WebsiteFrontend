@@ -30,13 +30,31 @@ async function loadVendorsProducts(){
         label.className = "product-item";
 
     
+        // label.innerHTML = `
+        //     <input type="checkbox" name="bundleProducts" value="${product.id}">
+        //     <div class="product-info">
+        //         <strong>${product.name}</strong>
+        //         <p class="text-muted">£${product.retailPrice} • ${product.weight}g</p>
+        //     </div>
+        // `;
         label.innerHTML = `
-            <input type="checkbox" name="bundleProducts" value="${product.id}">
             <div class="product-info">
                 <strong>${product.name}</strong>
                 <p class="text-muted">£${product.retailPrice} • ${product.weight}g</p>
             </div>
+
+            <input
+                class="qty-input"
+                type="number"
+                min="0"
+                step="1"
+                value="0"
+                inputmode="numeric"
+                data-product-id="${product.id}"
+                aria-label="Quantity for ${product.name}"
+            />
         `;
+
         productsList.appendChild(label);
     } 
 }
@@ -53,8 +71,20 @@ form.addEventListener("submit", async (e) => {
     const collectionEnd = document.getElementById("collectionEnd").value;
 
     //collect all checked products 
-    const productSelected = document.querySelectorAll ('input[name="bundleProducts"]:checked');
-    const productList = Array.from(productSelected).map(cb=> cb.value);
+    // const productSelected = document.querySelectorAll ('input[name="bundleProducts"]:checked');
+    // const productList = Array.from(productSelected).map(cb=> cb.value);
+    const qtyInputs = document.querySelectorAll("#productsList .qty-input");
+    const productList = [];
+
+    qtyInputs.forEach((input) => {
+        const id = input.dataset.productId;
+        const qty = parseInt(input.value, 10) || 0;
+
+        for (let i = 0; i < qty; i++) {
+            productList.push(id); // push same id multiple times
+        }
+    });
+
 
     if (!name) return (msg.textContent = "Enter a bundle name");
     if (!description) return (msg.textContent = "Enter a description");
@@ -87,8 +117,11 @@ form.addEventListener("submit", async (e) => {
         form.reset();
 
         // uncheck all checkboxes after reset 
-        const allChecks = document.querySelectorAll('input[name="bundleProducts"]');
-        allChecks.forEach(cb => (cb.checked = false));
+        // const allChecks = document.querySelectorAll('input[name="bundleProducts"]');
+        // allChecks.forEach(cb => (cb.checked = false));
+        const allQty = document.querySelectorAll("#productsList .qty-input");
+        allQty.forEach((i) => (i.value = 0));
+
     } catch (err) {
         console.error(err);
         msg.textContent = err.message || "network failure";
