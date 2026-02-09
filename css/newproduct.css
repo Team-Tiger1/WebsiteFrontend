@@ -82,28 +82,33 @@
   margin: 6px 0 0;
   color: #666;
 }
-
-/*  allergies checkbox grid  */
-.checkbox-grid {
+/* allegry table  */
+.allergy-table {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px 14px;
-  padding: 10px 0 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 8px;
 }
 
-.checkbox-grid label {
+.allergy-table label {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border: 1px solid #eee;
-  border-radius: 10px;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid #e2e2e2;
+  border-radius: 6px;
+  background-color: #fafafa;
   cursor: pointer;
+  font-size: 14px;
 }
 
-.checkbox-grid input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
+.allergy-table label:hover {
+  background-color: #f0f7f7;
+  border-color: #8ccfd6;
+}
+
+.allergy-table input[type="checkbox"] {
+  accent-color: #8ccfd6;
 }
 
 /* mobile */
