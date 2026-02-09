@@ -1,0 +1,121 @@
+
+
+/* page layout */
+.newproduct-page {
+  margin: 20px auto;
+  max-width: 900px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  flex: 1;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* header */
+.newproduct-header h2 {
+  margin: 0 0 6px;
+}
+
+.newproduct-header .text-muted {
+  margin: 0 0 16px;
+  color: #666;
+}
+
+/* section title */
+.create-products h3 {
+  margin: 0 0 14px;
+}
+
+/* form layout */
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+/* inputs + textarea */
+.product-form input[type="text"],
+.product-form input[type="number"],
+.product-form textarea,
+.product-form select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #e6e6e6;
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  background: #fff;
+}
+
+.product-form input:focus,
+.product-form textarea:focus,
+.product-form select:focus {
+  border-color: #8fcbd3;
+  box-shadow: 0 0 0 3px rgba(143, 203, 211, 0.25);
+}
+
+/* button  */
+.primary-btn {
+  background-color: #8fcbd3;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+  color: white;
+  width: fit-content;
+}
+
+.primary-btn:hover {
+  background-color: #76b6be;
+}
+
+/* message under button */
+#productMsg {
+  margin: 6px 0 0;
+  color: #666;
+}
+
+/*  allergies checkbox grid  */
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 14px;
+  padding: 10px 0 0;
+}
+
+.checkbox-grid label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.checkbox-grid input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+/* mobile */
+@media (max-width: 600px) {
+  .newproduct-page {
+    max-width: 100%;
+    width: 100%;
+    margin: 12px 0;
+    padding: 12px;
+  }
+
+  .checkbox-grid {
+    grid-template-columns: 1fr;
+  }
+}
