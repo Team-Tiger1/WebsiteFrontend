@@ -14,3 +14,11 @@
     text-align: center;
     margin: 18px 0 10px;
 }
+
+#forecastResult{
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+}

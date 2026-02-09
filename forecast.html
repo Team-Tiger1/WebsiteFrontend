@@ -5,14 +5,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Last Fork</title>
   <link rel="stylesheet" href="css/styles.css" />
-    <link rel="stylesheet" href="css/headerFooter.css" />
+  <link rel="stylesheet" href="css/forecast.css" />
+  <link rel="stylesheet" href="css/headerFooter.css" />
 </head>
 <body>
     <div id="header"></div>
 
     <main>
-        <h3>This is the page where we will display the forecast for product purchases</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum enim in ducimus consequuntur adipisci, veritatis at. Iste provident deleniti est veritatis architecto repellat, aliquam fuga illo atque possimus voluptatibus. Ratione.</p>
+        <h1>Forecast</h1>
+        <p>Select a Bundle you would like to see the forecast for:</p>
+        <select id="bundleSelect">
+            <option value="">--Please choose an option--</option>
+        </select>
+        <button id="getForecast">Get Forecast</button>
+        <p id="errMsg"></p>
+        <pre id="forecastResult"></pre>
     </main>
 
     <div id="footer"></div>
