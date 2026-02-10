@@ -21,9 +21,41 @@
 //     `;
 //   }
 
-loadSummaryBoxes();
+// loadSummaryBoxes();
 
-import {apiGet, apiPost} from "./connection.js";
-import {isAuthenticated} from "./auth.js";
+// import {apiGet, apiPost} from "./connection.js";
+// import {isAuthenticated} from "./auth.js";
 
-await isAuthenticated("VENDOR");
+// await isAuthenticated("VENDOR");
+import { apiGet } from "./connection.js";
+
+// runs as soon as dashboard loads
+testGetVendorReservations();
+
+async function testGetVendorReservations() {
+  try {
+    const res = await apiGet("/reservations/vendor");
+
+    console.log("GET /reservations/vendor status:", res.status);
+
+    // If backend returns non-JSON errors sometimes, this helps debugging:
+    const contentType = res.headers.get("content-type") || "";
+    console.log("content-type:", contentType);
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      console.log("Error body:", text);
+      return;
+    }
+
+    if (contentType.includes("application/json")) {
+      const data = await res.json();
+      console.log("Reservations JSON:", data);
+    } else {
+      const text = await res.text();
+      console.log("Non-JSON body:", text);
+    }
+  } catch (err) {
+    console.error("Network error calling /reservations/vendor:", err);
+  }
+}
