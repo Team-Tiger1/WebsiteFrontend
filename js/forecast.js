@@ -15,14 +15,23 @@ const forecastResult = document.getElementById("forecastResult");
  */
 async function loadBundlesSelect() {
     try{
-    const response = await apiGet("/bundles");
+    const vendorInfo = await apiGet("/vendor/me");
+    //if there is an error with the response, display an error message and return
+    if (!vendorInfo.ok) {
+        errMsg.textContent = "An error occurred while loading vendor details";
+        bundleSelect.innerHTML = "<option value=''>No bundles available</option>";
+        return;
+    }
+    //get the vendor and extract the vendorId, then use the vendorId to get the bundles for that vendor
+    const vendor = await vendorInfo.json();
+    const vendorId = vendor.vendorId;
+    const response = await apiGet("/bundles/vendor/" + vendorId);
     //if there is an error with the response, display an error message and return
     if (!response.ok) {
         errMsg.textContent = "An error occurred while loading bundles.";
         bundleSelect.innerHTML = "<option value=''>No bundles available</option>";
         return;
     }
-
     const bundles = await response.json();
 
     bundleSelect.innerHTML = "<option value=''>Please choose an option</option>";
