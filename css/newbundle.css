@@ -73,7 +73,7 @@
   background: #fafafa;
 }
 
-/* Product info (name + meta) */
+
 .product-info strong {
   display: block;
   font-size: 14px;
@@ -85,7 +85,7 @@
   color: #666666;
 }
 
-/* Quantity input */
+/* qantity input */
 .qty-input {
   width: 70px;
   padding: 6px;
@@ -95,7 +95,7 @@
   font-size: 14px;
 }
 
-/* Submit button */
+/* submit button */
 .primary-btn {
   margin-top: 20px;
   padding: 12px 20px;
@@ -103,7 +103,7 @@
   border-radius: 4px;
 }
 
-/* Message text */
+/* message text */
 #bundleMsg {
   margin-top: 12px;
   font-size: 13px;
