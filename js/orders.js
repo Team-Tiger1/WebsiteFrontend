@@ -99,10 +99,6 @@ function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleNa
       ${bundleName ?? "-"}
     </td>
 
-    <td style="padding: 12px; border-top: 1px solid #ffffff;" title="${reservationId}">
-      ${reservationId ? reservationId.slice(0, 8) + "..." : "-"}
-    </td>
-
     <td style="padding: 12px; border-top: 1px solid #ffffff;">
       ${pickupTime}
     </td>
