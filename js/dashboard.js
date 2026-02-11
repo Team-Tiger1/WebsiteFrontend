@@ -256,6 +256,7 @@ async function loadVendorReservations() {
 
     
   }
+  wireUpCompleteButtons();
 }
 
   //load the claim code for reservation 
