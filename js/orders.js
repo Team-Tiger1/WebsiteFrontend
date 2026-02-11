@@ -17,14 +17,14 @@ async function loadOrders() {
     let response;
     try {
 
-        response = await apiGet("/reservations");
+        response = await apiGet("/reservations?status=RESERVED");
 
     } catch (err) {
         console.error(err);
         return;
     }
 
-    // if access token expires or they dont have one... log out
+    // if access token expires or they don't have one... log out
     if (response.status === 401) {
         localStorage.removeItem("accessToken");
         window.location.href = "login.html"
