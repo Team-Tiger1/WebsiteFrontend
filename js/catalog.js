@@ -246,8 +246,9 @@ async function loadCompanyBundles(){
     
     //loop through each vendor and create their section
     for(let i = 0; i<vendors.length; i++){
-        //create section for each vendor
+        //create section for each vendor and collect the information each loop
         const vendorName = vendors[i].vendorName;
+        const vendorId = vendors[i].vendorId;
         const section = document.createElement("section");
         const h3 = document.createElement("h3");
         h3.textContent = vendorName;
@@ -258,7 +259,7 @@ async function loadCompanyBundles(){
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
             //check the name using the pattern in the bundle description
-            if (bundle.bundleName && bundle.bundleName.startsWith(vendorName + " ")){
+            if (bundle.vendorId === vendorId){
                 createBundleCard(bundle, carousel);
             }
         }
