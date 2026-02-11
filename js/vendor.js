@@ -98,19 +98,28 @@ function renderBundles(bundleContainer, bundleList) {
     for (let i = 0; i < bundleList.length; i++) {
 
         const bundleJson = bundleList[i];
-        // const allergies = bundleJson.allergies;
-        // let allergyHtml = ``;
-        // for (let j = 0; j < allergies.length; j++) {
-        //     allergyHtml += `<p>${allergyHtml}</p>`;
-        // }
+        const allergies = bundleJson.allergens;
+        let allergyHtml = ``;
+        if(allergies.length > 0){
+            allergyHtml += `<div class="allergens">`;
+            for (let j = 0; j < allergies.length; j++) {
+                allergyHtml += `<p>${capitalizeString(allergies[j])}</p>`;
+            }
+            allergyHtml += `</div>`
+        }
 
         let html =
             `
             <div class="bundle" data-id="${bundleJson.bundleId}">
                 <div class="bundle-header">
-                  <div class="bundle-element">
-                    <p>${bundleJson.bundleName}</p>
-                    <p class="category ${bundleJson.category}"">${categoryNameMap[bundleJson.category]}</p>
+                  <div class="column">
+                      <div class="bundle-element">
+                        <p>${bundleJson.bundleName}</p>
+                        <p class="category ${bundleJson.category}"">${categoryNameMap[bundleJson.category]}</p>
+                      </div>
+                      
+                        ${allergyHtml}
+                      
                   </div>
                   <div class="bundle-element">
                     <p>£${bundleJson.price.toFixed(2)}</p>
@@ -203,4 +212,9 @@ function renderBundles(bundleContainer, bundleList) {
     }
 
 
+}
+
+function capitalizeString (string) {
+    string = string.toLowerCase();
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }

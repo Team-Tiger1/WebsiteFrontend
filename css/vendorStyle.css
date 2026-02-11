@@ -180,3 +180,22 @@
 .retail-price p {
     font-weight: bold;
 }
+
+.column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.allergens {
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+.allergens p {
+    background-color: grey;
+    color: whitesmoke;
+    font-size: 12px;
+    border-radius: 5px;
+    padding: 5px;
+}
