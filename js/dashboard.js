@@ -106,7 +106,7 @@ async function loadVendorReservations() {
 
     const tr = document.createElement("tr");
     tr.innerHTML = `
-      <td>${escapeHtml(r.bundleName ?? "-")}</td>
+      <td>${(r.bundleName ?? "-")}</td>
       <td>${pickupWindow}</td>
       <td>Pending</td>
       <td>${r.reservationId ? r.reservationId.slice(0, 8) + "..." : "-"}</td>
