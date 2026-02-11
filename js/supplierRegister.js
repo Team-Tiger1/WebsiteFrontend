@@ -2,6 +2,8 @@ import {apiPost} from "./connection.js";
 import {refreshAccessToken} from "./auth.js";
 import { API_URL } from "./config.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
 const API = API_URL;
@@ -14,8 +16,8 @@ form.addEventListener("submit", async (event) => {
     const postcode = document.getElementById("postcode-input").value.trim();
     const description = document.getElementById("description-input").value.trim();
     const phoneNumber = document.getElementById("number-input").value.trim();
-    const email = document.getElementById("email-input").value.trim();
-    const category = document.getElementById("category-input").value.trim();
+    const email = document.getElementById("email-input").value.trim().toLowerCase();
+    const category = document.getElementById("category-input").value.trim().toUpperCase();
     const password = document.getElementById("password-input").value;
     const repeatPassword = document.getElementById("repeat-password-input").value;
 
@@ -68,3 +70,4 @@ form.addEventListener("submit", async (event) => {
         msg.textContent = "Network failure";
     });
     });
+});

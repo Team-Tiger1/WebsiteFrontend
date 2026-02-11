@@ -9,15 +9,22 @@
     <link rel="stylesheet" href="css/headerFooter.css"/>
     <link rel="stylesheet" href="css/catalog.css"/>
 </head>
-<body>
+<body class="catalog-page">
 
 <!--Header-->
 <div id="header"></div>
+<div class="pageWrap">
 <!--Carousel holds all companies which are clickable to access company page-->
  <h2>Companies</h2>
     <div class="carrousel" id="vendorCarousel">
     <!-- will be populated by the backend-->
     </div>
+<section class="streakBanner">
+    <div class="streak-card">
+        <p class="streakHeader">Your current food saved streak is</p>
+        <p class="streak">0 weeks!</p>
+    </div>
+</section>
 
 <h2>Bundles</h2>
 <div id="bundleCarousel" class="bundle-carousel">
@@ -27,6 +34,7 @@
 <h2>Bundles By Company</h2>
 <div id="companyBundles">
     <!-- will be populated by the backend-->
+
 </div>
 
 <main>
@@ -35,6 +43,16 @@
     </section>
 </main>
 
+<dialog id="reservePopup">
+    <h3>Confirm Reservation</h3>
+    <p id="reserveDetails"></p>
+    <div class="reservationBtn">
+        <button id="confirmReserveBtn">Confirm</button>
+        <button id="cancelReserveBtn">Cancel</button>
+    </div>
+</dialog>
+
+</div>
 <!--Footer-->
 <div id="footer"></div>
 

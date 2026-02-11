@@ -1,3 +1,12 @@
+html, body {
+  width: 100%;
+}
+
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 h1{
     text-align: center;
 }
@@ -45,7 +54,7 @@ button:hover {
     display: flex;
     gap: 16px;
     overflow-x: auto;
-    padding: 10px 0 20px;
+    padding: 12px 6px 20px;
   }
   
 .bundleCard{
@@ -74,14 +83,14 @@ button:hover {
     scroll-behavior: smooth;
     grid-auto-columns: 240px;
     grid-auto-rows: 110px;
-    gap: 1.2rem;
+    gap: 16px;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
-    padding: 1rem;
+    padding: 12px 6px;
 }
 
 .company {
@@ -118,10 +127,12 @@ button:hover {
 }
 
 #companyBundles section{
-    margin-bottom: 40px;
-    
+    margin-bottom: 18px;
 }
 
+#companyBundles h3{
+    margin: 10px 0 8px;
+}
 /* Category */
 .bundleCard .category{
     margin-left: 10px;
@@ -177,4 +188,157 @@ button:hover {
 
 .DRINKS_BEVERAGES {
     background-color: #9C27B0;
+}
+
+/*Streak banner*/
+
+.streakBanner {
+    width: 100%;
+    max-width: 1000px;
+    margin: 16px auto 10px;
+    padding: 24px 0;
+    box-sizing: border-box;
+}
+
+.streak-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    align-items: center;
+}
+
+.steakHeader {
+    margin: 0;
+    font-size: 24px;
+    margin-bottom: 10px;
+    content: black;
+}
+
+.streak{
+    margin: 10px 0 0;
+    font-size: 48px;
+    font-weight: bold;
+    color: #2E7D32;
+}
+
+.catalog-page{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    color: #222;
+}
+
+.pageWrap{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.pageWrap h2{
+    text-align: center;
+    margin: 18px 0 10px;
+}
+
+/* resevervation popup */
+#reservePopup{
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 20px;
+    width: 300px;
+    /*Centering the pop up*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#reservePopup h3{
+    margin-top: 0;
+    text-align: center;
+}
+
+.reservationBtn{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+@media (max-width: 600px){
+    .pageWrap{
+        max-width: 100%;
+        width: 100%;
+        padding: 0 12px;
+        margin: 0;
+    }
+
+    main{
+        max-width: 100%;
+        width: 100%;
+        margin: 12px 0;
+        padding: 12px;
+    }
+
+    .streakBanner {
+        margin: 12px auto;
+        padding: 12px 0;
+        display: block;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .streak-card {
+        width: 100%;
+        padding: 16px;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+
+    .streakHeader {
+        font-size: 20px;
+    }
+
+    .streakCount{
+        font-size: 36px;
+    }
+    
+    .carrousel{
+        -webkit-overflow-scrolling: touch;
+        padding: 12px;
+    }
+
+      .bundle-carousel{
+        gap: 12px;
+        padding: 12px 16px;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .bundleCard{
+        flex: 0 0 85%;
+        width: 85%;
+        min-width: unset;
+        scroll-snap-align: start;
+        overflow: hidden;
+    }
+
+    #companyBundles .bundle-carousel:has(> :only-child) > .bundleCard {
+        flex: 0 0 100%;
+        width: 100%;
+    }
+
+    .company{
+        width: auto;
+        min-width: 0;
+        scroll-snap-align: start;
+        padding: 12px 14px;
+        min-height: 90px;
+    }
+
+    .pageWrap h2{
+        margin: 12px 0 8px;
+    }
+
 }

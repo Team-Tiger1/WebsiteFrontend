@@ -1,3 +1,14 @@
+html, body {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+
+
 .navbar-logo {
     display: flex;
     align-items: center;
@@ -6,13 +17,14 @@
 
 .navbar {
     position: sticky;
+    background-color: rgb(60, 109, 63);
     top: 0;
     left: 0;
+    width: 100%;
 }
 
 .navbar ul {
     list-style-type: none;
-    background-color: rgb(60, 109, 63);
     padding: 0;
     margin: 0;
     overflow: hidden;
@@ -21,6 +33,8 @@
     align-items: center;
     justify-content: space-between;
     gap: 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .navbar li a {
@@ -40,7 +54,9 @@
     color: rgb(246, 246, 246);
 }
 
-.navbar li a:hover::after {
+.navbar li a.active::after,
+.navbar li a:hover::after{
+    content: "";
     width: 30%;
     height: 2px;
     background-color: white;
@@ -68,11 +84,11 @@
 }
 
 #navbar {
-    padding-right: 40px;
+    padding-right: 0px;
 }
 
-/* making page responsive */
-@media (max-width:1200px) {
+/* making page responsive
+@media (max-width:700px) {
     #navbar{
         display: flex;
         flex-direction: column;
@@ -126,6 +142,25 @@
         color: black;
         font-size:  24px;
         display: initial;
+    }
+} */
+@media (max-width: 700px){
+    .navbar ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .navbar a {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .navbar-logo {
+        margin-right: 0;
+    }
+
+    .navbar ul li:first-child {
+        margin-right: 0;
     }
 }
 

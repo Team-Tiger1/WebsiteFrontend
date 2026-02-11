@@ -17,6 +17,7 @@ function addHeader() {
         <li><a href="manage.html">Manage Pickups</a></li>
         <li><a href="analytics.html">Analytics</a></li>
         <li><a href="forecast.html">Forecast</a></li>
+        <li><a href="#" id="logout">Log Out</a></li>
 
 
         <a href="#" id="close"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -45,17 +46,19 @@ function addFooter() {
 
     <div class="col">
       <h4>About</h4>
-      <a href="#">About us</a>
-      <a href="#">Delivery Information</a>
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms and Conditions</a>
-      <a href="#">Contact Us</a>
+      <a href="foodSafety.html">Food Safety & Allergies</a>
+      <a href="deliveryInformation.html">Delivery Information</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms and Conditions</a>
+      <a href="cookies.html">Cookies</a>
+      <a href="accessibility.html">Accessibility Statement</a>
+      <a href="licencing.html">Licencing</a>
     </div>
 
     <div class="col">
       <h4>My Account</h4>
       <a href="orders.html">View Orders</a>
-      <a href="#">Help</a>
+      <a href="report.html">Help</a>
     </div>
 
     <div class="copyright">
@@ -77,6 +80,16 @@ document.addEventListener("DOMContentLoaded", () => {
     if(footer != null) {
         footer.innerHTML = addFooter();
     }
+
+    const logoutLink = document.getElementById("logout");
+    // Add event listener to logout link
+    // When clicked, it will clear the access token and redirect to the login
+    if (logoutLink) {
+        logoutLink.addEventListener("click", () => {
+            localStorage.removeItem("accessToken");
+            window.location.href = "supplierLogin.html";
+        });
+    } 
 
     const bar = document.getElementById('bar');
     const close = document.getElementById('close');

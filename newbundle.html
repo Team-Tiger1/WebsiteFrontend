@@ -6,13 +6,101 @@
   <title>The Last Fork</title>
   <link rel="stylesheet" href="css/styles.css"/>
     <link rel="stylesheet" href="css/headerFooter.css">
+    <link rel="stylesheet" href="css/newbundle.css">
 </head>
 <body>
    <div id="header"></div>
 
-    <main>
-        <h3>This is the page where we will allow for companies to create product bundles that can be purchased by users</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum enim in ducimus consequuntur adipisci, veritatis at. Iste provident deleniti est veritatis architecto repellat, aliquam fuga illo atque possimus voluptatibus. Ratione.</p>
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <h2>Create Bundle</h2>
+            <p class="text-muted">Build a bundel from your products</p>
+        </header>
+
+        <section class="create-products">
+            <h3>Add a new bundle</h3>
+
+            <form class="product-form" id="createBundleForm">
+                <!-- bundle name -->
+                <div class="form-group">
+                    <label for="bundleName">Bundle Name</label>
+                    <input
+                        type="text"
+                        id="bundleName"
+                        placeholder="Enter Bundle Name Here"
+                        required>
+                </div>
+                <!-- description -->
+                 <div class="form-group">
+                    <label for="bundleDescription">Description</label>
+                    <textarea
+                        id="bundleDescription"
+                        rows="3"
+                        placeholder="notes for customers"
+                        required></textarea>
+                </div>
+                <!-- price users will pay -->
+                <div class="form-group">
+                    <label for="bundlePrice">Bundle Price</label>
+                    <input
+                        type="number"
+                        id="bundlePrice"
+                        step="0.01"
+                        min="0"
+                        placeholder="how much customers pay"
+                        required>
+                </div>
+
+                <!-- category -->
+                 <div class="form-group">
+                    <label for="bundleCategory">Category</label>
+                    <select id="bundleCategory" required>
+                        <option value="BREAD_BAKED_GOODS">Bread Baked Goods</option>
+                        <option value="SWEET_TREATS_DESSERTS">Sweet Treats Dessert</option>
+                        <option value="MEAT_PROTEIN">Meat Protien</option>
+                        <option value="FRUIT_VEGETABLES">Fruit Vegetables</option>
+                        <option value="DAIRY_EGGS">Dairy Eggs</option>
+                        <option value="READY_MEALS_HOT_FOOD">FReady Meals (Hot Food)</option>
+                        <option value="SNACKS_SAVOURY_ITEMS">Savoury Snacks Items</option>
+                        <option value="BREAKFAST_ITEMS">Breakfast Items</option>
+                        <option value="VEGAN_VEGETARIAN">Vegan Vegetarian</option>
+                        <option value="DRINKS_BEVERAGES">Drinks Beverages</option>
+                    </select>
+                </div>
+
+                <!-- start time for customer collection  -->
+                <div class="form-group">
+                    <label for="collectionStart">Collection Start</label>
+                    <input type="datetime-local" id="collectionStart" 
+                    required>
+                </div>
+                <!-- end time  -->
+                <div class="form-group">
+                    <label for="collectionEnd">Collection End</label>
+                    <input type="datetime-local" id="collectionEnd" required>
+                </div>
+
+                <!-- list of products  -->
+                <div class="form-group">
+                    <label>Your products</label>
+
+                    
+                    <div id="productsList" class="checkbox-grid">
+                        <p class="text-muted">select the products you want in the bundle</p>
+                    </div>
+                </div>
+
+                <!-- create bundle button  -->
+                <button type="submit" class="primary-btn">
+                    Create bundle
+                </button>
+
+                <!-- error message -->
+                <p id="bundleMsg" class="text-muted"></p>
+
+            </form>
+
+        
     </main>
 
 
@@ -20,5 +108,6 @@
 
     <script type="module" src="js/script.js"></script>
     <script type="module" src="js/vendorHeaderFooter.js"></script>
+    <script type="module" src="js/newbundle.js"></script>
 </body>
 </html>

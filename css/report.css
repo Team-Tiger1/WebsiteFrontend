@@ -1,0 +1,24 @@
+.report-page{
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 12pt;
+    color: #222;
+}
+
+.pageWrap{
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.pageWrap h2{
+    text-align: center;
+    margin: 18px 0 10px;
+}
+
+#forecastResult{
+    background-color: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    white-space: pre-wrap;
+}

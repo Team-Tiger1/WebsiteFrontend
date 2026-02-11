@@ -6,6 +6,7 @@ const vendorCarousel = document.getElementById("vendorCarousel");
 const bundleCarousel = document.getElementById("bundleCarousel");
 const msg = document.getElementById("msg");
 const companyBundles = document.getElementById("companyBundles");
+const streak = document.querySelector(".streak");
 
 //category names to be displayed to users
 const categoryNameMap = {
@@ -31,6 +32,7 @@ await isAuthenticated("USER");
 await loadBundles();
 await loadVendorsIntoCarousel();
 await loadCompanyBundles();
+await getStreak();
 
 /**
  * Loads the list of vendors from the backend and displays them
@@ -105,7 +107,8 @@ async function loadBundles(){
         }
 
         for (let i = 0; i<bundles.length; i++){
-            createBundleCard(bundles[i], bundleCarousel);
+            const b = bundles[i];
+            createBundleCard(b, bundleCarousel);
         }
     } catch(error){
         console.error(error);
@@ -119,37 +122,78 @@ async function loadBundles(){
  * - bundle name
  * - price
  * - reserve button
+ * - allergies
+ * - pick up times
  *
  * When the reserve button is clicked it calls reserveBundle(param) with the bunlde ID as the paramater
  *
  * @param {*} bundle
  */
-function createBundleCard(bundle, targetCarousel){
-    const card = document.createElement("div");
-    card.className = "bundleCard";
+function createBundleCard(bundle, targetCarousel) {
+  const card = document.createElement("div");
+  card.className = "bundleCard";
 
-    //extracts the data about each bundle
-    const bundleId = bundle.bundleId;
-    const name = bundle.bundleName;
-    const category = bundle.category;
-    const price = bundle.price;
+  const bundleId = bundle.bundleId;
+  const name = bundle.bundleName;
+  const category = bundle.category;
+  const price = bundle.price;
+  const startDate = bundle.collectionStart;
+  const endDate = bundle.collectionEnd;
+  const allergies = bundle.allergens;
 
-    //creates bundle card from the data using HTML
-    card.innerHTML = `
+  //if cant find the details set default texts
+  let pickupText = "Not available";
+  let allergyText = "None listed";
+
+    //pickup times
+    if (startDate && endDate) {
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        //format to readable string
+        const readableStart = start.toLocaleString("en-GB", {
+        day: "numeric",
+        month: "short",
+        hour: "2-digit",
+        minute: "2-digit",
+        });
+
+        //again for end time
+        const readableEnd = end.toLocaleString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+        });
+        //set pickup text
+        pickupText = `${readableStart} - ${readableEnd}`;
+    }
+
+    // allergies
+    const a = allergies;
+    if (Array.isArray(a) && a.length > 0) {
+        allergyText = a.join(", ");
+    } else if (typeof a === "string" && a.trim() !== "") {
+        allergyText = a;
+    }
+  //create card in HTML
+  card.innerHTML = `
     <h3>${name}</h3>
-    <span class="category ${category}"> 
-    ${categoryNameMap[category] ?? category}
+    <span class="category ${category}">
+      ${categoryNameMap[category] ?? category}
     </span>
-    <p>${price !== undefined ? "£" + price : ""}</p>
-    <button class="reserveBtn">Reserve</button>`;
+    <p>${price !== undefined ? "£" + Number(price).toFixed(2) : ""}</p>
 
-    //the reserve button represents an event to reserve that bundle
-    const btn = card.querySelector(".reserveBtn");
-    btn.addEventListener("click", function(){
-        reserveBundle(bundleId);
-    });
-    //append into the carousel specified
-    targetCarousel.appendChild(card);
+    <p class="pickupTime">Pickup: ${pickupText}</p>
+    <p class="allergyInfo">Allergies: ${allergyText}</p>
+
+    <button class="reserveBtn">Reserve</button>
+  `;
+
+  const btn = card.querySelector(".reserveBtn");
+  btn.addEventListener("click", function () {
+    openReservePopup(bundleId, name);
+  });
+
+  targetCarousel.appendChild(card);
 }
 
 /**
@@ -202,8 +246,9 @@ async function loadCompanyBundles(){
     
     //loop through each vendor and create their section
     for(let i = 0; i<vendors.length; i++){
-        //create section for each vendor
+        //create section for each vendor and collect the information each loop
         const vendorName = vendors[i].vendorName;
+        const vendorId = vendors[i].vendorId;
         const section = document.createElement("section");
         const h3 = document.createElement("h3");
         h3.textContent = vendorName;
@@ -214,7 +259,7 @@ async function loadCompanyBundles(){
         for (let j = 0; j<bundles.length; j++){
             const bundle = bundles[j];
             //check the name using the pattern in the bundle description
-            if (bundle.bundleName && bundle.bundleName.startsWith(vendorName + " ")){
+            if (bundle.vendorId === vendorId){
                 createBundleCard(bundle, carousel);
             }
         }
@@ -227,3 +272,63 @@ async function loadCompanyBundles(){
         }
     }
 }
+
+/**
+ * Gets the user's current streak from the backend
+ * @returns 
+ */
+async function getStreak(){
+    try{
+        const response = await apiGet("/users/streak");
+
+        if(!response.ok){
+            console.error("Could not get streak");
+            return;
+        }
+
+        const data = await response.json();
+        const streakCount = data.streakCount || 0;
+
+        streak.textContent = `${streakCount} weeks!`;
+
+    } catch(err){
+        console.error(err);
+    }
+}
+
+
+//Reservation popup elements
+const reservePopup = document.getElementById("reservePopup");
+const reserveDetails = document.getElementById("reserveDetails");
+const confirmReserveBtn = document.getElementById("confirmReserveBtn");
+const cancelReserveBtn = document.getElementById("cancelReserveBtn");
+
+let selectedBundleId = null;
+
+/**
+ * Opens the reserve confirmation popup
+ * @param {*} bundleId 
+ * @param {*} bundleName 
+ */
+function openReservePopup(bundleId, bundleName){
+    selectedBundleId = bundleId;
+    reserveDetails.textContent = `Are you sure you want to reserve the bundle: ${bundleName}?`;
+    reservePopup.showModal();
+}
+
+/**
+ * Event listeners for the confirm and cancel buttons
+ * on the reserve popup message
+ */
+confirmReserveBtn.addEventListener("click", async function(){
+    if(selectedBundleId){
+        await reserveBundle(selectedBundleId);
+        reservePopup.close();
+    }
+});
+
+cancelReserveBtn.addEventListener("click", function(){
+    selectedBundleId = null;
+    reservePopup.close();
+});
+
