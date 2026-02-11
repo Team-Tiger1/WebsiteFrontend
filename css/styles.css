@@ -1,29 +1,29 @@
-h1{
+h1 {
     text-align: center;
 }
 
 
-.navbar{
+.navbar {
     position: sticky;
     top: 0;
     left: 0;
 }
 
-.navbar ul{
+.navbar ul {
     list-style-type: none;
     background-color: rgb(60, 109, 63);
     padding: 0px;
     margin: 0px;
     overflow: hidden;
     position: relative;
-    
+
 }
 
 .navbar li a {
     position: relative;
 }
 
-.navbar a{
+.navbar a {
     color: white;
     text-decoration: none;
     padding: 16px 20px;
@@ -32,12 +32,12 @@ h1{
     transition: 0.3s ease;
 }
 
-.navbar li a.active{
+.navbar li a.active {
     color: rgb(246, 246, 246);
 }
 
 .navbar li a.active::after,
-.navbar li a:hover::after{
+.navbar li a:hover::after {
     content: "";
     width: 30%;
     height: 2px;
@@ -47,12 +47,12 @@ h1{
     left: 20px;
 }
 
-.navbar li{
+.navbar li {
     float: left;
     position: relative;
 }
 
-body{
+body {
     margin: 0px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f7f7f7;
@@ -61,7 +61,7 @@ body{
     min-height: 100vh;
 }
 
-main{
+main {
     margin: 20px auto;
     max-width: 900px;
     background-color: white;
@@ -70,25 +70,25 @@ main{
     flex: 1;
 }
 
-button{
-    background-color: #8fcbd3; 
-    margin-left: 10px; 
-    border-radius: 8px; 
-    padding: 10px 16px; 
+button {
+    background-color: #8fcbd3;
+    margin-left: 10px;
+    border-radius: 8px;
+    padding: 10px 16px;
     margin-left: 10px;
     cursor: pointer;
 }
 
-button a{
-    color: white; 
-    font-weight: bold; 
-    font-size:  15px;
+button a {
+    color: white;
+    font-weight: bold;
+    font-size: 15px;
     text-decoration: none;
 }
 
 button:hover {
     background-color: #76b6be;
-  }
+}
 
 /* navdiv{
     display: flex;
@@ -99,14 +99,14 @@ button:hover {
 
 .navbar li.right {
     float: right;
-  }
+}
 
 .navbar li.search {
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    }
+}
 
 .navbar input {
     padding: 8px 14px;
@@ -115,9 +115,9 @@ button:hover {
     outline: none;
     width: 220px;
     font-size: 14px;
-    }
+}
 
-.navlogo a{
+.navlogo a {
     text-align: center;
     display: block;
     color: white;
@@ -126,12 +126,12 @@ button:hover {
     font-size: 22px;
 }
 
-.navlogo{
+.navlogo {
     background-color: rgb(60, 109, 63);
-    padding:  12px 0px;
+    padding: 12px 0px;
 }
 
-.carrousel{
+.carrousel {
     display: grid;
     grid-auto-flow: column;
     scroll-behavior: smooth;
@@ -156,39 +156,38 @@ button:hover {
     padding: 1.2rem;
     text-align: center;
     align-items: center;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     scroll-snap-align: start;
     cursor: grab;
     box-sizing: border-box;
 }
 
 
-.company:hover{
+.company:hover {
     outline-color: green;
 }
 
-.company:focus{
+.company:focus {
     outline-color: green;
 }
 
-#mobile{
+#mobile {
     display: none;
     align-items: center;
 }
 
-#close{
+#close {
     display: none;
 }
 
 
-
 /*login page */
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-.auth-page{
+.auth-page {
     font-family: 'Courier New', Courier, monospace;
     font-size: 12pt;
     color: #222;
@@ -201,20 +200,20 @@ button:hover {
     overflow: hidden;
 }
 
-.auth-page .wrapper{
+.auth-page .wrapper {
     background-color: white;
     height: 100vh;
     width: max(40%, 600px);
     padding: 10px;
     border-radius: 0 20px 20px 0;
-    box-sizing:  border-box;
+    box-sizing: border-box;
     display: flex;
-    flex-direction:  column;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
 
-.auth-page .logo-container{
+.auth-page .logo-container {
     min-height: 100vh;
     display: flex;
     /* justify-content: flex-start;
@@ -222,30 +221,30 @@ button:hover {
 }
 
 
-.auth-page h2{
+.auth-page h2 {
     font-size: 3rem;
     font-weight: 900;
     text-transform: uppercase;
 }
 
-.auth-page form{
+.auth-page form {
     width: min(400px, 100%);
     margin-top: 20px;
     margin-bottom: 50px;
     display: flex;
-    flex-direction:  column;
+    flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.auth-page form > div{
+.auth-page form > div {
     width: 100%;
     display: flex;
     justify-content: center;
 
 }
 
-.auth-page form label{
+.auth-page form label {
     flex-shrink: 0;
     height: 50px;
     width: 50px;
@@ -260,7 +259,7 @@ button:hover {
     font-weight: 500;
 }
 
-.auth-page form input{
+.auth-page form input {
     box-sizing: border-box;
     flex-grow: 1;
     min-width: 0;
@@ -274,176 +273,186 @@ button:hover {
     transition: 100ms ease;
 }
 
-.auth-page form input:hover{
+.auth-page form input:hover {
     border-color: green;
 }
 
-.auth-page form input::placeholder{
+.auth-page form input::placeholder {
     color: black;
 }
 
-.auth-page form button{
+.auth-page form button {
     text-transform: uppercase;
     padding: .85em 4em;
     cursor: pointer;
     transition: 100ms ease;
 }
 
-.auth-page form button:hover{
+.auth-page form button:hover {
     background-color: rgb(198, 51, 34);
 }
 
-.auth-page form button:focus{
+.auth-page form button:focus {
     outline: none;
     background-color: black;
 }
-.auth-page a{
+
+.auth-page a {
     text-decoration: none;
     color: green;
 }
-.auth-page a:hover{
+
+.auth-page a:hover {
     text-decoration: underline;
 }
 
-@media(max-width: 1100px){
-    .auth-page .wrapper{
+@media (max-width: 1100px) {
+    .auth-page .wrapper {
         width: min(600px, 100%);
         border-radius: 0;
-    }   
+    }
 }
 
-.auth-page form div.incorrect label{
+.auth-page form div.incorrect label {
     background-color: red;
 }
-.auth-page form div.incorrect input{
+
+.auth-page form div.incorrect input {
     border-color: red;
 }
 
 /* dashboard */
 .dashboard {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 30px 16px 60px;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 16px 60px;
 }
 
 .dashboard-header h2 {
-  margin: 0;
+    margin: 0;
 }
 
 .text-muted {
-  opacity: 0.7;
+    opacity: 0.7;
 }
 
 /* summary boxes */
 
 .summary-boxes {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  margin: 20px 0 30px;
+    display: flex;
+    justify-content: center;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 20px 0 30px;
 }
 
 .summary-box {
-  background: #ffffff;
-  padding: 22px;
-  border-radius: 16px;
-  border: 1px solid #e6e6e6;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  border-top: 5px solid #3f6f4e;
-  
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 16px;
+    border: 1px solid #e6e6e6;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-top: 5px solid #3f6f4e;
+    min-width: 170px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
+
 /* adding a hover */
 .summary-box:hover {
     transform: translateY(-4px);
-    box-shadow: 0 14px 30px rgba(0,0,0,0.018);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.018);
 }
 
 .summary-title {
-  font-size: 14px;
-  opacity: 0.75;
-  margin: 0;
+    font-size: 14px;
+    opacity: 0.75;
+    margin: 0;
 }
 
 .summary-number {
-  font-size: 34px;
-  font-weight: 700;
-  margin: 10px 0 0;
+    font-size: 34px;
+    font-weight: 700;
+    margin: 10px 0 0;
 }
 
 .summary-note {
-  font-size: 14px;
-  opacity: 0.7;
-  margin-top: 6px;
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 6px;
 }
 
 .unit {
-  font-size: 16px;
+    font-size: 16px;
 }
+
 /* reservation table */
 
 .dashboard-section {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
 .reservation-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #ffffff;
-  border-radius: 12px;
-  overflow: hidden;
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 .reservation-table th,
 .reservation-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #eee;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
 }
 
 .reservation-table th {
-  background: #f6f6f6;
-  font-weight: 600;
+    background: #f6f6f6;
+    font-weight: 600;
 }
 
 .reservation-table tr:last-child td {
-  border-bottom: none;
+    border-bottom: none;
 }
 
-/* bundle carousel */ 
-.bundle-carousel{
-  display: flex;
-  gap: 16px;
-  overflow-x: auto;
-  padding: 10px 0 20px;
+/* bundle carousel */
+.bundle-carousel {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding: 10px 0 20px;
 }
 
-.bundleCard{
-  min-width: 220px;
-  background: white;
-  border-radius: 14px;
-  padding: 14px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+.bundleCard {
+    min-width: 220px;
+    background: white;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-.bundleCard h3{
-  margin: 0 0 8px;
+.bundleCard h3 {
+    margin: 0 0 8px;
 }
 
-.bundleCard button{
-  margin-top: 10px;
-  padding: 10px 12px;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+.bundleCard button {
+    margin-top: 10px;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
 }
+
 /*order page*/
-.orderWrapper{
+.orderWrapper {
     max-width: 900px;
     margin: 0 auto;
     padding: 0 16px 24px;
 }
 
-.orderTable{
+.orderTable {
     width: 100%;
     border-collapse: collapse;
     background: white;
@@ -451,16 +460,16 @@ button:hover {
     overflow: hidden;
 }
 
-.ordersHeading{
+.ordersHeading {
     text-align: center;
     margin: 20px 0;
 }
 
-.key{
+.key {
     background: lightblue;
 }
 
-.r2{
+.r2 {
     text-align: left;
     padding: 12px;
 }
