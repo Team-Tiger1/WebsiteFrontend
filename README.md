@@ -1,5 +1,8 @@
 # Website Frontend
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
+
 ## Overview
 The Last Fork website is a food rescue marketplace designed to reduce food waste by connectin food vendors with consumers. Vendors can add their surplus products and create them into listed food bundles.
 Customers in turn can reserve these food bundles at reduced prices compared to the market price and collect them using a confirmation code at a vendors store when paid for. The users can view their reservation in 
@@ -8,9 +11,18 @@ their orders page with their relevant collection information. A vendors location
 The vendors side of the Last Fork website allows managers to view and manage pickups/reservations, create products and bundles.
 Furthermore the forecast page allows users to gain forecast on collection probabilities based on factors such as weather.
 
+
+## Tech Stack
+
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![CSS](https://img.shields.io/badge/CSS-639?style=for-the-badge&logo=css&logoColor=fff)
+
+
+
 ## Contributions:
 
-Author: Toby Beckett
+**Author: Toby Beckett**
 
 - Created the Lofi Designs for the Login (supplier and user), register(Supplier and user), Orders, catalog, impact, and the report issue pages that are all on the user side of the website
 - Created the user Login page: HTML, CSS and javascript
@@ -25,7 +37,7 @@ Author: Toby Beckett
 
 <br>
 
-Author: William Foulger
+**Author: William Foulger**
 - Created the Lofi designs for the Dashboard, Forecast, Create produce, create bunlde, Analytics and forecast pages
 - Created the supplier Dashboard page: HTML, CSS, javascript
 - Created the supplier Create Products page: HTML, CSS, javascript
@@ -33,7 +45,7 @@ Author: William Foulger
 
 <br>
 
-Author: Daniel Jackson
+**Author: Daniel Jackson**
 - Integrated the Authentication Mechanism into the Website
   - Created a check to see if the access token is valid
   - Created standard POST and GET methods with retry mechanisms
@@ -44,3 +56,4 @@ Author: Daniel Jackson
 
 ## External Resources
 - Inline SVG elements were implemented using the W3C SVG namespace (http://www.w3.org/2000/svg). No external image assets were used.
+- Our Company Logo was created in-house 
