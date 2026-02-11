@@ -1,9 +1,11 @@
 import {apiPost} from "./connection.js";
-import { API_URL } from "./config.js";
+import {isAuthenticated} from "./auth.js";
+
+await isAuthenticated("VENDOR");
 
 const form = document.getElementById("createProductForm");
 const msg = document.getElementById("productMsg");
-const API = API_URL;
+
 
 form.addEventListener("sumbit", async (e) =>{
     e.preventDefault();

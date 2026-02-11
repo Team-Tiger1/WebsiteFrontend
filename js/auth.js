@@ -48,11 +48,11 @@ export async function isAuthenticated(pageRole) {
         }
         else {
             if(role === "USER") {
-                // window.location.href = "catalog.html";
+                window.location.href = "catalog.html";
                 return false;
             }
             if(role === "VENDOR") {
-                // window.location.href = "dashboard.html";
+                window.location.href = "dashboard.html";
                 return false;
             }
 

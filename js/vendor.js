@@ -1,4 +1,7 @@
 import {apiGet, apiPost} from "./connection.js";
+import {isAuthenticated} from "./auth.js";
+
+await isAuthenticated("USER");
 
 let bundleList = null;
 let sortOrder = "asc"
@@ -132,7 +135,7 @@ function renderBundles(bundleContainer, bundleList) {
             if (dropDown != null) {
                 const isHidden = dropDown.style.display === "none";
                 dropDown.style.display = isHidden ? "block" : "none";
-                arrow.style.transform = isHidden ? "rotate(0deg)" : "rotate(180deg)";
+                arrow.style.transform = isHidden ? "rotate(180deg)" : "rotate(0deg)";
                 return;
             }
 
@@ -141,6 +144,7 @@ function renderBundles(bundleContainer, bundleList) {
                 return;
             }
 
+            arrow.style.transform = "rotate(180deg)";
 
             //Get more descriptive information
             const detailedBundleJson = await detailedBundleResponse.json();

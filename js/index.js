@@ -1,12 +1,24 @@
-import { API_URL } from "./config.js";
-const API = API_URL;
-const token = localStorage.getItem("accessToken");
-const accountType = localStorage.getItem("accountType");
+import {refreshAccessToken} from "./auth.js";
 
-if (!token){
+let accessToken = localStorage.getItem("accessToken");
+if (!accessToken) {
+   accessToken = await refreshAccessToken();
+}
+
+if(!accessToken) {
     window.location.href = "login.html";
-} else if (accountType == "supplier"){
-    window.location.href = "catalog.html"
-} else{
-    window.location.href = "catalog.html";
+}
+
+if(accessToken) {
+    const payload = accessToken.split(".")[1];
+    const decodedPayload = atob(payload);
+    const payloadJson = JSON.parse(decodedPayload);
+    const role = payloadJson.role;
+
+    if(role === "VENDOR") {
+        window.location.href = "dashboard.html";
+    }
+    if(role === "USER") {
+        window.location.href = "catalog.html";
+    }
 }

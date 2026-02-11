@@ -1,16 +1,11 @@
 import {apiGet} from "./connection.js";
-import { API_URL } from "./config.js";
+import {isAuthenticated} from "./auth.js";
 
-const API = API_URL;
-const token = localStorage.getItem("accessToken");
 const tableBody = document.getElementById("ordersBody");
 
-if (!token) {
-    window.location.href = "login.html";
-} else {
-    //if the user is logged in load their orders
-    loadOrders();
-}
+await isAuthenticated("USER")
+
+await loadOrders();
 
 /**
  * Loads all the orders/reservations for the user.

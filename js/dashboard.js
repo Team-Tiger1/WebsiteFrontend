@@ -1,4 +1,10 @@
 // adding fake data 
+import {apiGet} from "./connection.js";
+import {isAuthenticated} from "./auth.js";
+
+await isAuthenticated("VENDOR");
+
+
 const reservations = [
     { bundle: "bundle name", window: "17:00–18:00", status: "Reserved", claim: "-" },
     { bundle: "bundle name", window: "18:30–19:30", status: "Collected", claim: "-" },
@@ -17,3 +23,6 @@ for (let i = 0; i < reservations.length; i++) {
       </tr>
     `;
   }
+
+const metrics = await apiGet("/bundles/metrics?period=year");
+console.log(await metrics.json());
