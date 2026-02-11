@@ -41,3 +41,6 @@ Author: Daniel Jackson
   - Created Display for Vendor Information and Google Map Embed
   - Created List of Available Bundles with Drop-Down for Product List
 - Created Standard Header and Footer for all Web pages  
+
+## External Resources
+- Inline SVG elements were implemented using the W3C SVG namespace (http://www.w3.org/2000/svg). No external image assets were used.
