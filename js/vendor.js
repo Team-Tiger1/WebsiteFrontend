@@ -133,6 +133,14 @@ function renderBundles(bundleContainer, bundleList) {
 
         bundleContainer.insertAdjacentHTML('beforeend', html);
 
+        //Add reserve button functionality
+        const reserveButton = bundleContainer.querySelector("button");
+        reserveButton.addEventListener("click", function (e) {
+           e.stopPropagation();
+           openReservePopup(bundleJson.bundleId, bundleJson.bundleName);
+        });
+
+
         //Add drop-down functionality
         const currentBundle = bundleContainer.lastElementChild;
         currentBundle.addEventListener("click", async function (e) {
@@ -213,6 +221,42 @@ function renderBundles(bundleContainer, bundleList) {
 
 
 }
+
+//Reservation popup elements
+const reservePopup = document.getElementById("reservePopup");
+const reserveDetails = document.getElementById("reserveDetails");
+const confirmReserveBtn = document.getElementById("confirmReserveBtn");
+const cancelReserveBtn = document.getElementById("cancelReserveBtn");
+
+let selectedBundleId = null;
+
+function openReservePopup(bundleId, bundleName){
+    selectedBundleId = bundleId;
+    reserveDetails.textContent = `Are you sure you want to reserve the bundle: ${bundleName}?`;
+    reservePopup.showModal();
+}
+
+confirmReserveBtn.addEventListener("click", async function(){
+    if(selectedBundleId){
+
+        //Reserve Bundle
+        const reserveResponse = await apiPost("/reservations/" + selectedBundleId, {})
+
+        if(!reserveResponse.ok) {
+            alert("Reservation Failed");
+            return;
+        }
+
+        window.location.href = "orders.html";
+
+        reservePopup.close();
+    }
+});
+
+cancelReserveBtn.addEventListener("click", function(){
+    selectedBundleId = null;
+    reservePopup.close();
+});
 
 function capitalizeString (string) {
     string = string.toLowerCase();

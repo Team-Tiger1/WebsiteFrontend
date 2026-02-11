@@ -101,7 +101,7 @@ async function loadBundles(){
         const bundles = await response.json();
 
         //if no bundles found
-        if (bundles.length == 0){
+        if (bundles.length === 0){
             msg.textContent = "No bundles found";
             return;
         }
@@ -287,7 +287,7 @@ async function getStreak(){
         }
 
         const data = await response.json();
-        const streakCount = data.streakCount || 0;
+        const streakCount = data.streak || 0;
 
         streak.textContent = `${streakCount} weeks!`;
 
