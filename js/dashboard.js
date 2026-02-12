@@ -208,7 +208,18 @@ async function loadVendorReservations() {
     pickup.textContent = String(pickupsToday.length);
 
   }
-  //if there are no reservation we show a messsage
+
+  //Get Bundles Currently Posted and Display Metric
+  const bundleResponse = await apiGet("/bundles/available");
+
+  if(bundleResponse.ok) {
+    const bundleJson = await bundleResponse.json();
+    posted.textContent = String(bundleJson);
+  } else {
+    posted.textContent = "";
+  }
+
+  //if there are no reservation we show a message
   if (reservations.length === 0) {
     tableBody.innerHTML = `<tr><td colspan="4">No active reservations</td></tr>`;
     return;
