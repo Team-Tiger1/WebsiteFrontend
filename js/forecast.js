@@ -31,7 +31,7 @@ async function loadBundlesSelect() {
     for(let i = 0; i<bundles.length; i++){
         const bundle = bundles[i];
         const id = bundle.bundleId;
-        const name = bundle.bundleName;
+        const name = bundle.name;
         const option = document.createElement("option");
         option.value = id;
         option.textContent = name;
