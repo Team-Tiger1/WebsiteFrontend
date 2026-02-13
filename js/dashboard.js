@@ -154,12 +154,24 @@ import { isAuthenticated } from "./auth.js";
 //only vendors can view this page
 await isAuthenticated("VENDOR");
 
+//summary boxes
 const posted = document.getElementById("postedCount");     // bundles Posted
 const reserved = document.getElementById("reservedCount"); // Bundles Reserved
 const pickup = document.getElementById("pickupCount");     // pickups Today
 
 
+//table
 const tableBody = document.getElementById("reservations");
+
+// getting the claim inputs and model elements 
+const claimInput = document.getElementById("claimCodeInput");
+const claimBtn = document.getElementById("claimCodeBtn");
+const claimMsg = document.getElementById("claimMsg");
+
+const modal = document.getElementById("claimModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalBody = document.getElementById("modalBody");
+const modalClose = document.getElementById("modalClose");
 
 //running the dashboard with page loads
 runDashboard();
@@ -168,6 +180,54 @@ async function runDashboard() {
   // await loadBundlesToday
 
 }
+claimBtn?.addEventListener("click", async () => {
+  const claimCode = (claimInput?.value || "").trim();
+
+  claimMsg.textContent = "";
+
+  if (!claimCode) {
+    claimMsg.textContent = "Enter a claim code first.";
+    return;
+  }
+
+  try {
+    // POST claim code -> backend should mark reservation as collected
+    const res = await apiPost("/reservations/claimcode", { claimCode });
+
+    if (!res.ok) {
+      const text = await res.text().catch(() => "");
+      claimMsg.textContent = "Invalid claim code" + (text ? `: ${text}` : "");
+      return;
+    }
+
+    // Try to show something in the modal (response might be json or empty)
+    const contentType = res.headers.get("content-type") || "";
+
+    if (contentType.includes("application/json")) {
+      const data = await res.json().catch(() => null);
+
+      // If backend returns bundle/reservation info --> show it 
+      if (data) {
+        openModal(
+          "Reservation completed ",
+          JSON.stringify(data, null, 2)
+        );
+      } else {
+        openModal("Reservation completed ", "Claim code accepted.");
+      }
+    } else {
+      openModal("Reservation completed ", "Claim code accepted.");
+    }
+
+    // Refresh the table + counts
+    claimInput.value = "";
+    await loadVendorReservations();
+
+  } catch (err) {
+    console.error(err);
+    claimMsg.textContent = err.message || "Network error.";
+  }
+});
 
 // load vendor reservation
 
@@ -185,7 +245,7 @@ async function loadVendorReservations() {
   if (!res.ok) {
     const text = await res.text().catch(() => "");
     tableBody.innerHTML =
-      `<tr><td colspan="4">Failed to load reservations${text ? ": " + text : ""}</td></tr>`;
+      `<tr><td colspan="3">Failed to load reservations${text ? ": " + text : ""}</td></tr>`;
 
       if (reserved) reserved.textContent = "0";
     if (pickup) pickup.textContent = "0";
@@ -209,93 +269,65 @@ async function loadVendorReservations() {
 
   }
 
-  //Get Bundles Currently Posted and Display Metric
   const bundleResponse = await apiGet("/bundles/available");
-
-  if(bundleResponse.ok) {
+if (posted) {
+  if (bundleResponse.ok) {
     const bundleJson = await bundleResponse.json();
-    posted.textContent = String(bundleJson);
+    posted.textContent = Array.isArray(bundleJson) ? String(bundleJson.length) : "0";
   } else {
-    posted.textContent = "";
+    posted.textContent = "0";
   }
+}
 
   //if there are no reservation we show a message
   if (reservations.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="4">No active reservations</td></tr>`;
+    tableBody.innerHTML = `<tr><td colspan="3">No active reservations</td></tr>`;
     return;
   }
 
   // now we return the rows
   for (const r of reservations) {
-    const pickupWindow = formatPickupWindow(r.collectionStart, r.collectionEnd);
+  const pickupWindow = formatPickupWindow(r.collectionStart, r.collectionEnd);
+  const amount = Number(r.amountDue);
+  const priceText = Number.isFinite(amount) ? `£${amount.toFixed(2)}` : "-";
 
-    // create row
-    const tr = document.createElement("tr");
-
-
-    const claimSpanId = `claim-${r.reservationId}`;
-
-    tr.innerHTML = `
-      <td>${r.bundleName ?? "-"}</td>
-      <td>${pickupWindow}</td>
-      <td><span id="${claimSpanId}">Loading…</span></td>
-      <td>
-        <div style="display:flex; gap:8px; align-items:center;">
-          <input
-            type="text"
-            placeholder="Enter code"
-            class="claim-input"
-            data-reservation-id="${r.reservationId}"
-            style="padding:8px; border:1px solid #ddd; border-radius:8px; width:140px;"
-          />
-          <button
-            type="button"
-            class="primary-btn claim-btn"
-            data-reservation-id="${r.reservationId}"
-            style="padding:8px 12px; border-radius:8px;"
-          >
-            Complete
-          </button>
-        </div>
-      </td>
-    `;
-
-    //add a row to table
-    tableBody.appendChild(tr);
-    //load the claim code for a reseservation
-    await loadClaimCode(r.reservationId, claimSpanId);
-
-
-  }
-  wireUpCompleteButtons();
+  const tr = document.createElement("tr");
+  tr.innerHTML = `
+    <td>${r.bundleName ?? "-"}</td>
+    <td>${pickupWindow}</td>
+    <td>${priceText}</td>
+  `;
+  tableBody.appendChild(tr);
+}
+  
 }
 
-  //load the claim code for reservation
-/**
- * Calls GET /reservations/claimcode/{reservationId}
- * write the claim code to the table
- */
-async function loadClaimCode(reservationId, spanId) {
-  const span = document.getElementById(spanId);
-  if (!span) return;
+//   //load the claim code for reservation
+// /**
+//  * Calls GET /reservations/claimcode/{reservationId}
+//  * write the claim code to the table
+//  */
+// async function loadClaimCode(reservationId, spanId) {
+//   const span = document.getElementById(spanId);
+//   if (!span) return;
 
-  const res = await apiGet(`/reservations/claimcode/${reservationId}`);
+//   const res = await apiGet(`/reservations/claimcode/${reservationId}`);
 
-  if (!res.ok) {
-    span.textContent = "-";
-    return;
-  }
+//   if (!res.ok) {
+//     span.textContent = "-";
+//     return;
+//   }
 
-  const contentType = res.headers.get("content-type") || "";
+//   const contentType = res.headers.get("content-type") || "";
 
-  if (contentType.includes("application/json")) {
-    const data = await res.json().catch(() => null);
-    span.textContent = data?.claimCode ?? "-";
-  } else {
-    const text = await res.text().catch(() => "");
-    span.textContent = text || "-";
-  }
-}
+//   if (contentType.includes("application/json")) {
+//     const data = await res.json().catch(() => null);
+//     span.textContent = data?.claimCode ?? "-";
+//   } else {
+//     const text = await res.text().catch(() => "");
+//     span.textContent = text || "-";
+//   }
+// }
 
 /**
  * POST /reservations/claimcode
@@ -303,38 +335,38 @@ async function loadClaimCode(reservationId, spanId) {
  *
  * reload reservations to refresh table + counts.
  */
-function wireUpCompleteButtons() {
-  const buttons = document.querySelectorAll(".claim-btn");
+// function wireUpCompleteButtons() {
+//   const buttons = document.querySelectorAll(".claim-btn");
 
-  buttons.forEach((btn) => {
-    btn.addEventListener("click", async () => {
-      const reservationId = btn.dataset.reservationId;
+//   buttons.forEach((btn) => {
+//     btn.addEventListener("click", async () => {
+//       const reservationId = btn.dataset.reservationId;
 
-      // Find the input beside the button
-      const input = document.querySelector(
-        `.claim-input[data-reservation-id="${reservationId}"]`
-      );
+//       // Find the input beside the button
+//       const input = document.querySelector(
+//         `.claim-input[data-reservation-id="${reservationId}"]`
+//       );
 
-      const claimCode = (input?.value || "").trim();
+//       const claimCode = (input?.value || "").trim();
 
-      if (!claimCode) {
-        alert("Enter a claim code first.");
-        return;
-      }
+//       if (!claimCode) {
+//         alert("Enter a claim code first.");
+//         return;
+//       }
 
-      const postRes = await apiPost("/reservations/claimcode", { claimCode });
+//       const postRes = await apiPost("/reservations/claimcode", { claimCode });
 
-      if (!postRes.ok) {
-        const text = await postRes.text().catch(() => "");
-        alert("Failed to complete reservation" + (text ? `: ${text}` : ""));
-        return;
-      }
+//       if (!postRes.ok) {
+//         const text = await postRes.text().catch(() => "");
+//         alert("Failed to complete reservation" + (text ? `: ${text}` : ""));
+//         return;
+//       }
 
 
-      await loadVendorReservations();
-    });
-  });
-}
+//       await loadVendorReservations();
+//     });
+//   });
+// }
 
 
 
@@ -372,6 +404,21 @@ function isSameDay(a, b) {
     a.getDate() === b.getDate()
   );
 }
+//helper function for the pop up 
+function openModal(title, body) {
+  modalTitle.textContent = title;
+  modalBody.textContent = body;
+  modal.classList.remove("hidden");
+}
+
+function closeModal() {
+  modal.classList.add("hidden");
+}
+
+modalClose?.addEventListener("click", closeModal);
+modal?.addEventListener("click", (e) => {
+  if (e.target === modal) closeModal();
+});
 
 
 

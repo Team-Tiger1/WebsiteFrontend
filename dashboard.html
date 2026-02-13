@@ -74,8 +74,8 @@
                     <tr>
                         <th>Bundle Name </th>
                         <th>Pickup Window</th>
-                        <th>Claim Code</th>
-                        <th>Action</th>
+                        <th>Price</th>
+                        
                     </tr>
                 </thead>
 
@@ -83,7 +83,21 @@
                 <!--rows will be added in js   -->
                 </tbody>
             </table>
+
+            <div class="claim-bar">
+                <input id="claimCodeInput" type="text" placeholder="Enter claim code" />
+                <button id="claimCodeBtn" class="primary-btn" type="button">Complete</button>
+            </div>
+            <p id="claimMsg" class="text-muted"></p>
         </section>
+
+        <div id="claimModal" class="modal hidden">
+            <div class="modal-content">
+                <h3 id="modalTitle">Reservation Found</h3>
+                <p id="modalBody"></p>
+                <button id="modalClose" class="primary-btn" type="button">Close</button>
+            </div>
+        </div>
 
     </main>
 
