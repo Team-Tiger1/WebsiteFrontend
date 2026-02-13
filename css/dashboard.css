@@ -1,0 +1,108 @@
+
+.dashboard-reseverations {
+  margin-top: 18px;
+}
+
+.reservation-table {
+  margin-top: 10px;
+  border: 1px solid #e6e6e6;
+}
+
+/* Slightly tighter headers */
+.dashboard-reseverations h3 {
+  margin: 18px 0 8px;
+}
+
+
+.claim-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.claim-bar input {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  outline: none;
+}
+
+.claim-bar input:focus {
+  border-color: #8fcbd3;
+}
+
+
+.claim-bar .primary-btn {
+  margin-left: 0; /* overrides your global button margin-left */
+  padding: 10px 16px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+
+#claimMsg {
+  margin-top: 8px;
+}
+
+
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 9999;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  width: min(520px, 100%);
+  background: white;
+  border-radius: 14px;
+  padding: 18px;
+  border: 1px solid #e6e6e6;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+
+.modal-content h3 {
+  margin: 0 0 10px;
+}
+
+.modal-content p {
+  margin: 0 0 14px;
+  white-space: pre-wrap; 
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #fafafa;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+
+@media (max-width: 820px) {
+  .summary-boxes {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .summary-box {
+    min-width: 150px;
+    flex: 1;
+  }
+
+  .claim-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

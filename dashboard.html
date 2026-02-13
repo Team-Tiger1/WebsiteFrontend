@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/headerFooter.css">
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
     <div id="header"></div>
@@ -84,19 +85,27 @@
                 </tbody>
             </table>
 
-            <div class="claim-bar">
-                <input id="claimCodeInput" type="text" placeholder="Enter claim code" />
-                <button id="claimCodeBtn" class="primary-btn" type="button">Complete</button>
+            <div class="claim-panel">
+                <label for="claimCodeInput" class="claim-label">Enter claim code</label>
+
+                <div class="claim-bar">
+                    <input id="claimCodeInput" type="text" placeholder="Enter claim code" />
+                    <button id="claimCodeBtn" class="primary-btn" type="button">Complete</button>
+                </div>
+
+                <p id="claimMsg" class="form-msg"></p>
             </div>
-            <p id="claimMsg" class="text-muted"></p>
         </section>
 
+        
         <div id="claimModal" class="modal hidden">
-            <div class="modal-content">
+        <div class="modal-card">
+            <div class="modal-header">
                 <h3 id="modalTitle">Reservation Found</h3>
-                <p id="modalBody"></p>
-                <button id="modalClose" class="primary-btn" type="button">Close</button>
+                <button id="modalClose" class="modal-close" type="button">Close</button>
             </div>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
         </div>
 
     </main>
