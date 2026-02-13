@@ -211,8 +211,8 @@ claimBtn?.addEventListener("click", async () => {
         const title = "Reservation completed";
 
         const price = (typeof data.amountDue === "number")
-          ? `£${data.amountDue.toFixed(2)}`
-          : "-";
+            ? `£${data.amountDue.toFixed(2)}`
+            : "-";
 
         const windowTxt = formatPickupWindow(data.collectionStart, data.collectionEnd);
 
@@ -228,9 +228,10 @@ claimBtn?.addEventListener("click", async () => {
         openModal("Reservation completed", "Claim code accepted.");
       }
 
-    // Refresh the table + counts
-    claimInput.value = "";
-    await loadVendorReservations();
+      // Refresh the table + counts
+      claimInput.value = "";
+      await loadVendorReservations();
+    }
 
   } catch (err) {
     console.error(err);
