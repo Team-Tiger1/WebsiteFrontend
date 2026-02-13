@@ -200,7 +200,7 @@ claimBtn?.addEventListener("click", async () => {
       return;
     }
 
-    // Try to show something in the modal (response might be json or empty)
+    
     const contentType = res.headers.get("content-type") || "";
 
     if (contentType.includes("application/json")) {
@@ -208,16 +208,25 @@ claimBtn?.addEventListener("click", async () => {
 
       // If backend returns bundle/reservation info --> show it 
       if (data) {
-        openModal(
-          "Reservation completed ",
-          JSON.stringify(data, null, 2)
-        );
+        const title = "Reservation completed";
+
+        const price = (typeof data.amountDue === "number")
+          ? `£${data.amountDue.toFixed(2)}`
+          : "-";
+
+        const windowTxt = formatPickupWindow(data.collectionStart, data.collectionEnd);
+
+        const html = `
+          <p><strong>Bundle:</strong> ${data.bundleName ?? "-"}</p>
+          <p><strong>Pickup window:</strong> ${windowTxt}</p>
+          <p><strong>Amount due:</strong> ${price}</p>
+          <p><strong>Reservation ID:</strong> ${data.reservationId ?? "-"}</p>
+        `;
+
+        openModal(title, html, true);
       } else {
-        openModal("Reservation completed ", "Claim code accepted.");
+        openModal("Reservation completed", "Claim code accepted.");
       }
-    } else {
-      openModal("Reservation completed ", "Claim code accepted.");
-    }
 
     // Refresh the table + counts
     claimInput.value = "";
@@ -405,9 +414,15 @@ function isSameDay(a, b) {
   );
 }
 //helper function for the pop up 
-function openModal(title, body) {
+function openModal(title, body, isHtml = false) {
   modalTitle.textContent = title;
-  modalBody.textContent = body;
+
+  if (isHtml) {
+    modalBody.innerHTML = body;
+  } else {
+    modalBody.textContent = body;
+  }
+
   modal.classList.remove("hidden");
 }
 
