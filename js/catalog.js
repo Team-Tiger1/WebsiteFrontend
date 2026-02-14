@@ -69,11 +69,24 @@ async function loadVendorsIntoCarousel(){
             const card = document.createElement("div");
             card.className = "company"
             card.tabIndex = 0;
+
+
+            //making the webpage accessible
+            card.setAttribute("role", "link")
+            card.setAttribute("aria-label", `Open ${vendorName} bunldes`)
+            
             card.innerHTML = `<h1>${vendorName}</h1>`
             card.addEventListener("click", function(){
                 localStorage.setItem("vendorId", vendorId);
                 window.location.href = "vendor.html";
             });
+            card.addEventListener("keydown", (e)=>{
+                if (e.key == "Enter" || e.key == " "){
+                    e.preventDefault();
+                    localStorage.setItem("vendorId", vendorId);
+                    window.location.href = "vendor.html";
+                }
+            })
             vendorCarousel.appendChild(card);
         }
     } catch(err){
@@ -140,6 +153,11 @@ function createBundleCard(bundle, targetCarousel) {
   const startDate = bundle.collectionStart;
   const endDate = bundle.collectionEnd;
   const allergies = bundle.allergens;
+
+  //making the website accessible
+  card.tabIndex =0;
+  card.setAttribute("role", "group");
+  card.setAttribute("aria-label", `Bundle ${name}, price £${Number(price).toFixed(2)}`);
 
   //if cant find the details set default texts
   let pickupText = "Not available";
@@ -331,4 +349,30 @@ cancelReserveBtn.addEventListener("click", function(){
     selectedBundleId = null;
     reservePopup.close();
 });
+
+/**
+ * Making the vendor and bundle carousels accessbile though arrow keys
+ * and ensuring smooth interaction.
+ * @param {*} el 
+ */
+function enableScrollKeys(el){
+    el.addEventListener("keydown", (e) =>{
+        if(e.key === "ArrowRight"){
+            e.preventDefault();
+            el.scrollBy({
+                left: 250, behavior: "smooth"});
+        }else if (e.key === "ArrowLeft"){
+            e.preventDefault();
+            el.scrollBy({
+                left: -250, behavior: "smooth"});
+        }else if(e.key === "End"){
+            e.preventDefault();
+            el.scrollTo({
+                left: e.scrollWidth, behavior: "smooth"});
+        }
+    })
+    }
+//appling the accessibility to each bundle carousel and the vendor carousel
+enableScrollKeys(vendorCarousel)
+enableScrollKeys(bundleCarousel)
 
