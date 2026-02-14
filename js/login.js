@@ -11,7 +11,7 @@ form.addEventListener("submit", async (e) => {
     //prevents the broswer from refreshing page on submit
     e.preventDefault();
 
-    const email = document.getElementById("email-input").value.trim();
+    const email = document.getElementById("email-input").value.trim().toLowerCase();
     const password = document.getElementById("password-input").value;
 
     msg.textContent = "";
