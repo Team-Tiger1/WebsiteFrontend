@@ -93,8 +93,16 @@ form.addEventListener("submit", async (e) => {
     if (!collectionStart) return (msg.textContent = "Choose a collection start time");
     if (!collectionEnd) return (msg.textContent = "Choose a collection end time");
 
-    if (new Date(collectionEnd) <= new Date(collectionStart))
-        return (msg.textContent = "Collection end must be after start");
+    //new validation (start date must be before the end date and window must be the same day)
+    const startDate =  new Date(collectionStart);
+    const endDate = new Date(collectionEnd);
+
+    const sameDay = startDate.getFullYear() === endDate.getFullYear() && startDate.getMonth() === endDate.getMonth() && startDate.getDate() === endDate.getDate();
+    if (!sameDay)
+      return (msg.textContent = "Collection window must be on the same day");
+
+    if (endDate <= startDate)
+      return (msg.textContent = "Collection end time must be after start time");
 
     if (productList.length === 0) return (msg.textContent = "Select at least one product");
 
