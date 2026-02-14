@@ -6,7 +6,6 @@
 // ];
 
 
-
 // const table = document.getElementById('reservations');
 // //loop res
 // for (let i = 0; i < reservations.length; i++) {
@@ -148,8 +147,8 @@
 // }
 // dashboard
 
-import { apiGet, apiPost } from "./connection.js";
-import { isAuthenticated } from "./auth.js";
+import {apiGet, apiPost} from "./connection.js";
+import {isAuthenticated} from "./auth.js";
 
 //only vendors can view this page
 await isAuthenticated("VENDOR");
@@ -175,68 +174,70 @@ const modalClose = document.getElementById("modalClose");
 
 //running the dashboard with page loads
 runDashboard();
+
 async function runDashboard() {
-  await loadVendorReservations();
-  // await loadBundlesToday
+    await loadVendorReservations();
+    // await loadBundlesToday
 
 }
+
 claimBtn?.addEventListener("click", async () => {
-  const claimCode = (claimInput?.value || "").trim();
+    const claimCode = (claimInput?.value || "").trim();
 
-  claimMsg.textContent = "";
+    claimMsg.textContent = "";
 
-  if (!claimCode) {
-    claimMsg.textContent = "Enter a claim code first.";
-    return;
-  }
-
-  try {
-    // POST claim code -> backend should mark reservation as collected
-    const res = await apiPost("/reservations/claimcode", { claimCode });
-
-    if (!res.ok) {
-      const text = await res.text().catch(() => "");
-      claimMsg.textContent = "Invalid claim code" + (text ? `: ${text}` : "");
-      return;
+    if (!claimCode) {
+        claimMsg.textContent = "Enter a claim code first.";
+        return;
     }
 
-    
-    const contentType = res.headers.get("content-type") || "";
+    try {
+        // POST claim code -> backend should mark reservation as collected
+        const res = await apiPost("/reservations/claimcode", {claimCode});
 
-    if (contentType.includes("application/json")) {
-      const data = await res.json().catch(() => null);
+        if (!res.ok) {
+            const text = await res.text().catch(() => "");
+            claimMsg.textContent = "Invalid claim code" + (text ? `: ${text}` : "");
+            return;
+        }
 
-      // If backend returns bundle/reservation info --> show it 
-      if (data) {
-        const title = "Reservation completed";
 
-        const price = (typeof data.amountDue === "number")
-            ? `£${data.amountDue.toFixed(2)}`
-            : "-";
+        const contentType = res.headers.get("content-type") || "";
 
-        const windowTxt = formatPickupWindow(data.collectionStart, data.collectionEnd);
+        if (contentType.includes("application/json")) {
+            const data = await res.json().catch(() => null);
 
-        const html = `
+            // If backend returns bundle/reservation info --> show it
+            if (data) {
+                const title = "Reservation completed";
+
+                const price = (typeof data.amountDue === "number")
+                    ? `£${data.amountDue.toFixed(2)}`
+                    : "-";
+
+                const windowTxt = formatPickupWindow(data.collectionStart, data.collectionEnd);
+
+                const html = `
           <p><strong>Bundle:</strong> ${data.bundleName ?? "-"}</p>
           <p><strong>Pickup window:</strong> ${windowTxt}</p>
           <p><strong>Amount due:</strong> ${price}</p>
           <p><strong>Reservation ID:</strong> ${data.reservationId ?? "-"}</p>
         `;
 
-        openModal(title, html, true);
-      } else {
-        openModal("Reservation completed", "Claim code accepted.");
-      }
+                openModal(title, html, true);
+            } else {
+                openModal("Reservation completed", "Claim code accepted.");
+            }
 
-      // Refresh the table + counts
-      claimInput.value = "";
-      await loadVendorReservations();
+            // Refresh the table + counts
+            claimInput.value = "";
+            await loadVendorReservations();
+        }
+
+    } catch (err) {
+        console.error(err);
+        claimMsg.textContent = err.message || "Network error.";
     }
-
-  } catch (err) {
-    console.error(err);
-    claimMsg.textContent = err.message || "Network error.";
-  }
 });
 
 // load vendor reservation
@@ -247,69 +248,68 @@ claimBtn?.addEventListener("click", async () => {
  * - add rows to active reservation table
  */
 async function loadVendorReservations() {
-  tableBody.innerHTML = "";
+    tableBody.innerHTML = "";
 
-  const res = await apiGet("/reservations/vendor");
+    const res = await apiGet("/reservations/vendor");
 
-  //if fails we show also reset the count
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    tableBody.innerHTML =
-      `<tr><td colspan="3">Failed to load reservations${text ? ": " + text : ""}</td></tr>`;
+    //if fails we show also reset the count
+    if (!res.ok) {
+        const text = await res.text().catch(() => "");
+        tableBody.innerHTML =
+            `<tr><td colspan="3">Failed to load reservations${text ? ": " + text : ""}</td></tr>`;
 
-      if (reserved) reserved.textContent = "0";
-    if (pickup) pickup.textContent = "0";
-    return;
-  }
+        if (reserved) reserved.textContent = "0";
+        if (pickup) pickup.textContent = "0";
+        return;
+    }
 
-  const reservations = await res.json();
+    const reservations = await res.json();
 
-  //update bundle reserved and pick ups today
-  if (reserved) {
-    reserved.textContent = String(reservations.length);
-  }
+    //update bundle reserved and pick ups today
+    if (reserved) {
+        reserved.textContent = String(reservations.length);
+    }
 
-  const today = new Date();
-  const pickupsToday = reservations.filter((r) => {
-    return isSameDay(new Date(r.collectionStart), today);
-  });
+    const today = new Date();
+    const pickupsToday = reservations.filter((r) => {
+        return isSameDay(new Date(r.collectionStart), today);
+    });
 
-  if (pickup){
-    pickup.textContent = String(pickupsToday.length);
+    if (pickup) {
+        pickup.textContent = String(pickupsToday.length);
 
-  }
+    }
 
-  const bundleResponse = await apiGet("/bundles/available");
-if (posted) {
-  if (bundleResponse.ok) {
-    const bundleJson = await bundleResponse.json();
-    posted.textContent = Array.isArray(bundleJson) ? String(bundleJson.length) : "0";
-  } else {
-    posted.textContent = "0";
-  }
-}
+    const bundleResponse = await apiGet("/bundles/available");
+    if (posted) {
+        if (bundleResponse.ok) {
+          posted.textContent = await bundleResponse.json();
+        } else {
+            posted.textContent = "0";
+        }
+    }
 
-  //if there are no reservation we show a message
-  if (reservations.length === 0) {
-    tableBody.innerHTML = `<tr><td colspan="3">No active reservations</td></tr>`;
-    return;
-  }
+    //if there are no reservation we show a message
+    if (reservations.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="3">No active reservations</td></tr>`;
+        return;
+    }
 
-  // now we return the rows
-  for (const r of reservations) {
-  const pickupWindow = formatPickupWindow(r.collectionStart, r.collectionEnd);
-  const amount = Number(r.amountDue);
-  const priceText = Number.isFinite(amount) ? `£${amount.toFixed(2)}` : "-";
+    // now we return the rows
+    for (const r of reservations) {
+        const pickupWindow = formatPickupWindow(r.collectionStart, r.collectionEnd);
+        const amount = Number(r.amountDue);
+        const priceText = Number.isFinite(amount) ? `£${amount.toFixed(2)}` : "-";
 
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
     <td>${r.bundleName ?? "-"}</td>
     <td>${pickupWindow}</td>
     <td>${priceText}</td>
   `;
-  tableBody.appendChild(tr);
-}
-  
+        tableBody.appendChild(tr);
+    }
+
 }
 
 //   //load the claim code for reservation
@@ -379,61 +379,61 @@ if (posted) {
 // }
 
 
-
 //helper functions
 
 function formatPickupWindow(start, end) {
-  if (!start || !end) return "-";
+    if (!start || !end) return "-";
 
-  const startDate = new Date(start);
-  const endDate = new Date(end);
+    const startDate = new Date(start);
+    const endDate = new Date(end);
 
-  const date = startDate.toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
+    const date = startDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+    });
 
-  const startTime = startDate.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+    const startTime = startDate.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
 
-  const endTime = endDate.toLocaleTimeString("en-GB", {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+    const endTime = endDate.toLocaleTimeString("en-GB", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
 
-  return `${date}, ${startTime}–${endTime}`;
+    return `${date}, ${startTime}–${endTime}`;
 }
 
 function isSameDay(a, b) {
-  return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
-  );
+    return (
+        a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate()
+    );
 }
-//helper function for the pop up 
+
+//helper function for the pop up
 function openModal(title, body, isHtml = false) {
-  modalTitle.textContent = title;
+    modalTitle.textContent = title;
 
-  if (isHtml) {
-    modalBody.innerHTML = body;
-  } else {
-    modalBody.textContent = body;
-  }
+    if (isHtml) {
+        modalBody.innerHTML = body;
+    } else {
+        modalBody.textContent = body;
+    }
 
-  modal.classList.remove("hidden");
+    modal.classList.remove("hidden");
 }
 
 function closeModal() {
-  modal.classList.add("hidden");
+    modal.classList.add("hidden");
 }
 
 modalClose?.addEventListener("click", closeModal);
 modal?.addEventListener("click", (e) => {
-  if (e.target === modal) closeModal();
+    if (e.target === modal) closeModal();
 });
 
 

@@ -6,13 +6,101 @@
   <title>The Last Fork</title>
   <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/headerFooter.css">
+    <link rel="stylesheet" href="css/analytics.css">
 </head>
 <body>
     <div id="header"></div>
 
     <main>
-        <h3>This is the page where we will display the analytics for purcahses</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum enim in ducimus consequuntur adipisci, veritatis at. Iste provident deleniti est veritatis architecto repellat, aliquam fuga illo atque possimus voluptatibus. Ratione.</p>
+
+        <h1>Analytics</h1>
+
+        <div class="analytics-outline">
+            <div class="summary-box">
+                <p class="summary-title">Bundles Collected</p>
+                <p class="summary-number" id="bundlesCollected">-</p>
+            </div>
+
+            <div class="summary-box">
+                <p class="summary-title">Bundle No Shows</p>
+                <p class="summary-number" id="bundleNoShow">-</p>
+            </div>
+
+            <div class="summary-box">
+                <p class="summary-title">Bundles Expired</p>
+                <p class="summary-number" id="bundlesExpired">-</p>
+            </div>
+
+            <div class="drop-down">
+                <div class="dropdown-wrapper">
+                    <select id="period-dropdown">
+                        <option value="day">Day</option>
+                        <option value="week">Week</option>
+                        <option value="month">Month</option>
+                        <option value="year">Year</option>
+                    </select>
+                </div>
+                </div>
+        </div>
+
+        <div class="charts-container">
+            <canvas id="pie-chart"></canvas>
+            <canvas id="line-graph"></canvas>
+        </div>
+
+        <div class="analytics-display">
+            <div class="collected">
+                <h1>Bundles Collected</h1>
+                <p id="collected-money"></p>
+                <table class="analytics-table">
+                    <thead>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Date</th>
+                        <th>Price</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody id="collected-table"></tbody>
+                </table>
+            </div>
+
+            <div class="no-shows">
+                <h1>Bundle No Shows</h1>
+                <p id="noshow-money"></p>
+                <table class="analytics-table">
+                    <thead>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Date</th>
+                        <th>Price</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody id="noshows-table"></tbody>
+                </table>
+            </div>
+
+            <div class="expired">
+                <h1>Bundles Expired</h1>
+                <p id="expired-money"></p>
+                <table class="analytics-table">
+                    <thead>
+                    <tr>
+                        <th>Bundle Name</th>
+                        <th>Date</th>
+                        <th>Price</th>
+
+                    </tr>
+                    </thead>
+
+                    <tbody id="expired-table"></tbody>
+                </table>
+            </div>
+        </div>
+
     </main>
 
     <div id="footer"></div>
@@ -20,5 +108,7 @@
     <script type="module" src="js/script.js"></script>
     <script type="module" src="js/vendorHeaderFooter.js"></script>
     <script type="module" src="js/analytics.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 </body>
 </html>
