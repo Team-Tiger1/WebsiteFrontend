@@ -11,7 +11,7 @@ form.addEventListener("submit", function (event) {
     event.preventDefault();
 
     //collects the user inputs 
-    const email = document.getElementById("email-input").value.trim();
+    const email = document.getElementById("email-input").value.trim().toLowerCase();
     const password = document.getElementById("password-input").value;
     const repeatPassword = document.getElementById("repeat-password-input").value;
 
