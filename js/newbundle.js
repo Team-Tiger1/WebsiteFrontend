@@ -30,13 +30,7 @@ async function loadVendorsProducts(){
         label.className = "product-item";
 
     
-        // label.innerHTML = `
-        //     <input type="checkbox" name="bundleProducts" value="${product.id}">
-        //     <div class="product-info">
-        //         <strong>${product.name}</strong>
-        //         <p class="text-muted">£${product.retailPrice} • ${product.weight}g</p>
-        //     </div>
-        // `;
+        
         label.innerHTML = `
             <div class="product-info">
                 <strong>${product.name}</strong>
