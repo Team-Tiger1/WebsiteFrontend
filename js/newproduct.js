@@ -9,9 +9,15 @@ await isAuthenticated("VENDOR");
 //sumbit -->read inputs --> read allegeries --> validate --> call createProduct
 
 /**
- * Creates a new product by sending a POST request to the backend.
- * @param {*} productData
- * @returns 
+ * Sends a POST request to create a new product.
+ *
+ * @param {Object} productData - Product payload containing:
+ *  - name (String)
+ *  - retailPrice (Number)
+ *  - weight (Number)
+ *  - allergies (Array<String>)
+ *
+ * @returns {Response} Fetch API response object.
  */
 async function createProduct(productData){
   const token = localStorage.getItem("accessToken");
@@ -29,25 +35,34 @@ async function createProduct(productData){
 
   return res;
 }
-const form = document.getElementById("createProductForm");
-const msg = document.getElementById("productMsg");
 
+const form = document.getElementById("createProductForm"); //main form element 
+const msg = document.getElementById("productMsg"); //status / feedback element 
+
+
+/**
+ * Handles product creation form submission.
+ * - Extracts and validates input values.
+ * - Sends product data to backend.
+ * - Displays feedback to the vendor.
+ */
 form.addEventListener("submit", async(e)=> {
   e.preventDefault();
-  msg.textContent = "";
+  msg.textContent = ""; //Clear previous message
 
+  //Collect input values.
   const name = document.getElementById("productName").value.trim();
   const retailPrice = parseFloat(document.getElementById("retailPrice").value);
   const weight = parseFloat(document.getElementById("weight").value);
 
-  //check checkboxes
+  //Collect Selected Allergies
   const checked = document.querySelectorAll('input[name="allergies"]:checked');
   const allergies = Array.from(checked).map((cb) => cb.value);
 
   if (!name || Number.isNaN(retailPrice) || Number.isNaN(weight)) {
     msg.textContent = "fill in all the fields"
   }
-
+  //Send data to backend 
   try{
     const response = await createProduct({name, retailPrice, weight, allergies});
 

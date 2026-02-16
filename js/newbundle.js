@@ -125,7 +125,7 @@ form.addEventListener("submit", async (e) => {
         collectionEnd: new Date(collectionEnd).toISOString(),
         
     };
-    //attempt post 
+    //Attempt post 
     try {
         const res = await apiPost("/bundles", bundleData);
 
@@ -137,7 +137,7 @@ form.addEventListener("submit", async (e) => {
         msg.textContent = "bundle created"
         form.reset();
 
-        // reset quantity selector to 0 
+        // Reset quantity selector to 0 
         const allQty = document.querySelectorAll("#productsList .qty-input");
         allQty.forEach((i) => (i.value = 0));
 
