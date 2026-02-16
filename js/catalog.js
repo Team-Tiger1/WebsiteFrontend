@@ -330,7 +330,7 @@ let selectedBundleId = null;
  */
 function openReservePopup(bundleId, bundleName){
     selectedBundleId = bundleId;
-    reserveDetails.textContent = `Are you sure you want to reserve the bundle: ${bundleName}?`;
+    reserveDetails.textContent = `DISCLAIMER: Consumer at your own risk.Are you sure you want to reserve the bundle: ${bundleName}?`;
     reservePopup.showModal();
 }
 
