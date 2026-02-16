@@ -47,7 +47,6 @@ function addFooter() {
     <div class="col">
       <h4>About</h4>
       <a href="foodSafety.html">Food Safety & Allergies</a>
-      
       <a href="privacy.html">Privacy Policy</a>
       <a href="terms.html">Terms and Conditions</a>
       <a href="cookies.html">Cookies</a>
