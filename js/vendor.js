@@ -132,9 +132,10 @@ function renderBundles(bundleContainer, bundleList) {
 
 
         bundleContainer.insertAdjacentHTML('beforeend', html);
+        const currentBundle = bundleContainer.lastElementChild;
 
         //Add reserve button functionality
-        const reserveButton = bundleContainer.querySelector("button");
+        const reserveButton = currentBundle.querySelector("button");
         reserveButton.addEventListener("click", function (e) {
            e.stopPropagation();
            openReservePopup(bundleJson.bundleId, bundleJson.bundleName);
@@ -142,7 +143,6 @@ function renderBundles(bundleContainer, bundleList) {
 
 
         //Add drop-down functionality
-        const currentBundle = bundleContainer.lastElementChild;
         currentBundle.addEventListener("click", async function (e) {
 
             //Flip the arrow
