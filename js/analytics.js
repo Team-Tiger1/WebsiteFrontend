@@ -83,7 +83,7 @@ async function renderOutline(period) {
     noShows.textContent = analyticsOutlineJson["numNoShows"];
     expired.textContent = analyticsOutlineJson["numExpired"];
 
-    await renderPieChart([analyticsOutlineJson["numCollected"], analyticsOutlineJson["numExpired"], analyticsOutlineJson["numNoShows"]]);
+    await renderPieChart([analyticsOutlineJson["numCollected"], analyticsOutlineJson["numNoShows"], analyticsOutlineJson["numExpired"]]);
 }
 
 async function renderTables(period) {
@@ -216,7 +216,6 @@ async function groupLineGraphData(data, period) {
                 const tempDate = new Date(now);
                 tempDate.setHours(date.getHours(), 0, 0, 0);
                 key = tempDate.toISOString();
-                console.log(key);
                 break;
             case "week":
                 key = date.toISOString().split("T")[0]
