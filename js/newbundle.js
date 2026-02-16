@@ -1,11 +1,16 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
+//Elements used on the Create Bundle page
 const productsList = document.getElementById("productsList");
 const msg = document.getElementById("bundleMsg");
 const form = document.getElementById("createBundleForm");
 
-// load the vendors products 
+/**
+ * Loads all products belonging to the logged-in vendor.
+ * These are displayed with quantity selectors so the vendor
+ * can choose how many of each product to include in the bundle.
+ */
 async function loadVendorsProducts(){
     productsList.innerHTML = "";
     msg.textContent = "";
@@ -22,7 +27,7 @@ async function loadVendorsProducts(){
             return;
         }
     
-    // loop through each product and create a checkbox row 
+    // creates a quantity selector for each product 
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
 
@@ -52,7 +57,18 @@ async function loadVendorsProducts(){
         productsList.appendChild(label);
     } 
 }
-// handle bundle creation 
+/**
+ * Handles form submission when a vendor creates a bundle.
+ * 
+ * Validates:
+ * - Required fields
+ * - Price > 0
+ * - Same-day collection window
+ * - End time after start time
+ * - At least one product selected
+ * 
+ * If valid, sends bundle data to backend.
+ */
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
     msg.textContent = "";
@@ -64,9 +80,11 @@ form.addEventListener("submit", async (e) => {
     const collectionStart = document.getElementById("collectionStart").value;
     const collectionEnd = document.getElementById("collectionEnd").value;
 
-    //collect all checked products 
-    // const productSelected = document.querySelectorAll ('input[name="bundleProducts"]:checked');
-    // const productList = Array.from(productSelected).map(cb=> cb.value);
+    /**
+     * We build productList array.
+     * Then add the productsId to the array .
+     * If quantity of a product is more than one (e.g. 3) we add the same id that many times (e.g the product id 3 times) .
+     */
     const qtyInputs = document.querySelectorAll("#productsList .qty-input");
     const productList = [];
 
@@ -79,7 +97,7 @@ form.addEventListener("submit", async (e) => {
         }
     });
 
-
+    //Validation 
     if (!name) return (msg.textContent = "Enter a bundle name");
     if (!description) return (msg.textContent = "Enter a description");
     if (Number.isNaN(price) || price <= 0) return (msg.textContent = "Enter a valid price");
@@ -100,6 +118,7 @@ form.addEventListener("submit", async (e) => {
 
     if (productList.length === 0) return (msg.textContent = "Select at least one product");
 
+    //API call
     const bundleData = {
         name, description, productList, price, category,
         collectionStart: new Date(collectionStart).toISOString(),
@@ -118,9 +137,7 @@ form.addEventListener("submit", async (e) => {
         msg.textContent = "bundle created"
         form.reset();
 
-        // uncheck all checkboxes after reset 
-        // const allChecks = document.querySelectorAll('input[name="bundleProducts"]');
-        // allChecks.forEach(cb => (cb.checked = false));
+        // reset quantity selector to 0 
         const allQty = document.querySelectorAll("#productsList .qty-input");
         allQty.forEach((i) => (i.value = 0));
 
