@@ -4,16 +4,16 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
-//only vendors can view this page
+//Access control -- only users with the VENDOR role can access this page.
 await isAuthenticated("VENDOR");
 
-//summary boxes
+//Summary boxes
 const posted = document.getElementById("postedCount");     // bundles Posted
 const reserved = document.getElementById("reservedCount"); // Bundles Reserved
 const pickup = document.getElementById("pickupCount");     // pickups Today
 
 
-//table
+//Active reservation table
 const tableBody = document.getElementById("reservations");
 
 // getting the claim inputs and model elements 
@@ -34,7 +34,12 @@ async function runDashboard() {
     // await loadBundlesToday
 
 }
-
+/**
+ * Claim Code submission handler.
+ * Send POST request to validate and complete a reservation using claim code.
+ * If successfull with display reservation details in a model and refreshes dashboard 
+ 
+ */
 claimBtn?.addEventListener("click", async () => {
     const claimCode = (claimInput?.value || "").trim();
 
@@ -83,7 +88,7 @@ claimBtn?.addEventListener("click", async () => {
                 openModal("Reservation completed", "Claim code accepted.");
             }
 
-            // Refresh the table + counts
+            // Refresh the table + rest inputs 
             claimInput.value = "";
             await loadVendorReservations();
         }
@@ -97,16 +102,16 @@ claimBtn?.addEventListener("click", async () => {
 // load vendor reservation
 
 /**
- * Using the get /reservations/vendor
- * - update summary boxes
- * - add rows to active reservation table
+ * - Using the get /reservations/vendor.
+ * - Update summary boxes.
+ * - Add rows to active reservation table.
  */
 async function loadVendorReservations() {
     tableBody.innerHTML = "";
 
     const res = await apiGet("/reservations/vendor");
 
-    //if fails we show also reset the count
+    //If fails we show also reset the count
     if (!res.ok) {
         const text = await res.text().catch(() => "");
         tableBody.innerHTML =
@@ -116,14 +121,14 @@ async function loadVendorReservations() {
         if (pickup) pickup.textContent = "0";
         return;
     }
-
+    
     const reservations = await res.json();
 
-    //update bundle reserved and pick ups today
+    //Update bundle reserved and pick ups due today
     if (reserved) {
         reserved.textContent = String(reservations.length);
     }
-
+    //Calculate pickups scheduled for today 
     const today = new Date();
     const pickupsToday = reservations.filter((r) => {
         return isSameDay(new Date(r.collectionStart), today);
@@ -133,7 +138,8 @@ async function loadVendorReservations() {
         pickup.textContent = String(pickupsToday.length);
 
     }
-
+    
+    //load bundles currently available 
     const bundleResponse = await apiGet("/bundles/available");
     if (posted) {
         if (bundleResponse.ok) {
@@ -143,13 +149,13 @@ async function loadVendorReservations() {
         }
     }
 
-    //if there are no reservation we show a message
+    //If there are no reservation, show a message
     if (reservations.length === 0) {
         tableBody.innerHTML = `<tr><td colspan="3">No active reservations</td></tr>`;
         return;
     }
 
-    // now we return the rows
+    // Render reservation rows
     for (const r of reservations) {
         const pickupWindow = formatPickupWindow(r.collectionStart, r.collectionEnd);
         const amount = Number(r.amountDue);
@@ -168,8 +174,9 @@ async function loadVendorReservations() {
 
 
 
-//helper functions
+//Helper functions
 
+//Formats ISO date strings into readable date and time window 
 function formatPickupWindow(start, end) {
     if (!start || !end) return "-";
 
@@ -203,7 +210,7 @@ function isSameDay(a, b) {
     );
 }
 
-//helper function for the pop up
+//Helpers opens modal 
 function openModal(title, body, isHtml = false) {
     modalTitle.textContent = title;
 
@@ -215,7 +222,7 @@ function openModal(title, body, isHtml = false) {
 
     modal.classList.remove("hidden");
 }
-
+//Closes modal 
 function closeModal() {
     modal.classList.add("hidden");
 }
