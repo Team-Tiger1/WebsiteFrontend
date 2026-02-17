@@ -5,7 +5,7 @@ await isAuthenticated("USER");
 
 let bundleList = null;
 let sortOrder = "asc"
-
+//shows the user-friendly category name instead of the enum value stored in the database
 const categoryNameMap = {
     "BREAD_BAKED_GOODS": "Bread & Baked Goods",
     "SWEET_TREATS_DESSERTS": "Sweet Treats",
@@ -19,6 +19,7 @@ const categoryNameMap = {
     "DRINKS_BEVERAGES": "Drinks"
 };
 
+//if the user presses the sort button, it sorts the bundles by price in either ascending or descending order depending on the current state. It then re-renders the bundles with the new order.
 const sortButton = document.getElementById("sortButton");
 sortButton.addEventListener("click", function (e) {
     if (bundleList == null) {
@@ -39,7 +40,8 @@ sortButton.addEventListener("click", function (e) {
 
 })
 
-
+//When the page loads, it fetches the vendor's information and bundles from the backend and populates the page with this information. 
+// It also sets up event listeners for the reserve buttons and bundle drop-downs.
 document.addEventListener('DOMContentLoaded', async () => {
     const vendorName = document.getElementById('vendorName');
     const vendorDescription = document.getElementById('vendorDescription');
@@ -49,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const postcode = document.getElementById('postcode');
     const map = document.getElementById('map');
 
-
+// If there is no vendorId in local storage, redirect the user to the catalog page as they are not a vendor and should not be on this page
     const vendorId = localStorage.getItem("vendorId");
     if (vendorId == null) {
         window.location.href = "catalog.html";
@@ -61,8 +63,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (vendorResponse.status !== 200) {
         window.location.href = "404.html";
     }
-
+//gets the response from the backend and populates the page with the vendor's information.
     let data = await vendorResponse.json();
+    //If any of the vendor's information is missing, it displays a default message instead of leaving it blank
     vendorName.innerHTML = data.companyName || "Unknown Company";
     vendorDescription.innerHTML = data.description || "";
     phoneNumber.innerHTML = data.phoneNumber || "Unknown Phone Number";
@@ -70,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     streetAddress.innerHTML = data.streetAddress || "Unknown Street";
     postcode.innerHTML = data.postcode || "Unknown Postcode";
 
+   //create the interactive map for the vendors location using the google maps embed API
     const srcFirstHalf = "https://maps.google.com/maps?width=100%&height=600&hl=en&q=";
     const locationURI = encodeURIComponent(data.streetAddress);
     const srcSecondHalf = "&ie=UTF8&t=&z=14&iwloc=B&output=embed";
@@ -89,7 +93,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderBundles(bundleContainer, bundleList);
 
 })
-
+/**
+ * This function takes in a list of bundles and a container element, and renders the bundles as HTML elements inside the container. 
+ * It also sets up event listeners for the reserve buttons and bundle drop-downs.
+ * @param {*} bundleContainer 
+ * @param {*} bundleList 
+ */
 function renderBundles(bundleContainer, bundleList) {
 
     //Clear the old bundles
@@ -191,7 +200,8 @@ function renderBundles(bundleContainer, bundleList) {
                 minute: "2-digit",
             });
 
-
+            //this is the html for the drop down that appears when the user clicks on a bundle
+            // It includes the bundle's description, a list of products in the bundle, the retail price, and the collection time
             const dropDownHtml =
                 `
             <div class="drop-down">
@@ -229,10 +239,15 @@ const confirmReserveBtn = document.getElementById("confirmReserveBtn");
 const cancelReserveBtn = document.getElementById("cancelReserveBtn");
 
 let selectedBundleId = null;
-
+/**
+ * This function is called when the user clicks the reserve button on a bundle. 
+ * It sets the selected bundle ID and updates the reserve pop-up with the bundle name. It then shows the pop-up to the user to confirm their reservation.
+ * @param {*} bundleId 
+ * @param {*} bundleName 
+ */
 function openReservePopup(bundleId, bundleName){
     selectedBundleId = bundleId;
-    reserveDetails.textContent = `Are you sure you want to reserve the bundle: ${bundleName}?`;
+    reserveDetails.textContent = `DISCLAIMER: Consumer at your own risk. Are you sure you want to reserve the bundle: ${bundleName}?`;
     reservePopup.showModal();
 }
 
@@ -257,7 +272,12 @@ cancelReserveBtn.addEventListener("click", function(){
     selectedBundleId = null;
     reservePopup.close();
 });
-
+/**
+ * This function takes in a string and capitalizes the first letter while making the rest of the letters lowercase. 
+ * This is used to display the allergy information in a more user-friendly way.
+ * @param {*} string 
+ * @returns 
+ */
 function capitalizeString (string) {
     string = string.toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
