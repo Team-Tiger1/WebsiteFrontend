@@ -3,7 +3,8 @@ import {isAuthenticated} from "./auth.js";
 
 let pieChart = null;
 let lineChart = null;
-
+//creates the configuration for the pie chart and line graph
+//This includes the labels, colours, and data (which is updated later)
 const pieConfig = {
     labels: [
         "Collected",
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await renderOutline("day")
     await renderTables("day")
-
+    //This adds an event listener to the period drop down, so that when the user changes the period, the tables and graphs are updated to reflect the new period
     const periodDropdown = document.getElementById("period-dropdown");
     periodDropdown.addEventListener("change", async () => {
        const period = periodDropdown.value;
@@ -65,7 +66,12 @@ document.addEventListener("DOMContentLoaded", async () => {
        await renderOutline(period);
     });
 });
-
+/**
+ * This function renders the outline section of the analytics page, which includes the headline statistics and the pie chart
+ * It makes a call to the api call to get the number of bundles collected, no shows, and expired for the selected period, and then updates the HTML elements with the new data
+ * It also calls the renderPieChart function to update the pie chart with the new data
+ * @param {*} period 
+ */
 async function renderOutline(period) {
     const collected = document.getElementById("bundlesCollected");
     const noShows = document.getElementById("bundleNoShow");
@@ -86,6 +92,13 @@ async function renderOutline(period) {
     await renderPieChart([analyticsOutlineJson["numCollected"], analyticsOutlineJson["numNoShows"], analyticsOutlineJson["numExpired"]]);
 }
 
+/**
+ * This function renders the tables section of the analytics page, which includes a table for each bundle outcome (collected, no show, expired)
+ * It makes an api call to get the bundles for the selected period, and then iterates through the bundles and adds them to the appropriate table based on their outcome
+ * It also keeps track of the total revenue/loss for each outcome, and updates the labels at the top of each table with the new totals
+ * Finally, it calls the renderLineGraph function to update the line graph with the new data
+ * @param {*} period 
+ */
 async function renderTables(period) {
 
     const collectedTable = document.getElementById("collected-table");
@@ -141,7 +154,17 @@ async function renderTables(period) {
     await renderLineGraph(period, collectedGraphData, noShowGraphData, expiredGraphData);
 
 }
-
+/**
+ * This function renders the line graph section of the analytics page, 
+ * which shows the number of bundles collected, no shows, and expired over time for the selected period
+ * 
+ * 
+ * @param {*} period 
+ * @param {*} collectedData 
+ * @param {*} noShowData 
+ * @param {*} expiredData 
+ * @returns 
+ */
 async function renderLineGraph(period, collectedData, noShowData, expiredData) {
 
     collectedData = await groupLineGraphData(collectedData, period);
@@ -200,6 +223,15 @@ async function renderLineGraph(period, collectedData, noShowData, expiredData) {
     })
 }
 
+/**
+ * This function takes in the bundle data for a specific outcome (collected, no show, expired) and groups it by the appropriate time unit based on the selected period (hourly for day, daily for week and month, monthly for year)
+ * It first generates a list of all the time units for the selected period, and initialises the count for each unit to 0
+ * 
+ * 
+ * @param {*} data 
+ * @param {*} period 
+ * @returns 
+ */
 async function groupLineGraphData(data, period) {
     const total = await generatePaddingLists(period);
     const now = new Date();
@@ -246,6 +278,12 @@ async function groupLineGraphData(data, period) {
     })).sort((a, b) => new Date(a.x) - new Date(b.x));
 }
 
+
+/**
+ * This function generates a list of time units for the selected period, and initialises the count for each unit to 0
+ * @param {*} period 
+ * @returns 
+ */
 async function generatePaddingLists(period) {
     const list = {};
     const now = new Date();
@@ -283,6 +321,12 @@ async function generatePaddingLists(period) {
     return list;
 }
 
+/**
+ * This function renders the pie chart section of the analytics page, which shows the proportion of bundles collected, no shows, and expired for the selected period
+ * It takes in the number of bundles for each outcome, updates the pie chart configuration with the new data, and then either updates the existing chart or creates a new one if it doesn't exist
+ * @param {*} data 
+ * @returns 
+ */
 async function renderPieChart(data) {
 
     pieConfig.datasets[0].data = data;
@@ -303,6 +347,13 @@ async function renderPieChart(data) {
 
 }
 
+/**
+ * This function takes in a bundle object and converts it to an HTML table row element, 
+ * which can then be added to the table based on the bundle's outcome (collected, no show, expired)
+ * 
+ * @param {*} bundle 
+ * @returns 
+ */
 function convertBundleToHTML(bundle) {
     const tr = document.createElement("tr");
 

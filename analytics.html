@@ -12,9 +12,9 @@
     <div id="header"></div>
 
     <main>
-
+<!--This is the analytics page-->
         <h1>Analytics</h1>
-
+<!--This area shows the headline statics to provide a quick summary to the vendor-->
         <div class="analytics-outline">
             <div class="summary-box">
                 <p class="summary-title">Bundles Collected</p>
@@ -30,7 +30,7 @@
                 <p class="summary-title">Bundles Expired</p>
                 <p class="summary-number" id="bundlesExpired">-</p>
             </div>
-
+            <!--Allows the vendor to select different periods of time to represent on the graph-->
             <div class="drop-down">
                 <div class="dropdown-wrapper">
                     <select id="period-dropdown">
@@ -42,12 +42,12 @@
                 </div>
                 </div>
         </div>
-
+        <!--Contains the graphs-->
         <div class="charts-container">
             <canvas id="pie-chart"></canvas>
             <canvas id="line-graph"></canvas>
         </div>
-
+        <!--shows the information for each bundle -->
         <div class="analytics-display">
             <div class="collected">
                 <h1>Bundles Collected</h1>
@@ -65,7 +65,8 @@
                     <tbody id="collected-table"></tbody>
                 </table>
             </div>
-
+            <!--Divides each of the bundle sections based of the outcome for the bundle-->
+            <!--The table also shows the total loss/revenue incurred from the outcomes-->
             <div class="no-shows">
                 <h1>Bundle No Shows</h1>
                 <p id="noshow-money"></p>
