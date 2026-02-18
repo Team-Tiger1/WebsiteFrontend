@@ -1,5 +1,6 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
+import { API_URL } from "./config.js";
 
 await isAuthenticated("VENDOR");
 
@@ -23,7 +24,7 @@ async function createProduct(productData){
   const token = localStorage.getItem("accessToken");
   if (!token) throw new Error("you must be looged in to create a product");
 
-  const res = await fetch("https://thelastfork.shop/api/products", {
+  const res = await fetch(API_URL+"/products", {
     method: "POST",
     headers: {
       "Authorization": "Bearer " + token,
