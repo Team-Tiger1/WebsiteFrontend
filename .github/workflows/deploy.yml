@@ -31,7 +31,7 @@ jobs:
 
       - name: Deploy to K3s
         env:
-          KUBECONFIG: /home/daniel/.kube/config
+          KUBECONFIG: /home/jedleas/.kube/config
         run: |
           kubectl apply -f k8s/deploy.yaml
           kubectl apply -f k8s/ingress.yaml
