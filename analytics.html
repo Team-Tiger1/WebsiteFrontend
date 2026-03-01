@@ -33,6 +33,7 @@
             <!--Allows the vendor to select different periods of time to represent on the graph-->
             <div class="drop-down">
                 <div class="dropdown-wrapper">
+                    <label for="period-dropdown">Select time Period:</label>
                     <select id="period-dropdown">
                         <option value="day">Day</option>
                         <option value="week">Week</option>
@@ -44,8 +45,8 @@
         </div>
         <!--Contains the graphs-->
         <div class="charts-container">
-            <canvas id="pie-chart"></canvas>
-            <canvas id="line-graph"></canvas>
+            <canvas id="pie-chart" role="img" aria-label="Pie chart showing bundle outcomes"></canvas>
+            <canvas id="line-graph" role="img" aria-label="Line graph showing bundle activity over tiem"></canvas>
         </div>
         <!--shows the information for each bundle -->
         <div class="analytics-display">

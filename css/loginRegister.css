@@ -103,6 +103,7 @@
     padding: .85em 4em;
     cursor: pointer;
     transition: 100ms ease;
+    color: #1a1a1a;;
 }
 
 .auth-page form button:hover{
@@ -110,7 +111,7 @@
 }
 
 .auth-page form button:focus{
-    outline: none;
+    outline: 2px solid white;
     background-color: black;
 }
 .auth-page a{
