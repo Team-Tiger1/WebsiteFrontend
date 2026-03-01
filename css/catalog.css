@@ -353,7 +353,7 @@ button:hover {
 
 }
 
-/*Filter styling */
+/*Filter bar*/
 .filter-bar {
     display: flex;
     flex-wrap: wrap;
@@ -381,4 +381,25 @@ button:hover {
     background-color: #8fcbd3;
     border-color: #5aabb5;
     font-weight: bold;
+}
+
+/*search bar*/
+.search-bar {
+    margin: 10px 0 16px;
+}
+
+#bundleSearch {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 15px;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 150ms ease;
+}
+
+#bundleSearch:focus {
+    outline: none;
+    border-color: #8fcbd3;
 }

@@ -395,7 +395,7 @@ function CategoryFilter(){
         const selected = button.dataset.category;
 
         document.querySelectorAll(".bundleCard").forEach(card => {
-            if (selected === "all" || card.querySelector(`.category.${selected}`)){
+            if (selected === "All" || card.querySelector(`.category.${selected}`)){
                 card.style.display = "";
             } else {
                 card.style.display = "none";
@@ -411,3 +411,21 @@ function CategoryFilter(){
 
 CategoryFilter();
 
+function searchBar(){
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+
+        document.querySelectorAll(".bundleCard").forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(query) ? "" : "none";
+        });
+
+        document.querySelectorAll("#companyBundles section").forEach(section => {
+            const visible = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
+            section.style.display = visible ? "" : "none";
+        });
+    });
+}
+
+searchBar();
