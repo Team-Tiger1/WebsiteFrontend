@@ -70,19 +70,20 @@ main {
     flex: 1;
 }
 
-button {
-    background-color: #8fcbd3;
-    margin-left: 10px;
-    border-radius: 8px;
-    padding: 10px 16px;
+button{
+    background-color: #8fcbd3; 
+    margin-left: 10px; 
+    border-radius: 8px; 
+    padding: 10px 16px; 
     margin-left: 10px;
     cursor: pointer;
+    color: #1a1a1a;
 }
 
-button a {
-    color: white;
-    font-weight: bold;
-    font-size: 15px;
+button a{
+    color: #1a1a1a; 
+    font-weight: bold; 
+    font-size:  15px;
     text-decoration: none;
 }
 

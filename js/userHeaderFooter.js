@@ -7,7 +7,7 @@ function addHeader() {
 
         <li>
           <a href="catalog.html" class="navbar-logo">
-            <img src="img/simp_logo.png" alt="">
+            <img src="img/simp_logo.png" alt="The Last Fork - Home">
           </a>
         </li>
 
@@ -22,8 +22,10 @@ function addHeader() {
       </ul>
 
       <div id="mobile">
-        <i id="bar" class="fa fa-outdent" aria-hidden="true"></i>
-        <a href="cart.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
+          <button id="bar" aria-label="Open navigation menu" style="background:none;border:none;cursor:pointer;padding:0;">
+              <i class="fa fa-outdent" aria-hidden="true"></i>
+          </button>
+          <a href="cart.html" aria-label="Shopping cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>
       </div>
     </nav>
   </header>`;

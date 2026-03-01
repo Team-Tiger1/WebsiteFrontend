@@ -36,10 +36,11 @@ button{
     padding: 10px 16px; 
     margin-left: 10px;
     cursor: pointer;
+    color: #1a1a1a;
 }
 
 button a{
-    color: white; 
+    color: #1a1a1a; 
     font-weight: bold; 
     font-size:  15px;
     text-decoration: none;
