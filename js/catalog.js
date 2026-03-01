@@ -210,6 +210,13 @@ function createBundleCard(bundle, targetCarousel) {
   btn.addEventListener("click", function () {
     openReservePopup(bundleId, name);
   });
+//can activate reserve by pressing enter or space when the card is focused
+   card.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      openReservePopup(bundleId, name);
+    }
+  });
 
   targetCarousel.appendChild(card);
 }
@@ -368,7 +375,7 @@ function enableScrollKeys(el){
         }else if(e.key === "End"){
             e.preventDefault();
             el.scrollTo({
-                left: e.scrollWidth, behavior: "smooth"});
+                left: el.scrollWidth, behavior: "smooth"});
         }
     })
     }
