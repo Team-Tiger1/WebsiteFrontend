@@ -153,22 +153,27 @@ button:hover {
 
 .BREAD_BAKED_GOODS {
     background-color: #d4a568;
+    color: #1a1a1a;
 }
 
 .SWEET_TREATS_DESSERTS {
     background-color: #FF69B4;
+    color: #1a1a1a;
 }
 
 .MEAT_PROTEIN {
     background-color: #A52A2A;
+    color: #1a1a1a;
 }
 
 .FRUIT_VEGETABLES {
     background-color: #2E7D32;
+    color: #1a1a1a;
 }
 
 .DAIRY_EGGS {
     background-color: #dba40d;
+    color: #1a1a1a;
 }
 
 .READY_MEALS_HOT_FOOD {
@@ -177,18 +182,22 @@ button:hover {
 
 .SNACKS_SAVOURY_ITEMS {
     background-color: crimson;
+    color: #1a1a1a;
 }
 
 .BREAKFAST_ITEMS {
     background-color: #0288D1;
+    color: #1a1a1a;
 }
 
 .VEGAN_VEGETARIAN {
     background-color: #4CAF50;
+    color: #1a1a1a;
 }
 
 .DRINKS_BEVERAGES {
     background-color: #9C27B0;
+    color: #1a1a1a;
 }
 
 /*Streak banner*/

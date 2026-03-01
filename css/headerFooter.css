@@ -250,3 +250,10 @@ footer.part1 .copyright{
     text-align: center;
     color: #8d8b8b;
 }
+
+.icon-btn{
+    background:none;
+    border:none;
+    cursor: pointer;
+    padding: 0;
+}
