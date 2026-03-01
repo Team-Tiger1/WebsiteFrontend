@@ -383,3 +383,49 @@ function enableScrollKeys(el){
 enableScrollKeys(vendorCarousel)
 enableScrollKeys(bundleCarousel)
 
+function CategoryFilter(){
+    const filterBar = document.getElementById("filterBar");
+    filterBar.addEventListener("click", (e) => {
+        const button = e.target.closest(".filter-btn");
+        if(!button) return;
+
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        button.classList.add("active");
+
+        const selected = button.dataset.category;
+
+        document.querySelectorAll(".bundleCard").forEach(card => {
+            if (selected === "All" || card.querySelector(`.category.${selected}`)){
+                card.style.display = "";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        document.querySelectorAll("#companyBundles section").forEach(section => {
+            const visibleCards = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
+            section.style.display = visibleCards ? "" : "none";
+        });
+    });
+}
+
+CategoryFilter();
+
+function searchBar(){
+    const searchInput = document.getElementById("searchInput");
+    searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+
+        document.querySelectorAll(".bundleCard").forEach(card => {
+            const text = card.textContent.toLowerCase();
+            card.style.display = text.includes(query) ? "" : "none";
+        });
+
+        document.querySelectorAll("#companyBundles section").forEach(section => {
+            const visible = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
+            section.style.display = visible ? "" : "none";
+        });
+    });
+}
+
+searchBar();
