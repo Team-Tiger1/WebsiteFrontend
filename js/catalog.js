@@ -395,7 +395,7 @@ function CategoryFilter(){
         const selected = button.dataset.category;
 
         document.querySelectorAll(".bundleCard").forEach(card => {
-            if (selected === "All" || card.querySelector(`.category.${selected}`)){
+            if (selected === "ALL" || card.querySelector(`.category.${selected}`)){
                 card.style.display = "";
             } else {
                 card.style.display = "none";
