@@ -304,7 +304,7 @@ async function loadCompanyBundles(){
  */
 async function getStreak(){
     try{
-        const response = await apiGet("/users/streak");
+        const response = await apiGet("/users/streak"); //calls the users current streat
 
         if(!response.ok){
             console.error("Could not get streak");
@@ -383,26 +383,32 @@ function enableScrollKeys(el){
 enableScrollKeys(vendorCarousel)
 enableScrollKeys(bundleCarousel)
 
+/**
+ * 
+ * 
+ */
 function CategoryFilter(){
+    //gets the flter buttons and adds event listener to each one to filter 
+    //the bundles shown in the company bundles and the bundle carousel
     const filterBar = document.getElementById("filterBar");
     filterBar.addEventListener("click", (e) => {
-        const button = e.target.closest(".filter-btn");
+        const button = e.target.closest(".filter-btn"); //if clicked then get the button element
         if(!button) return;
 
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
-        button.classList.add("active");
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active")); //remove all active classes 
+        button.classList.add("active"); //add active to clicked button for CSS
 
-        const selected = button.dataset.category;
+        const selected = button.dataset.category; //collects the buttons category
 
         document.querySelectorAll(".bundleCard").forEach(card => {
-            if (selected === "ALL" || card.querySelector(`.category.${selected}`)){
-                card.style.display = "";
+            if (selected === "ALL" || card.querySelector(`.category.${selected}`)){ //loop through each card to see if it should still be shown based off the category selected
+                card.style.display = ""; //left in default state to be shown if in category
             } else {
-                card.style.display = "none";
+                card.style.display = "none"; //not shown in not in category
             }
         });
 
-        document.querySelectorAll("#companyBundles section").forEach(section => {
+        document.querySelectorAll("#companyBundles section").forEach(section => { //after filtering the cards we loop through each company section to see if they have any visible cards left, if not we hide the whole section
             const visibleCards = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
             section.style.display = visibleCards ? "" : "none";
         });
@@ -411,17 +417,20 @@ function CategoryFilter(){
 
 CategoryFilter();
 
+/**
+ * Search bar function to filter the bundles based on the search query entered by the user
+ */
 function searchBar(){
-    const searchInput = document.getElementById("searchInput");
+    const searchInput = document.getElementById("searchInput"); //gets user input
     searchInput.addEventListener("input", () => {
-        const query = searchInput.value.toLowerCase();
+        const query = searchInput.value.toLowerCase(); //converts input to lower case
 
-        document.querySelectorAll(".bundleCard").forEach(card => {
+        document.querySelectorAll(".bundleCard").forEach(card => { //loops through each card to see if search matches the cards text
             const text = card.textContent.toLowerCase();
             card.style.display = text.includes(query) ? "" : "none";
         });
 
-        document.querySelectorAll("#companyBundles section").forEach(section => {
+        document.querySelectorAll("#companyBundles section").forEach(section => { //after filtering the cards we loop through each company section to see if they have any visible cards left, if not we hide the whole section
             const visible = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
             section.style.display = visible ? "" : "none";
         });
