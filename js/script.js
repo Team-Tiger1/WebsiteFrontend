@@ -40,3 +40,18 @@ carousel.addEventListener("mousemove", (e)=>{
     const move = (x - startX) * 1.5
     carousel.scrollLeft = carousel.scrollLeft - move;
 });
+
+//adding the ability for users to navigate the page via arrows keys
+document.addEventListener("keydown", (e) => {
+    const focusable = [...document.querySelectorAll("a, button, input, select, textarea, [tabindex='0']")]; //gets all the elements on the page
+    const current = document.activeElement; //gets the element that is currently selected
+    const index = focusable.indexOf(current); 
+
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") { //if the user presses the down or right arrow key move to the next element
+        e.preventDefault();
+        focusable[index + 1]?.focus();
+    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") { //if the user presses the up or left arrow key move to the previous  element
+        e.preventDefault();
+        focusable[index - 1]?.focus();
+    }
+});
