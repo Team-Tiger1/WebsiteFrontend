@@ -14,21 +14,21 @@ let click = false;
 //stores position of the mouse before and after
 let startX;
 let scroll;
-
+//track position when mouse is clicked and scroll by how much distance in x direction.
 carousel.addEventListener("mousedown", (e) =>{
     click = true;
     startX = e.pageX - carousel.offsetLeft;
     scroll = carousel.scrollLeft;
 });
-
+//When the mouse leaves the carousel stop scrolling
 carousel.addEventListener("mouseleave", ()=>{
     click = false;
 });
-
+//when the mouse is released stop scrolling
 carousel.addEventListener("mouseup", ()=>{
     click = false;
 });
-
+//when the mouse moves and click scroll the carousel by the distance the mouse has moved
 carousel.addEventListener("mousemove", (e)=>{
     //if mouse not being clicked do nothing
     if (!click){
@@ -41,23 +41,34 @@ carousel.addEventListener("mousemove", (e)=>{
     carousel.scrollLeft = carousel.scrollLeft - move;
 });
 
-//adding the ability for users to navigate the page via arrows keys
 document.addEventListener("keydown", (e) => {
-    const focusable = [...document.querySelectorAll("a, button, input, select, textarea, [tabindex='0']")]; //gets all the elements on the page
     const current = document.activeElement; //gets the element that is currently selected
-    const index = focusable.indexOf(current); 
     const tag = current.tagName; //gets the tag name of the current element
 
-    //skips navigation if the user is currently focused on an input, textarea or select element which would affect typing or selecting options
-    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") {
-        return;
-    }
+    //skips navigation if the user is currently selected on an input, textarea or select element which would affect inputing text or selecting check boxes etc
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
 
-    if (e.key === "ArrowDown" || e.key === "ArrowRight") { //if the user presses the down or right arrow key move to the next element
+    //gets all the sections on the page so up and down can jump between them
+    const sections = Array.from(document.querySelectorAll('header, nav, main, section, footer'))
+        .filter(el => el.offsetParent !== null);
+    const currentSection = sections.find(s => s.contains(current)) || sections[0];
+    const currentSectionIndex = sections.indexOf(currentSection);
+
+    //gets all focusable elements but only within the current section
+    const focusable = [...currentSection.querySelectorAll("a, button, input, select, textarea, [tabindex='0']")];
+    const index = focusable.indexOf(current);
+
+    if (e.key === "ArrowRight") { //move to next element within section
         e.preventDefault();
-        focusable[index + 1]?.focus(); //if there is a next element go to it if not do nothing
-    } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") { //if the user presses the up or left arrow key move to the previous  element
+        focusable[index + 1]?.focus();
+    } else if (e.key === "ArrowLeft") { //move to previous element within section
         e.preventDefault();
-        focusable[index - 1]?.focus(); //if there is a previous element go to it if not do nothing
+        focusable[index - 1]?.focus();
+    } else if (e.key === "ArrowDown") { //jump to next section
+        e.preventDefault();
+        sections[currentSectionIndex + 1]?.querySelector('a, button, input, select, textarea')?.focus();
+    } else if (e.key === "ArrowUp") { //jump to previous section
+        e.preventDefault();
+        sections[currentSectionIndex - 1]?.querySelector('a, button, input, select, textarea')?.focus();
     }
 });
