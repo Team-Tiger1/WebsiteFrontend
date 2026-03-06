@@ -92,6 +92,8 @@ button:hover {
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     padding: 12px 6px;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
 
 .company {
