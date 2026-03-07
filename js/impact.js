@@ -5,6 +5,11 @@ await isAuthenticated("USER");
 
 const badge = document.querySelector(".user-badge");
 
+
+/**
+ * loads the badges for the impact page
+ * @returns
+ */
 async function loadBadgesForUser(){
     const response = await apiGet("/users/badges");
     if (!response.ok) {
@@ -20,6 +25,10 @@ async function loadBadgesForUser(){
 }
 loadBadgesForUser();
 
+/**
+ * loads the badges for the impact page and places them into cards for each badge
+ * each card has a proguess bar that shows how close the user is to the next grade for that badge
+ */
 async function loadBadges(){
     const list = document.getElementById("badges");
     list.innerHTML = "";
@@ -30,22 +39,22 @@ async function loadBadges(){
         card.setAttribute("aria-label", `${badge.name} - ${badge.grade} grade, ${badge.progress}% to ${badge.nextGrade}`);
 
         const proguessBar = badge.progress === 100
-        ? `${badge.progress} - Max Grade reached!`
-        : `${badge.progress}% to ${badge.nextGrade}`;
+            ? `${badge.progress} - Max Grade reached!`
+            : `${badge.progress}% to ${badge.nextGrade}`;
 
         card.innerHTML = `
          <div class="badge-info">
-33                <div class="badge-name">${badge.name}</div>
-34                <div class="badge-grade">Grade: ${badge.grade}</div>
-35                <div class="progress-bar-wrap">
-36                    <div class="progress-bar-fill" style="width: ${badge.progress}%;"></div>
-37                    <span class="progress-bar-label">${progressLabel}</span>
-38                </div>
-39            </div>
-40            <div class="badge-image" style="background: ${badge.color}20;">
-41                <!--Swap for image when backend have made it for me-->
-42                <div style="width:70px; height:70px; border-radius:8px; background:${badge.color};"></div>
-43            </div>`;
+            <div class="badge-name">${badge.name}</div>
+            <div class="badge-grade">Grade: ${badge.grade}</div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar-fill" style="width: ${badge.progress}%;"></div>
+                <span class="progress-bar-label">${progressLabel}</span>
+            </div>
+         </div>
+         <div class="badge-image" style="background: ${badge.color}20;">
+            <!--Swap for image when backend have made it for me-->
+            <div style="width:70px; height:70px; border-radius:8px; background:${badge.color};"></div>
+         </div>`;
         list.appendChild(card);
     })
 }
