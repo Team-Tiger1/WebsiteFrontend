@@ -48,14 +48,9 @@ document.addEventListener("keydown", (e) => {
     //skips navigation if the user is currently selected on an input, textarea or select element which would affect inputing text or selecting check boxes etc
     if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
 
-    //gets all the sections on the page so up and down can jump between them
-    const sections = Array.from(document.querySelectorAll('header, nav, main, section, footer'))
-        .filter(el => el.offsetParent !== null);
-    const currentSection = sections.find(s => s.contains(current)) || sections[0];
-    const currentSectionIndex = sections.indexOf(currentSection);
-
     //gets all focusable elements but only within the current section
-    const focusable = [...currentSection.querySelectorAll("a, button, input, select, textarea, [tabindex='0']")];
+    const allFocusable = document.querySelectorAll("a, button, input, select, textarea, [tabindex='0']");
+    const focusable = Array.from(allFocusable).filter(el => el.offsetParent !== null);
     const index = focusable.indexOf(current);
 
     if (e.key === "ArrowRight") { //move to next element within section
@@ -66,9 +61,10 @@ document.addEventListener("keydown", (e) => {
         focusable[index - 1]?.focus();
     } else if (e.key === "ArrowDown") { //jump to next section
         e.preventDefault();
-        sections[currentSectionIndex + 1]?.querySelector('a, button, input, select, textarea')?.focus();
+        focusable[index + 1]?.focus();
     } else if (e.key === "ArrowUp") { //jump to previous section
         e.preventDefault();
-        sections[currentSectionIndex - 1]?.querySelector('a, button, input, select, textarea')?.focus();
+        focusable[index - 1]?.focus();
+
     }
 });
