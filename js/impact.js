@@ -18,6 +18,8 @@ async function loadBadgesForUser(){
         return;
     }
 }
+loadBadgesForUser();
+
 
 
 
