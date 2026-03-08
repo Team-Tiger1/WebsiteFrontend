@@ -1,0 +1,52 @@
+main{
+    padding-top: 8px;
+}
+/* deleteAccount popup */
+#deletePopup{
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 20px;
+    width: 300px;
+    /*Centering the pop up*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#deletePopup h3{
+    margin-top: 0;
+    text-align: center;
+}
+
+.DeleteButton{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+.changePasswordButton{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 10px;
+}
+
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
+
+#deleteAccountButton {
+    background-color: red;
+    color: white;
+}
+
+#changePasswordButton {
+    background-color: green;
+    color: white;
+}
