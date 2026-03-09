@@ -94,6 +94,18 @@ async function loadBadges(badges){
     })
 }
 
+async function loadLeaderboard(){
+    const response = await apiGet("/users/leaderboard");
+    if (!response.ok) {
+        return
+    }
+
+    const leaderboard = await response.json();
+
+}
+
+loadLeaderboard()
+
 
 
 

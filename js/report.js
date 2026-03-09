@@ -25,7 +25,7 @@ async function loadUserBundles(){
     const orders = await response.json();
 
     if(orders.length === 0){
-        bundleSelect.innerHTML = "<option value=\"0\">--No Orders Found--</option>";
+        bundleSelect.innerHTML = "<option value=\"\"No Orders Found</option>";
         return;
     }
 
@@ -58,7 +58,9 @@ async function loadDisputes(){
         list.innerHTML = "<p>You have no disputes</p>";
         return;
     }
-
+    //Collect the response and place into card
+    //if no response in final status just leave the dispute as pending
+    //if no response just default as waiting for response otherwise return it
     list.innerHTML = ""; //reset the current disputes list
     disputes.forEach(dispute => { //for each disput add a card
         const card = document.createElement("div"); //create
@@ -68,7 +70,12 @@ async function loadDisputes(){
             <p>Bundle ID: ${dispute.bundleId}</p> 
             <p>Reason: ${dispute.reason}</p>
             <p>Description: ${dispute.description}</p>
+            <p>Status: ${dispute.finalStatus || "Pending"}</p>
+            ${dispute.vendorResponse
+            ? `<p>Vendor Response: ${dispute.vendorResponse}</p>`
+            : `<p>Vendor Response: Awaiting response</p>`} 
         `;
+
         list.appendChild(card); //add a dispute card
     });
 
@@ -86,23 +93,23 @@ disputSubmitButton.addEventListener("click", async ()=> {
         disputeMsg.textContent = "Please select a Bundle";
         return;
     }
-
+    //if the user dosent enter a reason
     if (!reason) {
         disputeMsg.textContent = "Please enter a reason";
         return;
     }
-
+    //if the user dosent enter a description to the issue
     if (!discription) {
         disputeMsg.textContent = "Please enter a discription";
         return;
     }
-
+    //post the dispute
     const response = await apiPost("/users/dispute", {
         bundleId: bundleId,
         reason: reason,
         description: discription
     })
-
+    //if the dispute is posted corrected show ok repsonse if not show dispute failed
     if (response.ok){
         //prompt dispute sent
         disputeMsg.textContent = "Dispute submitted";
@@ -117,5 +124,6 @@ disputSubmitButton.addEventListener("click", async ()=> {
 
 });
 
+//call functions
 loadUserBundles();
 loadDisputes();

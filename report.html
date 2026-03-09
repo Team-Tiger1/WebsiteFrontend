@@ -16,18 +16,18 @@
     <main>
         <h2>Report an Issue</h2>
         <!--Dispute form-->
-        <section class="disputForm" aria-labelledby="disputFormTitle">
+        <section class="disputForm" aria-labelledby="disputForm">
             <h3 id="formTitle">Submit a Dispute</h3>
             <!--select a bundle from their orders to report/ start a dispute-->
             <label for="disputeSelect">Select a Bundle</label>
             <select name="disputeSelect" id="disputeSelect">
-                <option value="">--Please choose a bundle--</option>
+                <option value="">Please choose a bundle</option>
             </select>
 
             <!--Select a reason for dispute from predefined reasons-->
             <label for="reasonSelect">Select a Reason</label>
             <select name="reasonSelect" id="reasonSelect">
-                <option value="">--Please choose a reason--</option>
+                <option value="">Please choose a reason</option>
                 <option value="DAMAGED">Damaged</option>
                 <option value="MISSING_ITEMS">Missing Items</option>
                 <option value="QUALITY_ISSUES">Quality Issues</option>
@@ -38,10 +38,11 @@
                 <option value="OTHER">Other</option>
             </select>
             <!--Allows the user to add context and discription to their issue/dispute especially if chosen other-->
-            <label for="disputeDiscription">Description</label>
-            <textarea name="disputeDiscription" id="disputeDiscription" placeholder="Describe the issue" rows="4" required aria-required="true"></textarea>
+            <label for="disputeDescription" aria-label="disputeDescription">Description</label>
+            <textarea name="disputeDescription" id="disputeDescription" placeholder="Describe the issue" rows="4" required aria-required="true"></textarea>
 
             <!--Allows the vendor to submit dispute-->
+            <label for="disputeSubmitButton" aria-label="disputeType">Submit Type</label>
             <button id="disputeSubmitButton">Submit Dispute</button>
             <p id="disputeMsg" role="alert" aria-live="polite"></p>
         </section>
