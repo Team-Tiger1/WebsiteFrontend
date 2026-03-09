@@ -384,7 +384,7 @@ enableScrollKeys(vendorCarousel)
 enableScrollKeys(bundleCarousel)
 
 /**
- * 
+ * this function filters the bundles based off the category the bundle is
  * 
  */
 function CategoryFilter(){
@@ -421,7 +421,7 @@ CategoryFilter();
  * Search bar function to filter the bundles based on the search query entered by the user
  */
 function searchBar(){
-    const searchInput = document.getElementById("searchInput"); //gets user input
+    const searchInput = document.getElementById("bundleSearch"); //gets user input
     searchInput.addEventListener("input", () => {
         const query = searchInput.value.toLowerCase(); //converts input to lower case
 

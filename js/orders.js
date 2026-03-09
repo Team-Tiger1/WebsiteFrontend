@@ -17,7 +17,7 @@ async function loadOrders() {
     let response;
     try {
 
-        response = await apiGet("/reservations?status=RESERVED");
+        response = await apiGet("/reservations?status=RESERVED"); //gets the orders that the user currently has reserved
 
     } catch (err) {
         console.error(err);

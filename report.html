@@ -4,7 +4,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>The Last Fork</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/report.css" />
     <link rel="stylesheet" href="css/headerFooter.css" />
@@ -15,9 +14,46 @@
     <div class="pageWrap">
 
     <main>
-        <!--Where we will allow customers to report issues with bundles-->
-        <h3>This is the page where we will allow users to report products</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum enim in ducimus consequuntur adipisci, veritatis at. Iste provident deleniti est veritatis architecto repellat, aliquam fuga illo atque possimus voluptatibus. Ratione.</p>
+        <h2>Report an Issue</h2>
+        <!--Dispute form-->
+        <section class="disputForm" aria-labelledby="disputForm">
+            <h3 id="formTitle">Submit a Dispute</h3>
+            <!--select a bundle from their orders to report/ start a dispute-->
+            <label for="disputeSelect">Select a Bundle</label>
+            <select name="disputeSelect" id="disputeSelect">
+                <option value="">Please choose a bundle</option>
+            </select>
+
+            <!--Select a reason for dispute from predefined reasons-->
+            <label for="reasonSelect">Select a Reason</label>
+            <select name="reasonSelect" id="reasonSelect">
+                <option value="">Please choose a reason</option>
+                <option value="DAMAGED">Damaged</option>
+                <option value="MISSING_ITEMS">Missing Items</option>
+                <option value="QUALITY_ISSUES">Quality Issues</option>
+                <option value="LOCATION_INACCESSIBLE">Location Inaccessible</option>
+                <option value="VENDOR_NO_SHOW">Vendor No Show</option>
+                <option value="REFUSED_COLLECTION">Refused Collection</option>
+                <option value="PAST_WINDOW">Past Window</option>
+                <option value="OTHER">Other</option>
+            </select>
+            <!--Allows the user to add context and discription to their issue/dispute especially if chosen other-->
+            <label for="disputeDescription" aria-label="disputeDescription">Description</label>
+            <textarea name="disputeDescription" id="disputeDescription" placeholder="Describe the issue" rows="4" required aria-required="true"></textarea>
+
+            <!--Allows the vendor to submit dispute-->
+            <label for="disputeSubmitButton" aria-label="disputeType">Submit Type</label>
+            <button id="disputeSubmitButton">Submit Dispute</button>
+            <p id="disputeMsg" role="alert" aria-live="polite"></p>
+        </section>
+
+        <!--Next the current users disputs are shown-->
+        <section class="dispute-list" aria-labelledby="disputeListTitle">
+            <h3 id="disputeListTitle">Your Disputes</h3>
+            <div id="disputeList">
+                <p>Loading disputes...</p>
+            </div>
+        </section>
     </main>
 
     <!--Footer-->

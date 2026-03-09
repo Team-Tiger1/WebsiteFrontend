@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>The Last Fork</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/headerFooter.css" />
     <link rel="stylesheet" href="css/manageAccount.css" />
@@ -20,28 +19,31 @@
         <p>Would you like to change your password?</p>
 
         <div>
+            <label for="old-password-input">Current Password</label> <!--For screen readers-->
             <input type="password" id="old-password-input" placeholder="Old Password" required>
         </div>
         <div>
             <!--Collects the password-->
             <!--type password so it hides the characters-->
+            <label for="password-input">New Password</label> <!--For screen readers-->
             <input type="password" id="password-input" placeholder="New Password" required>
         </div>
         <div>
             <!--Collects the second password to compare-->
             <!--type password so it hides the characters-->
+            <label for="repeat-password-input">Repeat New Password</label> <!--For screen readers-->
             <input type="password" id="repeat-password-input" placeholder="New Password Repeat" required>
         </div>
 
         <button id="changePasswordButton">Change Password</button>
-        <p id="errorMsg"></p>
+        <p id="errorMsg" role="alert" aria-live="polite"></p> <!--added role alert for screen readers-->
 
     </main>
 
-    <dialog id="deletePopup">
+    <dialog id="deletePopup" aria-labelledby="deletePopup">
         <h3>Confirm Delete Account</h3>
         <p id="DeleteDetails">This will delete your account and all its information. Are you sure?</p>
-        <div class="DeleteButton">
+        <div class="DeleteButton" aria-describedby="deleteDetails">
             <button id="confirmDeleteButton">Confirm</button>
             <button id="cancelDeleteButton">Cancel</button>
         </div>
