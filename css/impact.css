@@ -79,11 +79,11 @@ main{
 }
 
 .progress-bar-wrap {
-    border: 1px solid #ccc;
+    border: 1px solid whitesmoke;
     border-radius: 6px;
     overflow: hidden;
     height: 28px;
-    background: #f0f0f0;
+    background: #white;
     position: relative;
 }
 .progress-bar-fill {
@@ -120,23 +120,23 @@ main{
     .badge-image { width: 80px; }
 }
 
-/*leaderboard CSS */
+/*leaderboard CSS for both waste and money*/
 .leaderboard-row {
     display: flex;
     justify-content: space-between;
     padding: 10px;
-    border-bottom: 1px solid #eee;
+    border: 1px solid lightgrey;
 }
 
 .leaderboard-row:first-child {
     font-weight: bold;
-    background-color: darkgrey;
+    background-color: lightgrey;
 }
 
 #moneyUserPosition, #wasteUserPosition {
     margin-top: 10px;
     padding: 10px;
-    background-color: #e8f5e9;
+    background-color: lightgreen;
     border-radius: 6px;
     font-weight: bold;
 }

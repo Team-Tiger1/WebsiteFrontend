@@ -17,18 +17,19 @@ const disputeMsg = document.getElementById("disputeMsg");
 async function loadUserBundles(){
     const response = await apiGet("/reservations");
     if (!response.ok){ //if no orders found show empty drop down
-        bundleSelect.innerHTML = "<option value=\"\">--Could not load orders--</option>";
+        bundleSelect.innerHTML = "<option value=\"\"Could not load orders</option>";
         return;
     }
 
     //if there is a response
     const orders = await response.json();
-
+    //if the user has made no orders just show empty dropdown
     if(orders.length === 0){
         bundleSelect.innerHTML = "<option value=\"\"No Orders Found</option>";
         return;
     }
-
+    //loop through each order and add it as an option in the bundle select drop down
+    //each option shows the bundle name and stores the bundleID
     orders.forEach(order => {
         const option = document.createElement("option"); //add it as an option
         option.value = order.bundle.bundleId; //add the bundleID
