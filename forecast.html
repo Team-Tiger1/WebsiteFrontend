@@ -11,17 +11,83 @@
 <body>
     <div id="header"></div>
 
-    <main>
-        <h1>Forecast</h1>
-        <p>Select a Bundle you would like to see the forecast for:</p>
-        <label for="bundleSelect">Select a bundle:</label>
-        <select id="bundleSelect">
-            <option value="">--Please choose an option--</option>
-        </select>
-        <button id="getForecast">Get Forecast</button>
-        <p id="errMsg"></p>
-        <pre id="forecastResult"></pre>
-    </main>
+    <div class="dashboard-container">
+        <div class="control-panel column">
+            <h2>Simulation Factors</h2>
+
+            <div class="slider-group">
+                <label for="priceSlider">Price Adjust: <span id="priceValue">£0.00</span></label>
+                <input type="range" id="priceSlider" min="0" max="25" step="1" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label for="discountSlider">Discount (%): <span id="discountValue">0%</span></label>
+                <input type="range" id="discountSlider" min="0" max="100" step="1" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label for="leadTimeSlider">Lead Time: <span id="leadTimeValue">0</span></label>
+                <input type="range" id="leadTimeSlider" min="0" max="8" step="0.5" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label for="windowLengthSlider">Window Length: <span id="windowLengthValue">0</span></label>
+                <input type="range" id="windowLengthSlider" min="0" max="8" step="0.5" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label for="weatherSlider">Weather: <span id="weatherValue">Okay</span></label>
+                <input type="range" id="weatherSlider" min="0" max="2" step="1" value="1">
+            </div>
+
+            <div class="slider-group">
+                <label for="temperatureSlider">Temperature: <span id="temperatureValue">15</span></label>
+                <input type="range" id="temperatureSlider" min="-5" max="30" step="5" value="15">
+            </div>
+
+            <div class="slider-group">
+                <label for="daySlider">Day: <span id="dayValue">Monday</span></label>
+                <input type="range" id="daySlider" min="0" max="6" step="1" value="0">
+            </div>
+
+            <div class="slider-group">
+                <label for="collectionTimeSlider">Collection Time: <span id="collectionTimeValue">12:00</span></label>
+                <input type="range" id="collectionTimeSlider" min="0" max="16" step="0.5" value="6">
+            </div>
+
+            <div class="slider-group">
+                <label for="categorySelect">Category:</label>
+                <select id="categorySelect">
+                    <option value="BREAD_BAKED_GOODS">Bread & Baked Goods</option>
+                    <option value="BREAKFAST_ITEMS" selected>Breakfast Items</option>
+                    <option value="DAIRY_EGGS">Dairy & Eggs</option>
+                    <option value="DRINKS_BEVERAGES">Drinks & Beverages</option>
+                    <option value="FRUIT_VEGETABLES">Fruit & Vegetables</option>
+                    <option value="MEAT_PROTEIN">Meat & Protein</option>
+                    <option value="READY_MEALS_HOT_FOOD">Ready Meals & Hot Food</option>
+                    <option value="SNACKS_SAVOURY_ITEMS">Snacks & Savoury Items</option>
+                    <option value="SWEET_TREATS_DESSERTS">Sweet Treats & Desserts</option>
+                    <option value="VEGAN_VEGETARIAN">Vegan & Vegetarian</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="results-panel row">
+            <div class="circle-container">
+                <h3>Reservation Chance</h3>
+                <div class="progress-circle" id="reservationChanceCircle">
+                    <span id="reservationChanceText">0%</span>
+                </div>
+            </div>
+
+            <div class="circle-container">
+                <h3>Collection Chance</h3>
+                <div class="progress-circle" id="collectionChanceCircle">
+                    <span id="collectionChanceText">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div id="footer"></div>
 
