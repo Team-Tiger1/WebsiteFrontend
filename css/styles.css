@@ -474,3 +474,7 @@ button:hover {
     text-align: left;
     padding: 12px;
 }
+
+.category {
+    color: #1a1a1a !important;
+}

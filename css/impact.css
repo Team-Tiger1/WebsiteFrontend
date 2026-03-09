@@ -36,3 +36,87 @@ main{
     text-align: center;
     margin: 18px 0 10px;
 }
+/*badge display CSS*/
+#badges{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.badge-card{
+    display: flex;
+    align-items: stretch;
+    width: calc(50% - 8px);
+    border: 1px solid darkgreen;
+    overflow: hidden;
+    background-color: white;
+}
+
+.badge-info{
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+}
+
+.badge-name{
+    font-size: 16px;
+    font-weight: 700;
+    color: #222;
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    display: inline-block;
+    width: fit-content;
+}
+
+.badge-grade{
+    font-size: 14px;
+    color: gray;
+    font-weight: bold;
+}
+
+.progress-bar-wrap {
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 28px;
+    background: #f0f0f0;
+    position: relative;
+}
+.progress-bar-fill {
+    height: 100%;
+    background: #3c6d3f;
+    border-radius: 6px 0 0 6px;
+    transition: width 0.5s ease;
+}
+.progress-bar-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+}
+.badge-image {
+    width: 120px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-left: 1px solid #ddd;
+}
+.badge-image div {
+    width: 70px;
+    height: 70px;
+    border-radius: 8px;
+}
+@media (max-width: 500px) {
+    .badge-image { width: 80px; }
+}
+

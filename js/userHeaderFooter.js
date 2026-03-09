@@ -1,3 +1,5 @@
+import { apiPost } from "./connection.js";
+
 function addHeader() {
     return `<header>
     <nav class="navbar">
@@ -15,6 +17,7 @@ function addHeader() {
         <li><a href="orders.html">Orders</a></li>
         <li><a href="impact.html">Impact</a></li>
         <li><a href="report.html">Report Issue</a></li>
+        <li><a href="manageAccount.html">Manage Account</a></li>
         <li><a href="#" id="logout">Log Out</a></li>
 
         <a href="#" id="close"><i class="fa fa-times" aria-hidden="true"></i></a>
@@ -83,7 +86,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Add event listener to logout link
     // When clicked, it will clear the access token and redirect to the login
     if (logoutLink) {
-        logoutLink.addEventListener("click", () => {
+        logoutLink.addEventListener("click", async () => {
+            try {
+                await apiPost("/users/logout", {});
+            } catch (e) {
+                console.log("Logout request failed:", e);
+            }
             localStorage.removeItem("accessToken");
             window.location.href = "login.html";
         });
