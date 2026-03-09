@@ -2,3 +2,120 @@ import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
 await isAuthenticated("USER");
+
+//collect the html sections
+const bundleSelect = document.getElementById("disputeSelect"); //specific bundle to raise dispute on
+const reasonSelect = document.getElementById("reasonSelect");
+const disputeDescription = document.getElementById("disputeDiscription");
+const disputSubmitButton = document.getElementById("disputeSubmitButton");
+const disputeMsg = document.getElementById("disputeMsg");
+
+/**
+ * loads the users current bundle reservations in all stages(noshow/reserved/collected)
+ * then load these reservations into the dropdown for disputes
+ * */
+async function loadUserBundles(){
+    const response = await apiGet("/reservations");
+    if (!response.ok){ //if no orders found show empty drop down
+        bundleSelect.innerHTML = "<option value=\"\">--Could not load orders--</option>";
+        return;
+    }
+
+    //if there is a response
+    const orders = await response.json();
+
+    if(orders.length === 0){
+        bundleSelect.innerHTML = "<option value=\"0\">--No Orders Found--</option>";
+        return;
+    }
+
+    orders.forEach(order => {
+        const option = document.createElement("option"); //add it as an option
+        option.value = order.bundle.bundleId; //add the bundleID
+        option.textContent = order.bundle.name; //add the bundle name
+        bundleSelect.appendChild(option); //add as an option to the drop
+    })
+}
+
+/**
+ * Loads the user's disputes from the backend and displays them in a list on the page.
+ * Each dispute is shown as a card with the bundle ID, reason, and description.
+ * If there are no disputes or if there is an error loading them, an appropriate message is displayed.
+ * @returns
+ */
+async function loadDisputes(){
+    const list = document.getElementById("disputeList");
+    const response = await apiGet("/users/dispute");
+
+    if (!response.ok){ //if no disputes found show not found
+        list.innerHTML = "<p>Could not load disputes.</p>";
+        return;
+    }
+
+    const disputes = await response.json(); //collect the response
+    //if the user has no disputes
+    if(disputes.length === 0){
+        list.innerHTML = "<p>You have no disputes</p>";
+        return;
+    }
+
+    list.innerHTML = ""; //reset the current disputes list
+    disputes.forEach(dispute => { //for each disput add a card
+        const card = document.createElement("div"); //create
+        card.classList.add("dispute-card");
+        card.setAttribute("aria-label", `Dispute: ${dispute.reason}, ${dispute.description}`); //each dispute has a reason, description
+        card.innerHTML = ` 
+            <p>Bundle ID: ${dispute.bundleId}</p> 
+            <p>Reason: ${dispute.reason}</p>
+            <p>Description: ${dispute.description}</p>
+        `;
+        list.appendChild(card); //add a dispute card
+    });
+
+}
+
+//submit a new dispute to a current bundle that they have ordered
+disputSubmitButton.addEventListener("click", async ()=> {
+    const bundleId = bundleSelect.value;
+    const reason = reasonSelect.value;
+    const discription = disputeDescription.value.trim();
+
+    //if the user doesnt fill in required information
+    //if the user dosent select a bundle to actually start a disput against prompt
+    if (!bundleId) {
+        disputeMsg.textContent = "Please select a Bundle";
+        return;
+    }
+
+    if (!reason) {
+        disputeMsg.textContent = "Please enter a reason";
+        return;
+    }
+
+    if (!discription) {
+        disputeMsg.textContent = "Please enter a discription";
+        return;
+    }
+
+    const response = await apiPost("/users/dispute", {
+        bundleId: bundleId,
+        reason: reason,
+        description: discription
+    })
+
+    if (response.ok){
+        //prompt dispute sent
+        disputeMsg.textContent = "Dispute submitted";
+        //reset the input fields to empty
+        disputeDescription.value = "";
+        reasonSelect.value = "";
+        bundleSelect.value = "";
+        loadDisputes();
+    } else{
+        disputeMsg.textContent = "Dispute failed";
+    }
+
+});
+
+loadUserBundles();
+loadDisputes();
