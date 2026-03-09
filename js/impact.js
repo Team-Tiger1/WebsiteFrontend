@@ -94,18 +94,74 @@ async function loadBadges(badges){
     })
 }
 
-async function loadLeaderboard(){
-    const response = await apiGet("/users/leaderboard");
-    if (!response.ok) {
-        return
+/**
+ * Loads the money leaderboard and displays the top 10 users
+ * also shows the current users position at the bott0m
+ */
+async function loadMoneyLeaderboard(){
+    const response = await apiGet("/users/leaderboard?metric=MONEY");
+    if (!response.ok){
+        document.getElementById("moneyLeaderboardList").innerHTML = "<p>Could not load leaderboard</p>";
+        return;
     }
+    //collect the response
+    const data = await response.json();
+    const list = document.getElementById("moneyLeaderboardList");
+    list.innerHTML = "";
 
-    const leaderboard = await response.json();
+    //loop through the top 10 and display each one
+    data.top.forEach((entry, index) => {
+        const row = document.createElement("div");
+        row.classList.add("leaderboard-row");
+        row.innerHTML = `
+            <span>#${index + 1}</span>
+            <span>${entry.username}</span>
+            <span>£${entry.value.toFixed(2)}</span>
+        `; //fix to 2 decimal place for all values
+        //use the backend names to call the values to place
+        //each added to show one row in the leaderboard
+        list.appendChild(row); //add row
+    });
 
+    //show the current users position and stats for money
+    document.getElementById("moneyUserPosition").innerHTML =
+        `<p>Your position: #${data.position},  ${data.username},  £${data.value.toFixed(2)}</p>`;
 }
 
-loadLeaderboard()
+/**
+ * Loads the waste leaderboard and displays the top 10 users
+ * also shows the current users position at the bottom
+ */
+async function loadWasteLeaderboard(){
+    const response = await apiGet("/users/leaderboard?metric=WASTE");
+    if (!response.ok){
+        document.getElementById("wasteLeaderboardList").innerHTML = "<p>Could not load leaderboard</p>";
+        return;
+    }
+    //collect the response
+    const data = await response.json();
+    const list = document.getElementById("wasteLeaderboardList");
+    list.innerHTML = "";
 
+    //loop through the top 10 and display each one
+    data.top.forEach((entry, index) => {
+        const row = document.createElement("div");
+        row.classList.add("leaderboard-row");
+        row.innerHTML = `
+            <span>#${index + 1}</span>
+            <span>${entry.username}</span>
+            <span>${entry.value.toFixed(2)}kg</span>
+        `; //setting all values to 2 decimal places
+        //using index +1 to show position on leadboard
+        list.appendChild(row); //add row
+    });
 
+    //show the current users position and their stats for waste
+    document.getElementById("wasteUserPosition").innerHTML =
+        `<p>Your position: #${data.position},  ${data.username},  ${data.value.toFixed(2)}kg</p>`; //adding the users positoon with 2 decimal places
+}
+
+loadMoneyLeaderboard();
+loadWasteLeaderboard();
 
 

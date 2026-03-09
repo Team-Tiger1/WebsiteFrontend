@@ -120,3 +120,27 @@ main{
     .badge-image { width: 80px; }
 }
 
+/*leaderboard CSS */
+.leaderboard-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.leaderboard-row:first-child {
+    font-weight: bold;
+    background-color: darkgrey;
+}
+
+#moneyUserPosition, #wasteUserPosition {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #e8f5e9;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+section {
+    margin-bottom: 30px;
+}
