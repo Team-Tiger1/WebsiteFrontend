@@ -1,79 +1,112 @@
-import {apiGet, apiPost} from "./connection.js";
+import {apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
 await isAuthenticated("VENDOR");
 
-const bundleSelect = document.getElementById("bundleSelect");
-const getForecastButton = document.getElementById("getForecast");
-const errMsg = document.getElementById("errMsg");
-const forecastResult = document.getElementById("forecastResult");
+const weatherCategories = [
+    {label: "Bad (Moderate Rain)", backendValue: "Moderate rain at times"},
+    {label: "Okay (Overcast)", backendValue: "Overcast"},
+    {label: "Good (Sunny)", backendValue: "Sunny"},
+];
 
-/**
- * Loads the bundles into the select dropdown so the user can select a bundle to get a forecast for.
- *
- * @returns 
- */
-async function loadBundlesSelect() {
-    try{
-    //get the vendors bundles to display in the select options for forecasting
-    const response = await apiGet("/bundles/me");
-    //if there is an error with the response, display an error message and return
-    if (!response.ok) {
-        errMsg.textContent = "An error occurred while loading bundles.";
-        bundleSelect.innerHTML = "<option value=''>No bundles available</option>";
-        return;
-    }
-    const bundles = await response.json();
+const dayCategories = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-    bundleSelect.innerHTML = "<option value=''>Please choose an option</option>";
-    
-    //extract bundleId and bundleName from each bundle and add to select options
-    for(let i = 0; i<bundles.length; i++){
-        const bundle = bundles[i];
-        const id = bundle.bundleId;
-        const name = bundle.name;
-        const option = document.createElement("option");
-        option.value = id;
-        option.textContent = name;
-        bundleSelect.appendChild(option);
-    }
-} catch (error) {
-    errMsg.textContent = "An error occurred while loading bundles.";
-    bundleSelect.innerHTML = "<option value=''>No bundles available</option>";
-}
+function formatTime(decimalTime) {
+    const hours = Math.floor(decimalTime);
+    const minutes = Math.round((decimalTime - hours) * 60);
+
+    const formattedHours = hours.toString().padStart(2, "0");
+    const formattedMinutes = minutes.toString().padStart(2, "0");
+
+    return `${formattedHours}:${formattedMinutes}`;
 }
 
-loadBundlesSelect();
-//if a user clikcs the getForecast button, get the selected bundle and make a post request to the server to get the forecast for that bundle
-getForecastButton.addEventListener("click", async () => {
-    //get the selected bundle from the select element
-    forecastResult.textContent = "";
-    errMsg.textContent = "";
-    //collects the selected
-    const bundleId = bundleSelect.value;
-    if(bundleId === ""){
-        errMsg.textContent = "Please select a bundle.";
-        return;
-    }
-    
-    errMsg.textContent = "Loading forecast...";
+document.addEventListener("DOMContentLoaded", () => {
 
-    const response = await apiGet("/forecast/predict/" + bundleId);
-    //if there is an error with the response, display an error message
-    if(!response.ok){
-        errMsg.textContent = "forecast unavailable for this bundle.";
-        return;
-    }
+    document.getElementById('priceSlider').addEventListener('input', (e) => {
+        document.getElementById('priceValue').innerText = `£${parseFloat(e.target.value).toFixed(2)}`;
+    });
 
-    const data = await response.json();
+    document.getElementById('discountSlider').addEventListener('input', (e) => {
+        document.getElementById('discountValue').innerText = `${e.target.value}%`;
+    });
 
-    //extract the forecast data from the response
-    const reservationProb = data.reservation.reservation_probability;
-    const reservationPred = data.reservation.reservation_prediction;
-    const collectionProb = data.collection.collection_probability;
-    const collectionPred = data.collection.collection_prediction;
+    document.getElementById('leadTimeSlider').addEventListener('input', (e) => {
+        document.getElementById('leadTimeValue').innerText = `${e.target.value} Hour(s)`;
+    });
 
-    //display the forecast result
-    forecastResult.textContent = `Reservation Probability: ${reservationProb}\nReservation Prediction: ${reservationPred}\nCollection Probability: ${collectionProb}\nCollection Prediction: ${collectionPred}`;
-    errMsg.textContent = "";
+    document.getElementById('windowLengthSlider').addEventListener('input', (e) => {
+        document.getElementById('windowLengthValue').innerText = `${e.target.value} Hour(s)`;
+    });
+
+    document.getElementById('weatherSlider').addEventListener('input', (e) => {
+        const index = parseInt(e.target.value);
+        document.getElementById('weatherValue').innerText = weatherCategories[index].label;
+    });
+
+    document.getElementById('temperatureSlider').addEventListener('input', (e) => {
+        document.getElementById('temperatureValue').innerText = `${e.target.value}°C`;
+    });
+
+    document.getElementById('daySlider').addEventListener('input', (e) => {
+        const index = parseInt(e.target.value);
+        document.getElementById('dayValue').innerText = dayCategories[index];
+    });
+
+    document.getElementById('collectionTimeSlider').addEventListener('input', (e) => {
+        const formattedTime = formatTime(parseFloat(e.target.value));
+        document.getElementById('collectionTimeValue').innerText = formattedTime;
+    });
+
+    const allSliders = ['priceSlider', 'discountSlider', 'leadTimeSlider', 'windowLengthSlider', 'weatherSlider', 'temperatureSlider', 'daySlider', 'collectionTimeSlider']
+
+    allSliders.forEach(slider => {
+        document.getElementById(slider).addEventListener('change', (e) => {
+            triggerSimulation()
+        });
+    });
+
+    document.getElementById('categorySelect').addEventListener('change', (e) => {
+        triggerSimulation();
+    });
+
+    triggerSimulation()
 });
+
+async function triggerSimulation() {
+    const payload = {
+        price: parseFloat(document.getElementById('priceSlider').value),
+        discount: parseFloat(document.getElementById('discountSlider').value),
+        lead_time: parseFloat(document.getElementById('leadTimeSlider').value),
+        window_length: parseFloat(document.getElementById('windowLengthSlider').value),
+        weather: weatherCategories[parseInt(document.getElementById('weatherSlider').value)].backendValue,
+        temperature: parseFloat(document.getElementById('temperatureSlider').value),
+        category: document.getElementById('categorySelect').value,
+        day: dayCategories[parseInt(document.getElementById('daySlider').value)],
+        time_of_day: parseFloat(document.getElementById('collectionTimeSlider').value)
+    };
+
+    try {
+        const response = await apiPost("/forecast/simulate", payload);
+
+        if (response.ok) {
+            const data = await response.json();
+
+            const reservationChance = data.reservation.reservation_probability;
+            const collectionChance = data.collection.collection_probability;
+            updateCircles(reservationChance, collectionChance);
+        } else {
+            console.error("Simulation failed with status:", response.status);
+        }
+    } catch (error) {
+        console.error("Error calling simulation API:", error);
+    }
+}
+
+function updateCircles(reservationChance, collectionChance) {
+    const reservationText = document.getElementById('reservationChanceText');
+    const collectionText = document.getElementById('collectionChanceText');
+
+    reservationText.innerText = `${reservationChance}%`;
+    collectionText.innerText = `${collectionChance}%`;
+}
