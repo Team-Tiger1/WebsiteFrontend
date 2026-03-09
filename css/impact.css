@@ -83,7 +83,7 @@ main{
     border-radius: 6px;
     overflow: hidden;
     height: 28px;
-    background: #white;
+    background: white;
     position: relative;
 }
 .progress-bar-fill {
