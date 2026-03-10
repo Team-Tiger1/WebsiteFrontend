@@ -257,3 +257,12 @@ footer.part1 .copyright{
     cursor: pointer;
     padding: 0;
 }
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#footer {
+    margin-top: auto;
+}
