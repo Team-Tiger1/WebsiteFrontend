@@ -158,7 +158,7 @@ async function loadWasteLeaderboard(){
         row.innerHTML = `
             <span>#${index + 1}</span>
             <span>${entry.username}</span>
-            <span>${(entry.value / 1000).toFixed(2)}kg</span>
+            <span>${(entry.value / 1000).toFixed(2)}g</span>
         `; //setting all values to 2 decimal places
         //using index +1 to show position on leadboard
         list.appendChild(row); //add row
