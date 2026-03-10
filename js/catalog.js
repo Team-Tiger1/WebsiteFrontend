@@ -114,8 +114,8 @@ async function loadBundles(){
         const bundles = await response.json();
 
         //if no bundles found
-        if (bundles.length === 0){
-            msg.textContent = "No bundles found";
+        if(bundles.length === 0){
+            msg.innerHTML = "<p style='text-align: center;'>No bundles available right now, check back later!</p>";
             return;
         }
 
@@ -268,6 +268,11 @@ async function loadCompanyBundles(){
         return;
     }
     const bundles = await bundleResponse.json();
+
+    if(bundles.length === 0){
+        msg.innerHTML = "<p style='text-align: center;'>No bundles available right now, check back later!</p>";
+        return;
+    }
     
     //loop through each vendor and create their section
     for(let i = 0; i<vendors.length; i++){

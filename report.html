@@ -11,8 +11,6 @@
 <body class="report-page">
     <!--Header-->
     <div id="header"></div>
-    <div class="pageWrap">
-
     <main>
         <h2>Report an Issue</h2>
         <!--Dispute form-->
@@ -42,7 +40,6 @@
             <textarea name="disputeDescription" id="disputeDescription" placeholder="Describe the issue" rows="4" required aria-required="true"></textarea>
 
             <!--Allows the vendor to submit dispute-->
-            <label for="disputeSubmitButton" aria-label="disputeType">Submit Type</label>
             <button id="disputeSubmitButton">Submit Dispute</button>
             <p id="disputeMsg" role="alert" aria-live="polite"></p>
         </section>
@@ -55,13 +52,11 @@
             </div>
         </section>
     </main>
-
     <!--Footer-->
     <div id="footer"></div>
     
     <script type="module" src="js/script.js"></script>
     <script type="module" src="js/userHeaderFooter.js"></script>
     <script type="module" src = "js/report.js"></script>
-    </div>
 </body>
 </html>
