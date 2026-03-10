@@ -49,12 +49,12 @@ document.getElementById('temperatureSlider').addEventListener('input', (e) => {
 const allSliders = ['retailPriceInput', 'discountSlider', 'leadTimeSlider', 'windowLengthSlider', 'weatherSlider', 'temperatureSlider', 'daySlider', 'collectionTimeSlider']
 
 allSliders.forEach(slider => {
-    document.getElementById(slider).addEventListener('change', (e) => {
+    document.getElementById(slider).addEventListener('change', () => {
         triggerSimulation()
     });
 });
 
-document.getElementById('categorySelect').addEventListener('change', (e) => {
+document.getElementById('categorySelect').addEventListener('change', () => {
     triggerSimulation();
 });
 
