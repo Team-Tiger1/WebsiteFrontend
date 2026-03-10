@@ -6,7 +6,7 @@ await isAuthenticated("USER");
 //collect the html sections
 const bundleSelect = document.getElementById("disputeSelect"); //specific bundle to raise dispute on
 const reasonSelect = document.getElementById("reasonSelect");
-const disputeDescription = document.getElementById("disputeDiscription");
+const disputeDescription = document.getElementById("disputeDescription");
 const disputSubmitButton = document.getElementById("disputeSubmitButton");
 const disputeMsg = document.getElementById("disputeMsg");
 
@@ -17,7 +17,7 @@ const disputeMsg = document.getElementById("disputeMsg");
 async function loadUserBundles(){
     const response = await apiGet("/reservations");
     if (!response.ok){ //if no orders found show empty drop down
-        bundleSelect.innerHTML = "<option value=\"\"Could not load orders</option>";
+        bundleSelect.innerHTML = "<option value=\"\">Could not load orders</option>";
         return;
     }
 
@@ -25,7 +25,7 @@ async function loadUserBundles(){
     const orders = await response.json();
     //if the user has made no orders just show empty dropdown
     if(orders.length === 0){
-        bundleSelect.innerHTML = "<option value=\"\"No Orders Found</option>";
+        bundleSelect.innerHTML = "<option value=\"\">No Orders Found</option>";
         return;
     }
     //loop through each order and add it as an option in the bundle select drop down
@@ -86,7 +86,7 @@ async function loadDisputes(){
 disputSubmitButton.addEventListener("click", async ()=> {
     const bundleId = bundleSelect.value;
     const reason = reasonSelect.value;
-    const discription = disputeDescription.value.trim();
+    const description = disputeDescription.value.trim();
 
     //if the user doesnt fill in required information
     //if the user dosent select a bundle to actually start a disput against prompt
@@ -100,7 +100,7 @@ disputSubmitButton.addEventListener("click", async ()=> {
         return;
     }
     //if the user dosent enter a description to the issue
-    if (!discription) {
+    if (!description) {
         disputeMsg.textContent = "Please enter a discription";
         return;
     }
@@ -108,7 +108,7 @@ disputSubmitButton.addEventListener("click", async ()=> {
     const response = await apiPost("/users/dispute", {
         bundleId: bundleId,
         reason: reason,
-        description: discription
+        description: description
     })
     //if the dispute is posted corrected show ok repsonse if not show dispute failed
     if (response.ok){
