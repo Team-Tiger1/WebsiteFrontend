@@ -3,6 +3,7 @@ import {isAuthenticated} from "./auth.js";
 
 const token = localStorage.getItem("accessToken");
 const tableBody = document.getElementById("ordersBody");
+const disputeMsg = document.getElementById("ordersMsg");
 
 await isAuthenticated("USER");
 
@@ -36,6 +37,9 @@ async function loadOrders() {
 
     //clears the table before adding new rows
     tableBody.innerHTML = "";
+    if (reservation.length === 0) {
+        disputeMsg.textContent = "Currently you have no Reservations";
+    }
 
     for (let i = 0; i < reservation.length; i++) {
         const r = reservation[i];
