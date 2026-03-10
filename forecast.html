@@ -1,32 +1,114 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The Last Fork</title>
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/forecast.css" />
-  <link rel="stylesheet" href="css/headerFooter.css" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>The Last Fork</title>
+    <link rel="stylesheet" href="css/styles.css"/>
+    <link rel="stylesheet" href="css/forecast.css"/>
+    <link rel="stylesheet" href="css/headerFooter.css"/>
 </head>
 <body>
-    <div id="header"></div>
+<div id="header"></div>
 
-    <main>
-        <h1>Forecast</h1>
-        <p>Select a Bundle you would like to see the forecast for:</p>
-        <label for="bundleSelect">Select a bundle:</label>
-        <select id="bundleSelect">
-            <option value="">--Please choose an option--</option>
-        </select>
-        <button id="getForecast">Get Forecast</button>
-        <p id="errMsg"></p>
-        <pre id="forecastResult"></pre>
-    </main>
+<div class="forecast-container">
 
-    <div id="footer"></div>
+    <!-- Short intro sentence to the webpage -->
+    <div class="forecast-intro">
+        <h1>Forecast Simulator</h1>
+        <p>Adjust the variables below to see how they affect the chances of your bundles being reserved and
+            collected.</p>
+        <hr>
+    </div>
 
-    <script type="module" src="js/vendorHeaderFooter.js"></script>
-    <script type="module" src="js/script.js"></script>
-    <script type="module" src="js/forecast.js"></script>
+    <div id="simulationErrorDisplay"></div>
+
+    <div class="forecast-page-content">
+        <div class="sliders-panel column">
+            <h2>Simulation Factors</h2>
+
+            <!-- Input box for the user to type the retail price -->
+            <div class="slider-group">
+                <label for="retailPriceInput">Retail Price (£):</label>
+                <input type="number" id="retailPriceInput" min="0" step="0.5" value="10.00" placeholder="e.g. 10.00">
+            </div>
+
+            <!-- Sliders for the various variables -->
+            <div class="slider-group">
+                <label for="discountSlider">Discount (%): <span id="discountValue">50%</span></label>
+                <input type="range" id="discountSlider" min="0" max="100" step="1" value="50">
+            </div>
+
+            <div class="slider-group">
+                <label for="leadTimeSlider">Lead Time: <span id="leadTimeValue">4 Hour(s)</span></label>
+                <input type="range" id="leadTimeSlider" min="0" max="8" step="0.5" value="4">
+            </div>
+
+            <div class="slider-group">
+                <label for="collectionTimeSlider">Collection Time: <span id="collectionTimeValue">14:00</span></label>
+                <input type="range" id="collectionTimeSlider" min="6" max="22" step="0.5" value="14">
+            </div>
+
+            <div class="slider-group">
+                <label for="windowLengthSlider">Window Length: <span id="windowLengthValue">4 Hour(s)</span></label>
+                <input type="range" id="windowLengthSlider" min="0" max="8" step="0.5" value="4">
+            </div>
+
+            <div class="slider-group">
+                <label for="daySlider">Day: <span id="dayValue">Thursday</span></label>
+                <input type="range" id="daySlider" min="0" max="6" step="1" value="3">
+            </div>
+            <div class="slider-group">
+                <label for="weatherSlider">Weather Conditions: <span id="weatherValue">Overcast</span></label>
+                <input type="range" id="weatherSlider" min="0" max="4" step="1" value="2">
+            </div>
+
+            <div class="slider-group">
+                <label for="temperatureSlider">Temperature (°C): <span id="temperatureValue">10°C</span></label>
+                <input type="range" id="temperatureSlider" min="-10" max="30" step="1" value="10">
+            </div>
+
+            <!-- Box with options to select the category -->
+            <div class="slider-group">
+                <label for="categorySelect">Category:</label>
+                <select id="categorySelect">
+                    <option value="BREAD_BAKED_GOODS">Bread & Baked Goods</option>
+                    <option value="BREAKFAST_ITEMS" selected>Breakfast Items</option>
+                    <option value="DAIRY_EGGS">Dairy & Eggs</option>
+                    <option value="DRINKS_BEVERAGES">Drinks & Beverages</option>
+                    <option value="FRUIT_VEGETABLES">Fruit & Vegetables</option>
+                    <option value="MEAT_PROTEIN">Meat & Protein</option>
+                    <option value="READY_MEALS_HOT_FOOD">Ready Meals & Hot Food</option>
+                    <option value="SNACKS_SAVOURY_ITEMS">Snacks & Savoury Items</option>
+                    <option value="SWEET_TREATS_DESSERTS">Sweet Treats & Desserts</option>
+                    <option value="VEGAN_VEGETARIAN">Vegan & Vegetarian</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Splits the webpage and shows the results on one side -->
+        <div class="results-panel row">
+            <div class="circle-container">
+                <h3>Reservation Chance</h3>
+                <div class="progress-circle" id="reservationChanceCircle">
+                    <span id="reservationChanceText">0%</span>
+                </div>
+            </div>
+
+            <div class="circle-container">
+                <h3>Collection Chance</h3>
+                <div class="progress-circle" id="collectionChanceCircle">
+                    <span id="collectionChanceText">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="footer"></div>
+
+<script type="module" src="js/vendorHeaderFooter.js"></script>
+<script type="module" src="js/script.js"></script>
+<script type="module" src="js/forecast.js"></script>
 </body>
 </html>
