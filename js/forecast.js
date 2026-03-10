@@ -85,7 +85,12 @@ async function triggerSimulation() {
         // Calls the API
         const response = await apiPost("/forecast/simulate", payload);
 
+        // Gets the error box in case of an error
+        const errorDisplay = document.getElementById('simulationErrorDisplay');
+
         if (response.ok) {
+            errorDisplay.style.display = 'none';
+
             const data = await response.json();
 
             // Gets the reservation and collection percentages from the API response
@@ -96,9 +101,13 @@ async function triggerSimulation() {
             updateCircles(reservationChance, collectionChance);
         } else {
             console.error("Simulation failed with status:", response.status);
+            errorDisplay.innerText = "Simulation failed. Please try again.";
+            errorDisplay.style.display = 'block';
         }
     } catch (error) {
         console.error("Error calling simulation API:", error);
+        errorDisplay.innerText = "Connection error. Could not reach the simulation server.";
+        errorDisplay.style.display = 'block';
     }
 }
 

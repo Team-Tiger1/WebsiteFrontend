@@ -171,6 +171,19 @@
     color: #333;
 }
 
+/* --- Error Message Box --- */
+#simulationErrorDisplay {
+    color: #F44336;
+    background: #feebeb;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+    margin-bottom: 2rem;
+}
+
 /* Mobile compatibility */
 @media (max-width: 600px) {
     .forecast-container {
