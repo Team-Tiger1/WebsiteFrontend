@@ -1,8 +1,8 @@
-import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
+await isAuthenticated("USER");
+import {apiGet, apiPost} from "./connection.js";
 
 //calling api for bundles and vendors
-await isAuthenticated("USER");
 const bundles = await apiGet("/bundles").then(r => r.json());
 const vendors = await apiGet("/vendors").then(r => r.json());
 
