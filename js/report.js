@@ -68,7 +68,7 @@ async function loadDisputes(){
         card.classList.add("dispute-card");
         card.setAttribute("aria-label", `Dispute: ${dispute.reason}, ${dispute.description}`); //each dispute has a reason, description
         card.innerHTML = ` 
-            <p>Bundle ID: ${dispute.bundleId}</p> 
+            <p>Bundle Name: ${dispute.bundleName}</p> 
             <p>Reason: ${dispute.reason}</p>
             <p>Description: ${dispute.description}</p>
             <p>Status: ${dispute.finalStatus || "Pending"}</p>
