@@ -4,13 +4,18 @@ import { API_URL } from "./config.js";
 
 const form = document.getElementById("registerForm");
 const msg = document.getElementById("errorMsg");
+const tcPopUp = document.getElementById("tcPopup");
 const API = API_URL;
 
 //listens for if the register form is submitted
 form.addEventListener("submit", function (event) {
     event.preventDefault();
+    tcPopUp.showModal();
+});
+document.getElementById("tcAccept").addEventListener("click", () => {
+    tcPopUp.close();
 
-    //collects the user inputs 
+    //collects the user inputs
     const email = document.getElementById("email-input").value.trim().toLowerCase();
     const password = document.getElementById("password-input").value;
     const repeatPassword = document.getElementById("repeat-password-input").value;
@@ -25,7 +30,7 @@ form.addEventListener("submit", function (event) {
 
     //creates the request body
     const body = { email, password };
-    
+
     //sends registration request to backend
     fetch(API + "/users/register", {
         method: "POST",
@@ -37,7 +42,7 @@ form.addEventListener("submit", function (event) {
         //includes the cookies
         credentials: "include"
     })
-    //if there is a response
+        //if there is a response
     .then(async (response) =>{
         //if the registration failed show this message
         if (!response.ok){
@@ -58,18 +63,22 @@ form.addEventListener("submit", function (event) {
             return;
         //debug
         console.log("Register response", data);
-        //shows the user that registration is successfull and they will be redirect to the main catalog page
+        //shows the user that registration is successful and they will be redirect to the main catalog page
         msg.textContent = "Account created! Redirection to catalog."
-        
+
         //uses the access token set is registration to get access to the catalog page
         refreshAccessToken().then(() => {
             window.location.href = "catalog.html";
         })
-    
+
     })
     //if there is a network failure
     .catch((err) => {
         console.error(err);
         msg.textContent = "Network failure";
     });
-    });
+});
+
+document.getElementById("tcDecline").addEventListener("click", () => {
+    tcPopUp.close();
+});
