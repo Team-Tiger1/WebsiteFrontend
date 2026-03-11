@@ -58,6 +58,7 @@ function addFooter() {
       <h4>My Account</h4>
       <a href="orders.html">View Orders</a>
       <a href="report.html">Help</a>
+      <a href="navigation.html">Keyboard Navigation Instructions</a>
     </div>
 
     <div class="copyright">
