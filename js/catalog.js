@@ -1,5 +1,11 @@
-import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
+await isAuthenticated("USER");
+import {apiGet, apiPost} from "./connection.js";
+
+//calling api for bundles and vendors
+const bundles = await apiGet("/bundles").then(r => r.json());
+const vendors = await apiGet("/vendors").then(r => r.json());
+
 
 //to be used for the catalog
 const vendorCarousel = document.getElementById("vendorCarousel");
@@ -28,10 +34,9 @@ const categoryNameMap = {
  * Loads the bundles into the bundles carousel and loads the vendors into
  * their carousel.
  */
-await isAuthenticated("USER");
-await loadBundles();
-await loadVendorsIntoCarousel();
-await loadCompanyBundles();
+await loadBundles(bundles)
+await loadVendorsIntoCarousel(vendors)
+await loadCompanyBundles(bundles, vendors)
 await getStreak();
 
 /**
@@ -43,19 +48,14 @@ await getStreak();
  * then redirect to their page.
  *
  */
-async function loadVendorsIntoCarousel(){
+async function loadVendorsIntoCarousel(vendors){
     try{
-
-        const response = await apiGet("/vendors");
-
-        if(!response.ok){
+        //if no vendors show this message
+        if(vendors.length===0){
             msg.textContent = "Could not get vendors";
             return;
         }
 
-        //get vendors
-        const vendors = await response.json();
-        
         //clear the carousel each time in case more companies are added
         vendorCarousel.innerHTML = "";
 
@@ -100,19 +100,11 @@ async function loadVendorsIntoCarousel(){
  * They are shown as cards in the bundles carousel and each have a clickable reserve button.
  *
  */
-async function loadBundles(){
+async function loadBundles(bundles){
     bundleCarousel.innerHTML = "";
     msg.textContent = "";
 
     try{
-        const response = await apiGet("/bundles");
-
-        if(!response.ok){
-            msg.textContent = "Could not load the bundles"
-            return;
-        }
-        const bundles = await response.json();
-
         //if no bundles found
         if(bundles.length === 0){
             msg.innerHTML = "<p style='text-align: center;'>No bundles available right now, check back later!</p>";
@@ -250,24 +242,8 @@ async function reserveBundle(bundleId) {
  * in the carousel for each company
  * @returns
  */
-async function loadCompanyBundles(){
+async function loadCompanyBundles(bundles, vendors){
     companyBundles.innerHTML = "";
-    msg.textContent = "";
-
-    const vendorResponse = await apiGet("/vendors");
-    if(!vendorResponse.ok){
-        msg.textContent = "Could not load company bundles";
-        return;
-    }
-    const vendors = await vendorResponse.json();
-
-    //get bundles for each vendor
-    const bundleResponse = await apiGet("/bundles");
-    if(!bundleResponse.ok){
-        msg.textContent = "Could not load company bundles";
-        return;
-    }
-    const bundles = await bundleResponse.json();
 
     if(bundles.length === 0){
         msg.innerHTML = "<p style='text-align: center;'>No bundles available right now, check back later!</p>";

@@ -112,7 +112,7 @@
 
 .auth-page form button:focus{
     outline: 2px solid white;
-    background-color: black;
+    background-color: lightskyblue;
 }
 .auth-page a{
     text-decoration: none;
@@ -134,4 +134,29 @@
 }
 .auth-page form div.incorrect input{
     border-color: red;
+}
+
+#tcPopup{
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 20px;
+    width: 300px;
+    /*Centering the pop up*/
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.tc h3{
+    margin-top: 0;
+    text-align: center;
+}
+
+#tcActions button{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    gap: 10px;
 }

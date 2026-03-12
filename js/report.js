@@ -15,16 +15,18 @@ const disputeMsg = document.getElementById("disputeMsg");
  * then load these reservations into the dropdown for disputes
  * */
 async function loadUserBundles(){
-    const response = await apiGet("/reservations");
-    if (!response.ok){ //if no orders found show empty drop down
-        bundleSelect.innerHTML = "<option value=\"\">Could not load orders</option>";
-        return;
-    }
+    const statuses = ["RESERVED", "COLLECTED", "NO_SHOW", "EXPIRED"]; //collects all orders in all statuses
+    const allOrders = []; //collects the orders
 
-    //if there is a response
-    const orders = await response.json();
+    for (const status of statuses) { // goes through each of thestatuses calls the API
+        const response = await apiGet(`/reservations?status=${status}`);
+        if (response.ok) {
+            const orders = await response.json();
+            allOrders.push(...orders); //collects the orders
+        }
+    }
     //if the user has made no orders just show empty dropdown
-    if(orders.length === 0){
+    if(allOrders.length === 0){
         bundleSelect.innerHTML = "<option value=\"\">No Orders Found</option>";
         return;
     }
@@ -68,7 +70,7 @@ async function loadDisputes(){
         card.classList.add("dispute-card");
         card.setAttribute("aria-label", `Dispute: ${dispute.reason}, ${dispute.description}`); //each dispute has a reason, description
         card.innerHTML = ` 
-            <p>Bundle ID: ${dispute.bundleId}</p> 
+            <p>Bundle Name: ${dispute.bundleName}</p> 
             <p>Reason: ${dispute.reason}</p>
             <p>Description: ${dispute.description}</p>
             <p>Status: ${dispute.finalStatus || "Pending"}</p>
