@@ -1,10 +1,14 @@
-
-.dashboard-reseverations { 
+.dashboard-reseverations {
   margin-top: 18px;
 }
 
 .dashboard-reseverations h3 {
   margin: 18px 0 8px;
+}
+
+h3 {
+  padding-bottom: 10px;
+  padding-top: 10px;
 }
 
 .reservation-table {
@@ -115,3 +119,145 @@
     align-items: stretch;
   }
 }
+
+.bundle-row {
+  display: grid;
+  grid-template-columns: 3fr 70px 200px 150px 220px;
+  align-items: center;
+  gap: 25px;
+  padding: 10px 25px;
+}
+
+.reservation-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 3fr 2fr;
+  align-items: center;
+  gap: 25px;
+  padding: 10px 25px;
+}
+
+.bundle-header {
+  font-weight: bold;
+  background: lightgrey;
+  font-size: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.bundle-card-container {
+  background: #ffffff;
+  overflow: hidden;
+  border-radius: 12px;
+  margin-bottom: 15px;
+  height: 110px;
+  box-shadow:
+          0 2px 4px rgba(0,0,0,0.05),
+          0 1px 2px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bundle-card-container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.bundle-name {
+  font-weight: 600;
+}
+
+.bundle-card-container button {
+  background-color: inherit;
+  width: 85px;
+  height: 30px;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.bundle-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+}
+
+.bundle-container button:hover {
+  background-color: lightgrey;
+}
+
+#edit-button {
+  background-color: #e6f0fc;
+  border: #243e5f 1px solid;
+  color: #243e5f;
+}
+
+.bundle-card {
+  margin-top: 5px;
+}
+
+.reservation-card {
+  margin-top: 20px;
+}
+
+
+.bundle-card-container button img {
+  max-height: 20px;
+}
+
+
+#remove-button {
+  background-color: #fdece5;
+  color: #914343;
+  border: #914343 1px solid;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  padding: 20px;
+  width: 400px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+}
+
+dialog:not([open]) {
+  display: none;
+}
+
+.error {
+  display: none;
+  color: red;
+}
+
+.form-group {
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group input, .form-group textarea {
+  width: 300px;
+  height: 40px;
+  font-size: 16px;
+  padding-left: 5px;
+  resize: vertical;
+  font-family: arial;
+}
+
+.form-group textarea {
+  padding-top: 5px;
+}
+
+.form-group label {
+  padding-bottom: 5px;
+}
+
+
+
+

@@ -404,3 +404,8 @@ button:hover {
     outline: none;
     border-color: #8fcbd3;
 }
+
+.edit-bundle-form {
+    display: flex;
+    flex-direction: column;
+}
