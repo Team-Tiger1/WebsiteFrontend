@@ -1,7 +1,7 @@
 
 // dashboard
 
-import {apiGet, apiPost} from "./connection.js";
+import {apiDelete, apiGet, apiPatch, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
 //Access control -- only users with the VENDOR role can access this page.
@@ -12,9 +12,14 @@ const posted = document.getElementById("postedCount");     // bundles Posted
 const reserved = document.getElementById("reservedCount"); // Bundles Reserved
 const pickup = document.getElementById("pickupCount");     // pickups Today
 
+const editPopup = document.getElementById("editPopup");
+const deletePopup = document.getElementById("deletePopup");
 
-//Active reservation table
-const tableBody = document.getElementById("reservations");
+const editConfirmButton = document.getElementById("edit-confirm-button");
+const deleteConfirmButton = document.getElementById("delete-confirm-button");
+const editCancelButton = document.getElementById("edit-cancel-button");
+const deleteCancelButton = document.getElementById("delete-cancel-button");
+
 
 // getting the claim inputs and model elements 
 const claimInput = document.getElementById("claimCodeInput");
@@ -26,19 +31,84 @@ const modalTitle = document.getElementById("modalTitle");
 const modalBody = document.getElementById("modalBody");
 const modalClose = document.getElementById("modalClose");
 
-//running the dashboard with page loads
-runDashboard();
+let selectedBundleId = null;
+const editName = document.getElementById("name");
+const editDescription = document.getElementById("description");
+const editPrice = document.getElementById("price");
+const editCollectionStart = document.getElementById("collectionStart");
+const editCollectionEnd = document.getElementById("collectionEnd");
 
+//running the dashboard with page loads
+document.addEventListener("DOMContentLoaded", () => {
+
+    runDashboard();
+
+    editCancelButton.addEventListener("click", async () => {
+        const errorMessage = document.getElementById("edit-error-msg");
+        errorMessage.style.display = "none";
+        editPopup.close();
+    })
+
+    editConfirmButton.addEventListener("click", async () => {
+
+        const payload = {
+            "name": editName.value,
+            "description": editDescription.value,
+            "price": editPrice.value,
+            "collectionStart": editCollectionStart.value,
+            "collectionEnd": editCollectionEnd.value,
+        }
+
+        const editResponse = await apiPatch("/bundles/" + selectedBundleId, payload);
+
+        if(editResponse.status === 204) {
+            editPopup.close();
+            loadVendorBundles()
+        } else {
+            const errorMessage = document.getElementById("edit-error-msg");
+            errorMessage.style.display = "block";
+        }
+
+    })
+
+    deleteCancelButton.addEventListener("click", async () => {
+        deletePopup.close();
+        const errorMessage = document.getElementById("delete-error-msg");
+        errorMessage.style.display = "none";
+    })
+
+    deleteConfirmButton.addEventListener("click", async () => {
+
+        const deleteResponse = await apiDelete("/bundles/" + selectedBundleId);
+        if(deleteResponse.status === 204) {
+            //Deleted Successfully
+            await loadVendorBundles()
+            deletePopup.close();
+        } else {
+            const errorMessage = document.getElementById("delete-error-msg");
+            errorMessage.style.display = "block";
+        }
+
+    })
+
+})
+
+/**
+ * Loads the bundle and reservations
+ * @returns {Promise<void>}
+ */
 async function runDashboard() {
-    await loadVendorReservations();
-    // await loadBundlesToday
+    await Promise.all([
+        loadVendorBundles(),
+        loadVendorReservations()
+    ])
 
 }
+
 /**
  * Claim Code submission handler.
  * Send POST request to validate and complete a reservation using claim code.
- * If successfull with display reservation details in a model and refreshes dashboard 
- 
+ * If successful with display reservation details in a model and refreshes dashboard
  */
 claimBtn?.addEventListener("click", async () => {
     const claimCode = (claimInput?.value || "").trim();
@@ -99,7 +169,123 @@ claimBtn?.addEventListener("click", async () => {
     }
 });
 
-// load vendor reservation
+/**
+ * Loads the bundles, showing the bundles for sale
+ * @returns {Promise<void>}
+ */
+async function loadVendorBundles() {
+    //load bundles currently available
+    const bundleResponse = await apiGet("/bundles/me");
+
+    const bundleContainer = document.getElementById("bundle-container");
+    bundleContainer.innerHTML = "";
+
+    if(!bundleResponse.ok) {
+        //Give error message
+        const errorMessage = `<p class="error">Error: Could not load bundles</p>`
+        bundleContainer.insertAdjacentHTML("beforeend", errorMessage);
+
+    } else {
+        let bundleData = await bundleResponse.json();
+
+        //Update total at top
+        posted.innerText = bundleData.length;
+
+        //Show message if no bundles
+        if(bundleData.length === 0) {
+            const noBundlesHtml = `No bundles posted. Create one to see it here!`
+            bundleContainer.insertAdjacentHTML('beforeend', noBundlesHtml);
+        }
+
+        //Load the bundles from backend
+        for (let i = 0; i < bundleData.length; i++) {
+
+            //Get Forecast
+            const bundleId = bundleData[i].bundleId;
+            const forecastResponse = await apiGet("/forecast/predict/" + bundleId);
+
+            let forecast;
+            if(forecastResponse.ok) {
+                const forecastJson = await forecastResponse.json();
+                forecast = forecastJson.reservation.reservation_probability;
+            } else {
+                forecast = "-";
+            }
+
+            const name = bundleData[i].name;
+            const description = bundleData[i].description;
+            const price = bundleData[i].price;
+            const collectionStart = bundleData[i].collectionStart;
+            const collectionEnd = bundleData[i].collectionEnd;
+
+            let tempHTML = `
+            <div class="bundle-card-container" data-id="${bundleId}">
+                    <div class="bundle-row bundle-header">
+                        <span>BUNDLE NAME</span>
+                        <span>PRICE</span>
+                        <span>COLLECTION WINDOW</span>
+                        <span>RESERVATION CHANCE</span>
+                        <span style="margin-left: 40px;">ACTIONS</span>
+                    </div>
+                    <div class="bundle-row bundle-card">
+                        <span class="bundle-name">${name}</span>
+                        <div class="price">£${price.toFixed(2)}</div>
+                        <div class="window">${formatPickupWindow(collectionStart, collectionEnd)}</div>
+                        <div class="chance">${forecast}%</div>
+
+
+                        <div class="bundle-button-container">
+                            <button id="edit-button">
+                                <img src="svg/edit_bundle.svg" alt="">
+                                <p>Edit</p>
+                            </button>
+                            <button id="remove-button">
+                                <img src="svg/delete_bundle.svg" alt="">
+                                <p>Remove</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            bundleContainer.insertAdjacentHTML('beforeend', tempHTML);
+            const currentBundle = bundleContainer.lastElementChild;
+
+            //Add Edit Button Functionality
+            const allButtons = currentBundle.querySelectorAll("button");
+            allButtons[0].addEventListener("click", function (e) {
+                const card = e.target.closest(".bundle-card-container");
+                if(!card) {return;}
+
+                editName.value = name;
+                editDescription.value = description;
+                editPrice.value = price;
+                editCollectionStart.value = collectionStart;
+                editCollectionEnd.value = collectionEnd;
+
+                selectedBundleId = card.dataset.id;
+                editPopup.showModal();
+
+            });
+
+            //Add Delete Button Functionality
+            allButtons[1].addEventListener("click", function (e) {
+                const card = e.target.closest(".bundle-card-container");
+                if(!card) {return;}
+
+                selectedBundleId = card.dataset.id;
+                deletePopup.showModal();
+
+            });
+
+
+
+        }
+    }
+}
+
+
+
 
 /**
  * - Using the get /reservations/vendor.
@@ -107,15 +293,18 @@ claimBtn?.addEventListener("click", async () => {
  * - Add rows to active reservation table.
  */
 async function loadVendorReservations() {
-    tableBody.innerHTML = "";
+
 
     const res = await apiGet("/reservations/vendor");
+
+    const reservationContainer = document.getElementById("reservation-container");
+
 
     //If fails we show also reset the count
     if (!res.ok) {
         const text = await res.text().catch(() => "");
-        tableBody.innerHTML =
-            `<tr><td colspan="3">Failed to load reservations${text ? ": " + text : ""}</td></tr>`;
+        reservationContainer.innerHTML =
+            `<p>Failed to load reservations${text ? ": " + text : ""}</p>`;
 
         if (reserved) reserved.textContent = "0";
         if (pickup) pickup.textContent = "0";
@@ -138,36 +327,56 @@ async function loadVendorReservations() {
         pickup.textContent = String(pickupsToday.length);
 
     }
-    
-    //load bundles currently available 
-    const bundleResponse = await apiGet("/bundles/available");
-    if (posted) {
-        if (bundleResponse.ok) {
-          posted.textContent = await bundleResponse.json();
-        } else {
-            posted.textContent = "0";
-        }
-    }
+
 
     //If there are no reservation, show a message
     if (reservations.length === 0) {
-        tableBody.innerHTML = `<tr><td colspan="3">No active reservations</td></tr>`;
+        reservationContainer.innerHTML =
+            `<p>No reservations found.</p>`;
         return;
     }
 
     // Render reservation rows
-    for (const r of reservations) {
-        const pickupWindow = formatPickupWindow(r.collectionStart, r.collectionEnd);
-        const amount = Number(r.amountDue);
-        const priceText = Number.isFinite(amount) ? `£${amount.toFixed(2)}` : "-";
+    for (let i = 0; i < reservations.length; i++) {
 
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-    <td>${r.bundleName ?? "-"}</td>
-    <td>${pickupWindow}</td>
-    <td>${priceText}</td>
-  `;
-        tableBody.appendChild(tr);
+        const bundleId = reservations[i].bundleId;
+        const forecastResponse = await apiGet("/forecast/predict/" + bundleId);
+
+        let forecast;
+        if(forecastResponse.ok) {
+            const forecastJson = await forecastResponse.json();
+            forecast = forecastJson.collection.collection_probability;
+        } else {
+            forecast = "-";
+        }
+
+        const name = reservations[i].bundleName;
+        const price = reservations[i].amountDue;
+        const collectionStart = reservations[i].collectionStart;
+        const collectionEnd = reservations[i].collectionEnd;
+
+        let tempHTML = `
+            <div class="bundle-card-container" data-id="${bundleId}">
+                    <div class="reservation-row bundle-header">
+                        <span>BUNDLE NAME</span>
+                        <span>PRICE</span>
+                        <span>COLLECTION WINDOW</span>
+                        <span>COLLECTION CHANCE</span>
+                    </div>
+                    <div class="reservation-row reservation-card">
+                        <span class="bundle-name">${name}</span>
+                        <div class="price">£${price.toFixed(2)}</div>
+                        <div class="window">${formatPickupWindow(collectionStart, collectionEnd)}</div>
+                        <div class="chance">${forecast}%</div>
+
+
+          
+                    </div>
+                </div>
+            `;
+
+        reservationContainer.insertAdjacentHTML('beforeend', tempHTML);
+
     }
 
 }

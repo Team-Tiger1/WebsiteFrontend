@@ -33,14 +33,68 @@ export async function apiPost(url, data, options = {}) {
     // Add access token
     options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
 
-    //Addig headers
+    //Adding headers
     options.headers["Content-Type"] = "application/json";
     options.headers["Accept"] = "application/json";
-    // options.headers = {
-    //     "Authorization": "Bearer " + localStorage.getItem("accessToken"),
-    //     "Content-Type": "application/json",
-    //     "Accept": "application/json"
-    // };
+
+    //Add Data to body
+    options.body = JSON.stringify(data);
+
+    let response = null;
+    try {
+        response = await fetch(CONNECTION_URL + url, options);
+    } catch (error) {
+        console.log(error);
+    }
+
+    //If access token has expired, get a new one and try again
+    if(response == null || response.status === 401) {
+
+        const isRefreshed = await refreshAccessToken();
+        if(isRefreshed) {
+            options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
+            response = fetch(CONNECTION_URL + url, options);
+        }
+    }
+    return response;
+}
+
+export async function apiDelete(url, options = {}) {
+    options.headers = {}
+
+    //Add access token
+    options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
+    options.method = "DELETE";
+
+    let response = null;
+    try {
+        response = await fetch(CONNECTION_URL + url, options);
+    } catch (error) {
+        console.log(error);
+    }
+
+    //If access token has expired, get a new one and try again
+    if(response == null || response.status === 401) {
+
+        const isRefreshed = await refreshAccessToken();
+        if(isRefreshed) {
+            options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
+            response = fetch(CONNECTION_URL + url, options);
+        }
+    }
+    return response;
+}
+
+export async function apiPatch(url, data, options = {}) {
+    options.method = "PATCH";
+    options.headers = {}
+
+    // Add access token
+    options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
+
+    //Adding headers
+    options.headers["Content-Type"] = "application/json";
+    options.headers["Accept"] = "application/json";
 
     //Add Data to body
     options.body = JSON.stringify(data);

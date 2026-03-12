@@ -11,33 +11,6 @@
 </head>
 <body>
     <div id="header"></div>
-<!--    <nav class="navbar">-->
-<!--            <div class ="navlogo"><a href="dashboard">The Last Fork</a></div>-->
-<!--                <ul id="navbar">-->
-<!--                    <li><a class="active" href="dashboard.html">Dashboard</a></li>-->
-<!--                    <li><a href="newproduct.html">Create Products</a></li>-->
-<!--                    <li><a href="newbundle.html">Create Bundle</a></li>-->
-<!--                    <li><a href="manage.html">Manage Pickups</a></li>-->
-<!--                    <li><a href="analytics.html">Analytics</a></li>-->
-<!--                    <li><a href="forecast.html">Forecast & Recommendations</a></li>-->
-
-<!--                    <a href="#" id="close"><i class="fa fa-times" aria-hidden="true"></i></a>-->
-
-<!--                    <li class="search">-->
-<!--                        <input type="text" placeholder="Search food..." />-->
-<!--                    </li>-->
-
-<!--                    <li class="right"><button><a href="login.html">Login</a></button></li>-->
-<!--                    <li class="right"><button><a href="catalog.html">Toggle</a></button></li>-->
-<!--                </ul>-->
-
-<!--            <div id="mobile">-->
-<!--                <i id="bar" class="fa fa-outdent" aria-hidden="true"></i>-->
-<!--                <a href="cart"><i class="fa fa-shopping-cart" aria-hidden="true"></i></a>-->
-<!--            </div>-->
-<!--    </nav>-->
-<!--    &lt;!&ndash; trying to fix the nav bar &ndash;&gt;-->
-<!--     <div id="nav-overlay"></div>-->
 
     <main class="dashboard">
         <header class="dashboard-header"> 
@@ -51,17 +24,17 @@
         <section class="summary-boxes"> 
             <div class="summary-box">
                 <p class="summary-title">Bundles Posted</p>
-                <p class="summary-number" id="postedCount"></p>
+                <p class="summary-number" id="postedCount">-</p>
             </div>
 
             <div class="summary-box">
                 <p class="summary-title">Bundles Reserved</p>
-                <p class="summary-number" id="reservedCount">y</p>
+                <p class="summary-number" id="reservedCount">-</p>
             </div>
 
             <div class="summary-box">
                 <p class="summary-title">Pickups Due Today</p>
-                <p class="summary-number" id="pickupCount">z</p>
+                <p class="summary-number" id="pickupCount">-</p>
             </div>
 
 
@@ -69,23 +42,9 @@
         <!--recent reservations with the window and status  -->
         <section class="dashboard-reservations">
 
-<!--            <table class="reservation-table">-->
-<!--                <thead>-->
-<!--                    <tr>-->
-<!--                        <th>Bundle Name </th>-->
-<!--                        <th>Pickup Window</th>-->
-<!--                        <th>Price</th>-->
-<!--                        -->
-<!--                    </tr>-->
-<!--                </thead>-->
-
-<!--                <tbody id="reservations">-->
-<!--                &lt;!&ndash;rows will be added in js   &ndash;&gt;-->
-<!--                </tbody>-->
-<!--            </table>-->
 
             <div class="claim-panel">
-                <label for="claimCodeInput" class="claim-label">Enter claim code</label>
+                <h3>Enter Claim Code</h3>
 
                 <div class="claim-bar">
                     <input id="claimCodeInput" type="text" placeholder="Enter claim code" />
@@ -99,7 +58,7 @@
 
             <div id="bundle-container"></div>
 
-            <h3>Active Reservation</h3>
+            <h3>Active Reservations</h3>
 
             <div id="reservation-container"></div>
 
@@ -107,17 +66,59 @@
         </section>
 
         
-        <div id="claimModal" class="modal hidden">
-            <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-                <h3 id="modalTitle">Reservation Found</h3>
+        <dialog id="editPopup" class="modal">
 
-                <div id="modalBody" class="modal-body"></div>
+            <h3>Edit Reservation</h3>
 
-                <div class="modal-actions">
-                    <button id="modalClose" class="primary-btn" type="button">Close</button>
+            <form class="edit-bundle-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" placeholder="Enter name" required/>
                 </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" rows="2" placeholder="Enter description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" placeholder="Enter price" required/>
+                </div>
+
+                <div class="form-group">
+                    <label for="collectionStart">Collection Start</label>
+                    <input type="datetime-local" id="collectionStart">
+                </div>
+
+                <div class="form-group">
+                    <label for="collectionEnd">Collection End</label>
+                    <input type="datetime-local" id="collectionEnd">
+                </div>
+
+            </form>
+
+
+
+            <div class="bundleActionButton">
+                <button id="edit-confirm-button">Confirm</button>
+                <button id="edit-cancel-button">Cancel</button>
             </div>
-        </div>
+
+            <p id="edit-error-msg" class="error">Error: Action could not be performed</p>
+
+        </dialog>
+
+
+        <dialog id="deletePopup" class="modal">
+            <h3>Confirm Deletion</h3>
+            <p>Are you sure you want to delete this bundle?</p>
+            <div class="bundleActionButton">
+                <button id="delete-confirm-button">Confirm</button>
+                <button id="delete-cancel-button">Cancel</button>
+                <p id="delete-error-msg" class="error">Error: Action could not be performed</p>
+            </div>
+        </dialog>
 
     </main>
 
