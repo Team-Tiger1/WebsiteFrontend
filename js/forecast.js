@@ -45,6 +45,38 @@ document.getElementById('temperatureSlider').addEventListener('input', (e) => {
     document.getElementById('temperatureValue').innerText = `${e.target.value}°C`;
 });
 
+const retailPriceInput = document.getElementById('retailPriceInput');
+
+// Stores the previous value
+let previousValue = retailPriceInput.value;
+
+retailPriceInput.addEventListener('keydown', (e) => {
+    // Allows the user to use backspace, enter, etc
+    const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete', 'Tab', 'Enter'];
+    if (allowedKeys.includes(e.key) || e.ctrlKey || e.metaKey) {
+        return;
+    }
+
+    // Only allows the uer to type numbers
+    if (!/^[0-9.]$/.test(e.key)) {
+        e.preventDefault();
+    }
+});
+
+retailPriceInput.addEventListener('input', (e) => {
+    let value = e.target.value;
+
+    const numericValue = parseFloat(value);
+    const hasTooManyDecimals = value.includes('.') && value.split('.')[1].length > 2;
+
+    // If the value is too large or has more than 2 decimals change the value back to the last
+    if (numericValue > 999.99 || hasTooManyDecimals) {
+        e.target.value = previousValue;
+    } else {
+        previousValue = value;
+    }
+});
+
 // Calls the API when any of the inputs are changed
 const allSliders = ['retailPriceInput', 'discountSlider', 'leadTimeSlider', 'windowLengthSlider', 'weatherSlider', 'temperatureSlider', 'daySlider', 'collectionTimeSlider']
 
