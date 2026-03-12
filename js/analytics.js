@@ -56,40 +56,61 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await isAuthenticated("VENDOR");
 
-    await renderOutline("day")
-    await renderTables("day")
+    const dataResponse = await apiGet("/bundles/analytics?period=day");
+    const jsonData = await dataResponse.json();
+
+    if(dataResponse.ok) {
+        await Promise.all([
+            renderOutline(jsonData),
+            renderTables("day", jsonData)
+        ])
+    }
+
+
     //This adds an event listener to the period drop down, so that when the user changes the period, the tables and graphs are updated to reflect the new period
     const periodDropdown = document.getElementById("period-dropdown");
     periodDropdown.addEventListener("change", async () => {
        const period = periodDropdown.value;
-       await renderTables(period);
-       await renderOutline(period);
+
+        const dataResponse = await apiGet("/bundles/analytics?period=" + period);
+        const dataJson = await dataResponse.json();
+        if(dataResponse.ok) {
+            await Promise.all([
+                renderTables(period, dataJson),
+                renderOutline(dataJson)
+            ])
+        }
+
+
     });
 });
 /**
  * This function renders the outline section of the analytics page, which includes the headline statistics and the pie chart
  * It makes a call to the api call to get the number of bundles collected, no shows, and expired for the selected period, and then updates the HTML elements with the new data
  * It also calls the renderPieChart function to update the pie chart with the new data
- * @param {*} period 
+ * @param {*} data
  */
-async function renderOutline(period) {
+async function renderOutline(data) {
     const collected = document.getElementById("bundlesCollected");
     const noShows = document.getElementById("bundleNoShow");
     const expired = document.getElementById("bundlesExpired");
 
-    const analyticsOutlineResponse = await apiGet("/bundles/metrics?period=" + period)
-
-    if(!analyticsOutlineResponse.ok) {
-        console.log("Request Failed")
+    const occurrenceMap = {
+        "COLLECTED": 0,
+        "NO_SHOW": 0,
+        "EXPIRED": 0,
     }
 
-    const analyticsOutlineJson = await analyticsOutlineResponse.json();
+    for (let i = 0; i < data.length; i++) {
+        const currentStatus = data[i].status;
+        occurrenceMap[currentStatus]++;
+    }
 
-    collected.textContent = analyticsOutlineJson["numCollected"];
-    noShows.textContent = analyticsOutlineJson["numNoShows"];
-    expired.textContent = analyticsOutlineJson["numExpired"];
+    collected.textContent = occurrenceMap["COLLECTED"];
+    noShows.textContent = occurrenceMap["NO_SHOW"];
+    expired.textContent = occurrenceMap["EXPIRED"];
 
-    await renderPieChart([analyticsOutlineJson["numCollected"], analyticsOutlineJson["numNoShows"], analyticsOutlineJson["numExpired"]]);
+    await renderPieChart([occurrenceMap["COLLECTED"], occurrenceMap["NO_SHOW"], occurrenceMap["EXPIRED"]]);
 }
 
 /**
@@ -97,9 +118,10 @@ async function renderOutline(period) {
  * It makes an api call to get the bundles for the selected period, and then iterates through the bundles and adds them to the appropriate table based on their outcome
  * It also keeps track of the total revenue/loss for each outcome, and updates the labels at the top of each table with the new totals
  * Finally, it calls the renderLineGraph function to update the line graph with the new data
- * @param {*} period 
+ * @param period
+ * @param {*} data
  */
-async function renderTables(period) {
+async function renderTables(period, data) {
 
     const collectedTable = document.getElementById("collected-table");
     const noShowsTable = document.getElementById("noshows-table");
@@ -118,11 +140,9 @@ async function renderTables(period) {
     let noShowGraphData = [];
     let expiredGraphData = [];
 
-    const analyticBundleResponse = await apiGet("/bundles/analytics?period=" + period)
 
-    const previousBundles = await analyticBundleResponse.json();
-    for (let i = 0; i < previousBundles.length; i++) {
-        let currentBundle = previousBundles[i];
+    for (let i = 0; i < data.length; i++) {
+        let currentBundle = data[i];
 
         if(currentBundle.status === "COLLECTED") {
             collectedGraphData.push(currentBundle);
@@ -305,9 +325,9 @@ async function generatePaddingLists(period) {
             }
             break;
         case "month":
-            const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-            for (let i = 1; i <= daysInMonth; i++) {
-                const date = new Date(now.getFullYear(), now.getMonth(), i);
+            for (let i = 30; i >= 0; i--) {
+                const date = new Date(now);
+                date.setDate(now.getDate() - i);
                 list[date.toISOString().split("T")[0]] = 0;
             }
             break;
