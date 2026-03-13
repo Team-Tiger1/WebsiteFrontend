@@ -14,7 +14,7 @@ function addHeader() {
         <li><a href="dashboard.html">Dashboard</a></li>
         <li><a href="newproduct.html">Create Products</a></li>
         <li><a href="newbundle.html">Create Bundle</a></li>
-        <li><a href="manage.html">Manage Pickups</a></li>
+        <li><a href="managedisputes.html">Manage Disputes</a></li>
         <li><a href="analytics.html">Analytics</a></li>
         <li><a href="forecast.html">Forecast</a></li>
         <li><a href="#" id="logout">Log Out</a></li>
