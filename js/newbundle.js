@@ -6,6 +6,14 @@ const productsList = document.getElementById("productsList");
 const msg = document.getElementById("bundleMsg");
 const form = document.getElementById("createBundleForm");
 
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 /**
  * Loads all products belonging to the logged-in vendor.
  * These are displayed with quantity selectors so the vendor
@@ -38,7 +46,7 @@ async function loadVendorsProducts(){
         
         label.innerHTML = `
             <div class="product-info">
-                <strong>${product.name}</strong>
+                <strong>${sanitise(product.name)}</strong>
                 <p class="text-muted">£${product.retailPrice} • ${product.weight}g</p>
             </div>
 
@@ -50,7 +58,7 @@ async function loadVendorsProducts(){
                 value="0"
                 inputmode="numeric"
                 data-product-id="${product.id}"
-                aria-label="Quantity for ${product.name}"
+                aria-label="Quantity for ${sanitise(product.name)}"
             />
         `;
 

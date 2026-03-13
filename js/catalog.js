@@ -75,7 +75,7 @@ async function loadVendorsIntoCarousel(vendors){
             card.setAttribute("role", "link")
             card.setAttribute("aria-label", `Open ${vendorName} bunldes`)
             
-            card.innerHTML = `<h1>${vendorName}</h1>`
+            card.innerHTML = `<h1>${sanitise(vendorName)}</h1>`
             card.addEventListener("click", function(){
                 localStorage.setItem("vendorId", vendorId);
                 window.location.href = "vendor.html";
@@ -186,7 +186,7 @@ function createBundleCard(bundle, targetCarousel) {
     }
   //create card in HTML
   card.innerHTML = `
-    <h3>${name}</h3>
+    <h3>${sanitise(name)}</h3>
     <span class="category ${category}">
       ${categoryNameMap[category] ?? category}
     </span>
@@ -214,7 +214,7 @@ function createBundleCard(bundle, targetCarousel) {
 }
 
 /**
- * Sends a reservation request to the backend enpoint when
+ * Sends a reservation request to the backend endpoint when
  * the function is triggered at a click event on a bundle card
  * if the reservation succeeds it reirects to the roder page where they
  * can see the resrevation/order information.
@@ -419,3 +419,10 @@ function searchBar(){
 }
 
 searchBar();
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}

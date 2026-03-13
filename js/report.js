@@ -10,6 +10,15 @@ const disputeDescription = document.getElementById("disputeDescription");
 const disputSubmitButton = document.getElementById("disputeSubmitButton");
 const disputeMsg = document.getElementById("disputeMsg");
 
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+
 /**
  * loads the users current bundle reservations in all stages(noshow/reserved/collected)
  * then load these reservations into the dropdown for disputes
@@ -70,12 +79,12 @@ async function loadDisputes(){
         card.classList.add("dispute-card");
         card.setAttribute("aria-label", `Dispute: ${dispute.reason}, ${dispute.description}`); //each dispute has a reason, description
         card.innerHTML = ` 
-            <p>Bundle Name: ${dispute.bundleName}</p> 
+            <p>Bundle Name: ${sanitise(dispute.bundleName)}</p> 
             <p>Reason: ${dispute.reason}</p>
-            <p>Description: ${dispute.description}</p>
+            <p>Description: ${sanitise(dispute.description)}</p>
             <p>Status: ${dispute.finalStatus || "Pending"}</p>
             ${dispute.vendorResponse
-            ? `<p>Vendor Response: ${dispute.vendorResponse}</p>`
+            ? `<p>Vendor Response: ${sanitise(dispute.vendorResponse)}</p>`
             : `<p>Vendor Response: Awaiting response</p>`} 
         `;
 

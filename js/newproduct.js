@@ -9,6 +9,15 @@ await isAuthenticated("VENDOR");
 //setup -->createproduct-->get form
 //sumbit -->read inputs --> read allegeries --> validate --> call createProduct
 
+
+/*prevents XSS*/
+function sanitise(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+
 /**
  * Sends a POST request to create a new product.
  *

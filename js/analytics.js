@@ -3,6 +3,16 @@ import {isAuthenticated} from "./auth.js";
 
 let pieChart = null;
 let lineChart = null;
+
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+
 //creates the configuration for the pie chart and line graph
 //This includes the labels, colours, and data (which is updated later)
 const pieConfig = {
@@ -22,7 +32,6 @@ const pieConfig = {
         hoverOffset: 4
     }]
 };
-
 
 const lineConfig = {
     datasets: [
@@ -381,7 +390,7 @@ function convertBundleToHTML(bundle) {
     const dateObject = new Date(bundle.date);
     const formattedDate = new Intl.DateTimeFormat('en-GB').format(dateObject);
 
-    tr.innerHTML = `<td>${bundle.bundleName}</td>
+    tr.innerHTML = `<td>${sanitise(bundle.bundleName)}</td>
         <td>${formattedDate}</td>
         <td>£${bundle.amountDue.toFixed(2)}</td></tr>`;
     return tr;
