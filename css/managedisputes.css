@@ -1,0 +1,91 @@
+/* manage disputes modal */
+
+.dispute-details p {
+    margin: 0 0 10px 0;
+}
+
+.dispute-response-group {
+    margin-top: 18px;
+}
+
+.dispute-response-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.dispute-response-group textarea {
+    width: 100%;
+    min-height: 110px;
+    padding: 10px 12px;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    resize: vertical;
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.dispute-response-group textarea:focus {
+    outline: none;
+    border-color: #8fcbd3;
+}
+
+.dispute-action-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.dispute-main-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.accept-btn {
+    background: #dff3e2;
+    border: 1px solid #8cc79a;
+    color: #1f5c2c;
+}
+
+.reject-btn {
+    background: #f8dddd;
+    border: 1px solid #d79a9a;
+    color: #7a2222;
+}
+
+.close-btn {
+    background: #eeeeee;
+    border: 1px solid #cfcfcf;
+    color: #333333;
+}
+
+.view-dispute-btn {
+    padding: 8px 14px;
+}
+
+@media (max-width: 700px) {
+    .dispute-action-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dispute-main-actions {
+        width: 100%;
+    }
+
+    .dispute-main-actions button,
+    .close-btn {
+        width: 100%;
+    }
+}
+.dispute-action-row {
+    margin-top: 18px;
+    margin-bottom: 16px;
+}
+
+.modal-actions {
+    margin-top: 20px;
+}

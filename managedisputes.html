@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Last Fork</title>
+  <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/headerFooter.css">
+    <link rel="stylesheet" href="css/dashboard.css" />
+    <link rel="stylesheet" href="css/managedisputes.css" />
+</head>
+<body>
+    <div id="header"></div>
+
+    <main class="dashboard">
+        <header class="dashboard-header">
+            <h2>Manage Disputes</h2>
+            <p class="text-muted">
+                Review current disputes raised by customers.
+            </p>
+            <br>
+        </header>
+
+        <section class="dashboard-reservations">
+            <h3>Current Disputes</h3>
+
+            <table class="reservation-table">
+                <thead>
+                <tr>
+                    <th>Dispute ID</th>
+                    <th>Bundle Name</th>
+                    <th>Reason</th>
+                    <th>Status</th>
+                    <th>Date Opened</th>
+                    <th>Manage Dispute</th>
+                </tr>
+                </thead>
+
+                <tbody id="disputes">
+                <!-- rows added in js -->
+                </tbody>
+            </table>
+        </section>
+    </main>
+    <div id="disputeModal" class="modal hidden">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <h3 id="modalTitle">Dispute Details</h3>
+
+            <div id="modalBody" class="modal-body"></div>
+
+            <div class="modal-actions">
+                <button id="modalClose" class="primary-btn" type="button" aria-label="Close dispute popup">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer"></div>
+
+    <script type="module" src="js/script.js"></script>
+    <script type="module" src="js/vendorHeaderFooter.js"></script>
+    <script type="module" src="js/managedisputes.js"></script>
+</body>
+</html>

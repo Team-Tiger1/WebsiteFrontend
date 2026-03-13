@@ -388,6 +388,31 @@ button:hover {
     font-size: 16px;
 }
 
+/*!* reservation table *!*/
+
+/*.dashboard-section {*/
+/*    margin-top: 30px;*/
+/*}*/
+
+/*.reservation-table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    background: #ffffff;*/
+/*    border-radius: 12px;*/
+/*    overflow: hidden;*/
+/*}*/
+
+/*.reservation-table th,*/
+/*.reservation-table td {*/
+/*    padding: 12px;*/
+/*    text-align: left;*/
+/*    border-bottom: 1px solid #eee;*/
+/*}*/
+
+/*.reservation-table th {*/
+/*    background: #f6f6f6;*/
+/*    font-weight: 600;*/
+/*}*/
 /* reservation table */
 
 .dashboard-section {
@@ -397,25 +422,35 @@ button:hover {
 .reservation-table {
     width: 100%;
     border-collapse: collapse;
-    background: #ffffff;
-    border-radius: 12px;
+    margin-top: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
     overflow: hidden;
 }
 
 .reservation-table th,
 .reservation-table td {
-    padding: 12px;
+    padding: 14px;
     text-align: left;
-    border-bottom: 1px solid #eee;
 }
 
 .reservation-table th {
-    background: #f6f6f6;
+    background-color: #e8e8e8;
     font-weight: 600;
+    border-bottom: 2px solid #d0d0d0;
+}
+
+.reservation-table td {
+    border-bottom: 1px solid #ececec;
 }
 
 .reservation-table tr:last-child td {
     border-bottom: none;
+}
+
+.reservation-table tbody tr:hover {
+    background-color: #f9f9f9;
 }
 
 /* bundle carousel */
