@@ -43,10 +43,13 @@
         </div>
     </main>
 
-    <dialog id="deletePopup" aria-labelledby="deletePopup">
-        <h3>Confirm Delete Account</h3>
-        <p id="DeleteDetails">This will delete your account and all its information. Are you sure?</p>
-        <div class="DeleteButton" aria-describedby="deleteDetails">
+    <dialog id="deletePopup" aria-labelledby="deletePopupTitle" aria-describedby="deleteDetails">
+        <h3 id="deletePopupTitle">Confirm Delete Account</h3>
+        <p id="deleteDetails">This will delete your account and all its information. Are you sure?</p>
+        <!--Enter password to confirm delete account-->
+        <label for="passwordConfirm" id="inputDeleteLabel">Type "delete" to confirm</label>
+        <input id="passwordConfirm" placeholder='Type "delete" to confirm' type="text"></input>
+        <div class="DeleteButton" aria-describedby="DeleteDetails">
             <button id="confirmDeleteButton">Confirm</button>
             <button id="cancelDeleteButton">Cancel</button>
         </div>
