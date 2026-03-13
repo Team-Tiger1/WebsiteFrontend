@@ -24,6 +24,10 @@ main {
     text-align: center;
 }
 
+#deletePopup input{
+    margin: 16px;
+}
+
 #deleteAccountButton {
     display: block;
     margin: 20px auto;
@@ -61,4 +65,9 @@ input[type="password"] {
     border-radius: 8px;
     padding: 16px;
     margin-top: 20px;
+}
+
+#inputDeleteLabel{
+    display: block;
+    margin-top: 10px;
 }

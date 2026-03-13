@@ -12,6 +12,8 @@ const cancelDeleteButton = document.getElementById("cancelDeleteButton");
 const deleteAccountButton = document.getElementById("deleteAccountButton");
 const msg = document.getElementById("errorMsg");
 
+
+
 //if the user clicks delete account button
 deleteAccountButton.addEventListener("click", () => {
     deletePopup.showModal();
@@ -19,12 +21,20 @@ deleteAccountButton.addEventListener("click", () => {
 
 confirmDeleteButton.addEventListener("click", async () => {
 
+    const deleteInput = document.getElementById("passwordConfirm").value;
+
+//they have to type delete to be able to delete account for confirmation
+    if (deleteInput.toLowerCase() !== "delete") {
+        alert('Please type "delete" to confirm.');
+        return;
+    }
+
     const response = await apiGet("/users", { method: "DELETE" });
 
     if (response) {
         msg.textContent = "Account deleted successfully.";
         localStorage.removeItem("accessToken");
-        window.location.href = "index.html";
+        window.location.href = "login.html";
     } else {
         msg.textContent = "Failed to delete account";
     }
