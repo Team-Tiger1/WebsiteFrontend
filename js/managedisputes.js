@@ -5,6 +5,13 @@ await isAuthenticated("VENDOR");
 
 const tableBody = document.getElementById("disputes");
 
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 // modal elements
 const modal = document.getElementById("disputeModal");
 const modalTitle = document.getElementById("modalTitle");
@@ -43,10 +50,10 @@ async function loadDisputes() {
         const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>${shortDisputeId(d.disputeId)}</td>
-            <td>${d.bundleName ?? "-"}</td>
-            <td>${formatReason(d.reason)}</td>
-            <td>${formatStatus(d.status)}</td>
-            <td>${formatDate(d.createdAt)}</td>
+            <td>${sanitise(d.bundleName ?? "-")}</td>
+            <td>${sanitise(formatReason(d.reason))}</td>
+            <td>${sanitise(formatStatus(d.status))}</td>
+            <td>${sanitise(formatDate(d.createdAt))}</td>
             <td><button class="primary-btn view-dispute-btn" type="button">View</button></td>
         `;
 
@@ -58,12 +65,12 @@ async function loadDisputes() {
             const html = `
                 <div class="dispute-details">
                     <p><strong>Dispute ID:</strong> ${d.disputeId ?? "-"}</p>
-                    <p><strong>Bundle Name:</strong> ${d.bundleName ?? "-"}</p>
-                    <p><strong>Reason:</strong> ${formatReason(d.reason)}</p>
-                    <p><strong>Status:</strong> ${formatStatus(d.status)}</p>
-                    <p><strong>Date Opened:</strong> ${formatDate(d.createdAt)}</p>
-                    <p><strong>Description:</strong> ${d.description ?? "-"}</p>
-                    <p><strong>Vendor Response:</strong> ${d.vendorResponse ?? "No response yet"}</p>
+                    <p><strong>Bundle Name:</strong> ${sanitise(d.bundleName ?? "-")}</p>
+                    <p><strong>Reason:</strong> ${sanitise(formatReason(d.reason))}</p>
+                    <p><strong>Status:</strong> ${sanitise(formatStatus(d.status))}</p>
+                    <p><strong>Date Opened:</strong> ${sanitise(formatDate(d.createdAt))}</p>
+                    <p><strong>Description:</strong> ${sanitise(d.description ?? "-")}</p>
+                    <p><strong>Vendor Response:</strong> ${sanitise(d.vendorResponse ?? "No response yet")}</p>
                 </div>
             
                 <div class="dispute-response-group">
