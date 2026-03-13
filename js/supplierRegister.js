@@ -11,6 +11,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
+        const streetAddress = document.getElementById("address-input").value.trim();
+        const postcode = document.getElementById("postcode-input").value.trim();
+        const password = document.getElementById("password-input").value;
+        const repeatPassword = document.getElementById("repeat-password-input").value;
+        //uk postcode format
+        const postcodeR = /^[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}$/i;
+        if (!postcodeR.test(postcode)) {
+            msg.textContent = "Please enter a valid UK postcode (e.g. EX1 1AA)";
+            return;
+        }
+        //basic street address like must container a number and letters
+        const addressRegex = /\d+.+[a-zA-Z]/;
+        if (!addressRegex.test(streetAddress)) {
+            msg.textContent = "Please enter a valid street address (Must contain atleast 1 number, and letters. e.g. 74 Pennsylvania Road)";
+            return;
+        }
+
+        if (password !== repeatPassword) {
+            msg.textContent = "Passwords do not match, Please try again!";
+            return;
+        }
+
         tcPopUp.showModal();
     });
 
@@ -29,12 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = document.getElementById("email-input").value.trim().toLowerCase();
         const category = document.getElementById("category-input").value.trim().toUpperCase();
         const password = document.getElementById("password-input").value;
-        const repeatPassword = document.getElementById("repeat-password-input").value;
 
-        if (password !== repeatPassword) {
-            msg.textContent = "Passwords do not match, Please try again!";
-            return;
-        }
         msg.textContent = "Creating Account";
         //collects the supplier registration information into one body to be sent to the backend endpoint
         const body = {name, streetAddress, postcode, description, phoneNumber, email, category, password};
