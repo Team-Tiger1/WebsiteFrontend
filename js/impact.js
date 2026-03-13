@@ -7,20 +7,19 @@ const badge = document.querySelector(".user-badge");
 
 //map the api response of badge names with how they are displayed
 const imageMap = {
-    "THE_EXPLORER": "The Explorer",
-    "LOYAL_SHOPPER": "Loyal Shopper",
-    "HOT_SHOPPER": "Hot Shopper",
-    "WASTE_KING": "Waste King",
-    "CATEGORY_KING": "Category King",
-    "WEEKLY_WARRIOR": "Weekly Warrior",
-    "WALLET_WATCHER": "Wallet Watcher"
+    "THE_EXPLORER": "explorer",
+    "LOYAL_SHOPPER": "loyalShopper",
+    "HOT_SHOPPER": "hotShopper",
+    "WASTE_KING": "wasteKing",
+    "CATEGORY_KING": "categoryKing",
+    "WEEKLY_WARRIOR": "weeklyWarrior",
+    "WALLET_WATCHER": "walletWatcher"
 };
-
-//map the grades too
+//map the grades
 const gradeMap = {
-    "BRONZE": "Bronze",
-    "SILVER": "Silver",
-    "GOLD": "Gold"
+    "BRONZE": "bronze",
+    "SILVER": "silver",
+    "GOLD": "gold"
 };
 
 
