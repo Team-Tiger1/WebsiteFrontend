@@ -9,6 +9,14 @@ await isAuthenticated("USER");
 
 await loadOrders();
 
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
 /**
  * Loads all the orders/reservations for the user.
  * These orders are displayed in the orders table
@@ -100,15 +108,15 @@ function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleNa
     const tr = document.createElement("tr");
     tr.innerHTML = `
     <td style="padding: 12px; border-top: 1px solid #ffffff;">
-      ${bundleName ?? "-"}
+      ${sanitise(bundleName ?? "-")}
     </td>
 
     <td style="padding: 12px; border-top: 1px solid #ffffff;">
-      ${pickupTime}
+      ${sanitise(pickupTime)}
     </td>
 
     <td style="padding: 12px; border-top: 1px solid #ffffff; font-weight: bold;">
-      ${claimCode ?? "-"}
+      ${sanitise(claimCode ?? "-")}
     </td>
   `;
     //adds the row to the table body

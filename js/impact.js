@@ -5,6 +5,15 @@ await isAuthenticated("USER");
 
 const badge = document.querySelector(".user-badge");
 
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+
 //map the api response of badge names with how they are displayed
 const imageMap = {
     "THE_EXPLORER": "explorer",
@@ -81,8 +90,8 @@ async function loadBadges(badges){
         //use the badge theshold and current amount to show proguess again along with proguess bar
         card.innerHTML = `
          <div class="badge-info">
-            <div class="badge-name">${formattedName}</div>
-            <div class="badge-grade">Grade: ${badge.grade}</div>
+            <div class="badge-name">${sanitise(formattedName)}</div>
+            <div class="badge-grade">Grade: ${sanitise(badge.grade)}</div>
             <div class="progress-bar-wrap">
                 <div class="progress-bar-fill" style="width: ${progressPercent}%;"></div>
                 <span class="progress-bar-label">${progressBar}</span>
@@ -120,7 +129,7 @@ async function loadMoneyLeaderboard(){
         row.classList.add("leaderboard-row");
         row.innerHTML = `
             <span>#${index + 1}</span>
-            <span>${entry.username}</span>
+            <span>${sanitise(entry.username)}</span>
             <span>£${entry.value.toFixed(2)}</span>
         `; //fix to 2 decimal place for all values
         //use the backend names to call the values to place
@@ -130,7 +139,7 @@ async function loadMoneyLeaderboard(){
 
     //show the current users position and stats for money
     document.getElementById("moneyUserPosition").innerHTML =
-        `<p>Your position: #${data.position},  ${data.username},  £${data.value.toFixed(2)}</p>`;
+        `<p>Your position: #${data.position},  ${sanitise(data.username)},  £${data.value.toFixed(2)}</p>`;
 }
 
 /**
@@ -156,7 +165,7 @@ async function loadWasteLeaderboard(){
         row.classList.add("leaderboard-row");
         row.innerHTML = `
             <span>#${index + 1}</span>
-            <span>${entry.username}</span>
+            <span>${sanitise(entry.username)}</span>
             <span>${(entry.value / 1000).toFixed(2)}g</span>
         `; //setting all values to 2 decimal places
         //using index +1 to show position on leadboard
@@ -165,7 +174,7 @@ async function loadWasteLeaderboard(){
 
     //show the current users position and their stats for waste
     document.getElementById("wasteUserPosition").innerHTML =
-        `<p>Your position: #${data.position},  ${data.username},  ${data.value.toFixed(2)}g</p>`; //adding the users positoon with 2 decimal places
+        `<p>Your position: #${data.position},  ${sanitise(data.username)},  ${data.value.toFixed(2)}g</p>`; //adding the users positoon with 2 decimal places
 }
 //call the functions when page loaded
 loadMoneyLeaderboard();

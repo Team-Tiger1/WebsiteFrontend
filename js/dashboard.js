@@ -7,6 +7,15 @@ import {isAuthenticated} from "./auth.js";
 //Access control -- only users with the VENDOR role can access this page.
 await isAuthenticated("VENDOR");
 
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+
 //Summary boxes
 const posted = document.getElementById("postedCount");     // bundles Posted
 const reserved = document.getElementById("reservedCount"); // Bundles Reserved
@@ -147,8 +156,8 @@ claimBtn?.addEventListener("click", async () => {
                 const windowTxt = formatPickupWindow(data.collectionStart, data.collectionEnd);
 
                 const html = `
-          <p><strong>Bundle:</strong> ${data.bundleName ?? "-"}</p>
-          <p><strong>Pickup window:</strong> ${windowTxt}</p>
+          <p><strong>Bundle:</strong> ${sanitise(data.bundleName ?? "-")}</p>
+          <p><strong>Pickup window:</strong> ${sanitise(windowTxt)}</p>
           <p><strong>Amount due:</strong> ${price}</p>
           <p><strong>Reservation ID:</strong> ${data.reservationId ?? "-"}</p>
         `;
@@ -228,7 +237,7 @@ async function loadVendorBundles() {
                         <span style="margin-left: 40px;">ACTIONS</span>
                     </div>
                     <div class="bundle-row bundle-card">
-                        <span class="bundle-name">${name}</span>
+                        <span class="bundle-name">${sanitise(name)}</span>
                         <div class="price">£${price.toFixed(2)}</div>
                         <div class="window">${formatPickupWindow(collectionStart, collectionEnd)}</div>
                         <div class="chance">${forecast}%</div>
@@ -364,7 +373,7 @@ async function loadVendorReservations() {
                         <span>COLLECTION CHANCE</span>
                     </div>
                     <div class="reservation-row reservation-card">
-                        <span class="bundle-name">${name}</span>
+                        <span class="bundle-name">${sanitise(name)}</span>
                         <div class="price">£${price.toFixed(2)}</div>
                         <div class="window">${formatPickupWindow(collectionStart, collectionEnd)}</div>
                         <div class="chance">${forecast}%</div>

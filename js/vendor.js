@@ -66,12 +66,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 //gets the response from the backend and populates the page with the vendor's information.
     let data = await vendorResponse.json();
     //If any of the vendor's information is missing, it displays a default message instead of leaving it blank
-    vendorName.innerHTML = data.companyName || "Unknown Company";
-    vendorDescription.innerHTML = data.description || "";
-    phoneNumber.innerHTML = data.phoneNumber || "Unknown Phone Number";
-    emailAddress.innerHTML = data.email || "Unknown Email Address";
-    streetAddress.innerHTML = data.streetAddress || "Unknown Street";
-    postcode.innerHTML = data.postcode || "Unknown Postcode";
+    vendorName.textContent = data.companyName || "Unknown Company";
+    vendorDescription.textContent = data.description || "";
+    phoneNumber.textContent = data.phoneNumber || "Unknown Phone Number";
+    emailAddress.textContent = data.email || "Unknown Email Address";
+    streetAddress.textContent = data.streetAddress || "Unknown Street";
+    postcode.textContent = data.postcode || "Unknown Postcode";
 
    //create the interactive map for the vendors location using the google maps embed API
     const srcFirstHalf = "https://maps.google.com/maps?width=100%&height=600&hl=en&q=";
@@ -112,7 +112,7 @@ function renderBundles(bundleContainer, bundleList) {
         if(allergies.length > 0){
             allergyHtml += `<div class="allergens">`;
             for (let j = 0; j < allergies.length; j++) {
-                allergyHtml += `<p>${capitalizeString(allergies[j])}</p>`;
+                allergyHtml += `<p>${capitaliseString(allergies[j])}</p>`;
             }
             allergyHtml += `</div>`
         }
@@ -123,7 +123,7 @@ function renderBundles(bundleContainer, bundleList) {
                 <div class="bundle-header">
                   <div class="column">
                       <div class="bundle-element">
-                        <p>${bundleJson.bundleName}</p>
+                        <p>${sanitise(bundleJson.bundleName)}</p>
                         <p class="category ${bundleJson.category}"">${categoryNameMap[bundleJson.category]}</p>
                       </div>
                       
@@ -181,7 +181,7 @@ function renderBundles(bundleContainer, bundleList) {
             for (let i = 0; i < productList.length; i++) {
                 const product = productList[i];
                 console.log(product);
-                productHtml += `<div><p>${product.quantity}x </p><p>${product.productName}: £${product.price.toFixed(2)}</p></div>`
+                productHtml += `<div><p>${product.quantity}x </p><p>${sanitise(product.productName)}: £${product.price.toFixed(2)}</p></div>`
             }
 
             //Convert times to be more readable
@@ -206,7 +206,7 @@ function renderBundles(bundleContainer, bundleList) {
                 `
             <div class="drop-down">
             
-                <p>${detailedBundleJson.description}</p>
+                <p>${sanitise(detailedBundleJson.description)}</p>
                 <div class="product-list"></div>
                 
                 <div class="retail-price"">
@@ -273,12 +273,19 @@ cancelReserveBtn.addEventListener("click", function(){
     reservePopup.close();
 });
 /**
- * This function takes in a string and capitalizes the first letter while making the rest of the letters lowercase. 
+ * This function takes in a string and capitalises the first letter while making the rest of the letters lowercase.
  * This is used to display the allergy information in a more user-friendly way.
  * @param {*} string 
  * @returns 
  */
-function capitalizeString (string) {
+function capitaliseString (string) {
     string = string.toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+/*prevents XSS*/
+function sanitise(str) {
+    const div = document.createElement("div");
+    div.textContent = str;
+    return div.innerHTML;
 }
