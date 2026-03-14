@@ -41,8 +41,12 @@ async function loadUserBundles(){
     //each option shows the bundle name and stores the bundleID
     allOrders.forEach(order => {
         const option = document.createElement("option"); //add it as an option
-        option.value = order.bundle.bundleId; //add the bundleID
-        option.textContent = order.bundle.name; //add the bundle name
+        option.value = order.bundle.bundleId;
+        const date = new Date(order.bundle.collectionStart).toLocaleDateString("en-GB", {
+            day: "numeric", month: "short", year: "numeric",
+            hour: "2-digit", minute: "2-digit"
+        });
+        option.textContent = `${order.bundle.name} - ${date}`;
         bundleSelect.appendChild(option); //add as an option to the drop
     })
 }
