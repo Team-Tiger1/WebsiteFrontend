@@ -8,11 +8,7 @@ const form = document.getElementById("createBundleForm");
 
 
 /*prevents XSS*/
-function sanitise(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-}
+import {sanitise} from "./sanitise"
 
 /**
  * Loads all products belonging to the logged-in vendor.

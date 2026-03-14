@@ -2,6 +2,10 @@ import {isAuthenticated} from "./auth.js";
 await isAuthenticated("USER");
 import {apiGet, apiPost} from "./connection.js";
 
+/*prevents XSS*/
+import {sanitise} from "./sanitise"
+
+
 //calling api for bundles and vendors
 const bundles = await apiGet("/bundles").then(r => r.json());
 const vendors = await apiGet("/vendors").then(r => r.json());
@@ -420,9 +424,4 @@ function searchBar(){
 
 searchBar();
 
-/*prevents XSS*/
-function sanitise(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-}
+

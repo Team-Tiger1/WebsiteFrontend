@@ -19,6 +19,10 @@ const categoryNameMap = {
     "DRINKS_BEVERAGES": "Drinks"
 };
 
+
+/*prevents XSS*/
+import {sanitise} from "./sanitise"
+
 //if the user presses the sort button, it sorts the bundles by price in either ascending or descending order depending on the current state. It then re-renders the bundles with the new order.
 const sortButton = document.getElementById("sortButton");
 sortButton.addEventListener("click", function (e) {
@@ -281,11 +285,4 @@ cancelReserveBtn.addEventListener("click", function(){
 function capitaliseString (string) {
     string = string.toLowerCase();
     return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-/*prevents XSS*/
-function sanitise(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
 }

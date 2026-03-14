@@ -9,13 +9,8 @@ await isAuthenticated("USER");
 
 await loadOrders();
 
-
 /*prevents XSS*/
-function sanitise(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-}
+import {sanitise} from "./sanitise"
 
 /**
  * Loads all the orders/reservations for the user.

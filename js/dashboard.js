@@ -9,11 +9,7 @@ await isAuthenticated("VENDOR");
 
 
 /*prevents XSS*/
-function sanitise(str) {
-    const div = document.createElement("div");
-    div.textContent = str;
-    return div.innerHTML;
-}
+import {sanitise} from "./sanitise"
 
 
 //Summary boxes
