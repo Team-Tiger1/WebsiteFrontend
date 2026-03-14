@@ -37,7 +37,7 @@ async function loadUserBundles(){
     }
     //loop through each order and add it as an option in the bundle select drop down
     //each option shows the bundle name and stores the bundleID
-    orders.forEach(order => {
+    allOrders.forEach(order => {
         const option = document.createElement("option"); //add it as an option
         option.value = order.bundle.bundleId; //add the bundleID
         option.textContent = order.bundle.name; //add the bundle name
