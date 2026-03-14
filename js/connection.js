@@ -79,7 +79,7 @@ export async function apiDelete(url, options = {}) {
         const isRefreshed = await refreshAccessToken();
         if(isRefreshed) {
             options.headers["Authorization"] = "Bearer " + localStorage.getItem("accessToken");
-            response = fetch(CONNECTION_URL + url, options);
+            response = await fetch(CONNECTION_URL + url, options);
         }
     }
     return response;

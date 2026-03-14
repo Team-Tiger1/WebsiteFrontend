@@ -3,13 +3,11 @@
 
 import {apiDelete, apiGet, apiPatch, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
+/*prevents XSS*/
+import {sanitise} from "./sanitise.js"
 
 //Access control -- only users with the VENDOR role can access this page.
 await isAuthenticated("VENDOR");
-
-
-/*prevents XSS*/
-import {sanitise} from "./sanitise.js"
 
 
 //Summary boxes
@@ -43,58 +41,55 @@ const editPrice = document.getElementById("price");
 const editCollectionStart = document.getElementById("collectionStart");
 const editCollectionEnd = document.getElementById("collectionEnd");
 
-//running the dashboard with page loads
-document.addEventListener("DOMContentLoaded", () => {
 
-    runDashboard();
 
-    editCancelButton.addEventListener("click", async () => {
-        const errorMessage = document.getElementById("edit-error-msg");
-        errorMessage.style.display = "none";
+runDashboard();
+
+editCancelButton.addEventListener("click", async () => {
+    const errorMessage = document.getElementById("edit-error-msg");
+    errorMessage.style.display = "none";
+    editPopup.close();
+})
+
+editConfirmButton.addEventListener("click", async () => {
+
+    const payload = {
+        "name": editName.value,
+        "description": editDescription.value,
+        "price": editPrice.value,
+        "collectionStart": editCollectionStart.value,
+        "collectionEnd": editCollectionEnd.value,
+    }
+
+    const editResponse = await apiPatch("/bundles/" + selectedBundleId, payload);
+
+    if(editResponse.status === 204) {
         editPopup.close();
-    })
+        loadVendorBundles()
+    } else {
+        const errorMessage = document.getElementById("edit-error-msg");
+        errorMessage.style.display = "block";
+    }
 
-    editConfirmButton.addEventListener("click", async () => {
+})
 
-        const payload = {
-            "name": editName.value,
-            "description": editDescription.value,
-            "price": editPrice.value,
-            "collectionStart": editCollectionStart.value,
-            "collectionEnd": editCollectionEnd.value,
-        }
+deleteCancelButton.addEventListener("click", async () => {
+    deletePopup.close();
+    const errorMessage = document.getElementById("delete-error-msg");
+    errorMessage.style.display = "none";
+})
 
-        const editResponse = await apiPatch("/bundles/" + selectedBundleId, payload);
+deleteConfirmButton.addEventListener("click", async () => {
 
-        if(editResponse.status === 204) {
-            editPopup.close();
-            loadVendorBundles()
-        } else {
-            const errorMessage = document.getElementById("edit-error-msg");
-            errorMessage.style.display = "block";
-        }
-
-    })
-
-    deleteCancelButton.addEventListener("click", async () => {
+    const deleteResponse = await apiDelete("/bundles/" + selectedBundleId);
+    if(deleteResponse.status === 204) {
+        //Deleted Successfully
+        await loadVendorBundles()
         deletePopup.close();
+    } else {
         const errorMessage = document.getElementById("delete-error-msg");
-        errorMessage.style.display = "none";
-    })
-
-    deleteConfirmButton.addEventListener("click", async () => {
-
-        const deleteResponse = await apiDelete("/bundles/" + selectedBundleId);
-        if(deleteResponse.status === 204) {
-            //Deleted Successfully
-            await loadVendorBundles()
-            deletePopup.close();
-        } else {
-            const errorMessage = document.getElementById("delete-error-msg");
-            errorMessage.style.display = "block";
-        }
-
-    })
+        errorMessage.style.display = "block";
+    }
 
 })
 
@@ -434,11 +429,11 @@ function openModal(title, body, isHtml = false) {
         modalBody.textContent = body;
     }
 
-    modal.classList.remove("hidden");
+    modal.showModal()
 }
 //Closes modal 
 function closeModal() {
-    modal.classList.add("hidden");
+    modal.close();
 }
 
 modalClose?.addEventListener("click", closeModal);
