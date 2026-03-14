@@ -162,7 +162,7 @@ async function loadWasteLeaderboard(){
         row.innerHTML = `
             <span>#${index + 1}</span>
             <span>${sanitise(entry.username)}</span>
-            <span>${(entry.value / 1000).toFixed(2)}g</span>
+            <span>${(entry.value / 1000).toFixed(2)}kg</span>
         `; //setting all values to 2 decimal places
         //using index +1 to show position on leadboard
         list.appendChild(row); //add row
@@ -170,7 +170,7 @@ async function loadWasteLeaderboard(){
 
     //show the current users position and their stats for waste
     document.getElementById("wasteUserPosition").innerHTML =
-        `<p>Your position: #${data.position},  ${sanitise(data.username)},  ${(data.value/1000).toFixed(2)}g</p>`; //adding the users positoon with 2 decimal places
+        `<p>Your position: #${data.position},  ${sanitise(data.username)},  ${(data.value/1000).toFixed(2)}kg</p>`; //adding the users positoon with 2 decimal places
 }
 //call the functions when page loaded
 loadMoneyLeaderboard();
