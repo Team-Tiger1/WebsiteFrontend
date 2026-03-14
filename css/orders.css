@@ -38,8 +38,6 @@ main{
     border-collapse: collapse;
     background: white;
     border-radius: 8px;
-    overflow: hidden;
-    min-width: 650px;
 }
 
 .ordersHeading{
@@ -76,15 +74,15 @@ main{
 @media (max-width: 600px){
     main {
         margin: 12px 0;
-        padding: 12px;
         }
 
     .orderWrapper{
         padding: 0 10px 16px;
+        overflow-x: auto;
     }
 
     .orderTable th, .orderTable td{
-        padding: 8px;
+        padding: 6px 8px;
         font-size: 14px;
     }
 }
