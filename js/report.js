@@ -20,16 +20,18 @@ import {sanitise} from "./sanitise.js"
  * then load these reservations into the dropdown for disputes
  * */
 async function loadUserBundles(){
-    const statuses = ["RESERVED", "COLLECTED", "NO_SHOW", "EXPIRED"]; //collects all orders in all statuses
-    const allOrders = []; //collects the orders
+    const statuses = ["RESERVED", "COLLECTED", "NO_SHOW", "EXPIRED"];
+    const allOrders = [];
 
-    for (const status of statuses) { // goes through each of thestatuses calls the API
+    //go through each of the statuses and collect all orders for a possible disput
+    for (const status of statuses) {
         const response = await apiGet(`/reservations?status=${status}`);
         if (response.ok) {
             const orders = await response.json();
-            allOrders.push(...orders); //collects the orders
+            allOrders.push(...orders); //add to all orders
         }
     }
+
     //if the user has made no orders just show empty dropdown
     if(allOrders.length === 0){
         bundleSelect.innerHTML = "<option value=\"\">No Orders Found</option>";
@@ -78,7 +80,7 @@ async function loadDisputes(){
             <p>Bundle Name: ${sanitise(dispute.bundleName)}</p> 
             <p>Reason: ${dispute.reason}</p>
             <p>Description: ${sanitise(dispute.description)}</p>
-            <p>Status: ${dispute.finalStatus || "Pending"}</p>
+            <p>Status: ${dispute.status || "Pending"}</p>
             ${dispute.vendorResponse
             ? `<p>Vendor Response: ${sanitise(dispute.vendorResponse)}</p>`
             : `<p>Vendor Response: Awaiting response</p>`} 
