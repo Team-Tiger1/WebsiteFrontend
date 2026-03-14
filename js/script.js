@@ -10,36 +10,39 @@ if (logoutBtn) {
 
 // carousel scrollable via click
 const carousel = document.getElementById("vendorCarousel");
-let click = false;
+if (carousel) {
+    let click = false;
 //stores position of the mouse before and after
-let startX;
-let scroll;
+    let startX;
+    let scroll;
 //track position when mouse is clicked and scroll by how much distance in x direction.
-carousel.addEventListener("mousedown", (e) =>{
-    click = true;
-    startX = e.pageX - carousel.offsetLeft;
-    scroll = carousel.scrollLeft;
-});
+    carousel.addEventListener("mousedown", (e) =>{
+        click = true;
+        startX = e.pageX - carousel.offsetLeft;
+        scroll = carousel.scrollLeft;
+    });
 //When the mouse leaves the carousel stop scrolling
-carousel.addEventListener("mouseleave", ()=>{
-    click = false;
-});
+    carousel.addEventListener("mouseleave", ()=>{
+        click = false;
+    });
 //when the mouse is released stop scrolling
-carousel.addEventListener("mouseup", ()=>{
-    click = false;
-});
+    carousel.addEventListener("mouseup", ()=>{
+        click = false;
+    });
 //when the mouse moves and click scroll the carousel by the distance the mouse has moved
-carousel.addEventListener("mousemove", (e)=>{
-    //if mouse not being clicked do nothing
-    if (!click){
-        return;
-    }
+    carousel.addEventListener("mousemove", (e)=>{
+        //if mouse not being clicked do nothing
+        if (!click){
+            return;
+        }
 
-    e.preventDefault();
-    const x = e.pageX - carousel.offsetLeft;
-    const move = (x - startX) * 1.5
-    carousel.scrollLeft = carousel.scrollLeft - move;
-});
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const move = (x - startX) * 1.5
+        carousel.scrollLeft = carousel.scrollLeft - move;
+    });
+}
+
 
 document.addEventListener("keydown", (e) => {
     const current = document.activeElement; //gets the element that is currently selected
