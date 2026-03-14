@@ -9,7 +9,7 @@ await isAuthenticated("VENDOR");
 
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 
 //Summary boxes

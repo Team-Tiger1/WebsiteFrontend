@@ -7,7 +7,7 @@ const badge = document.querySelector(".user-badge");
 
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 
 //map the api response of badge names with how they are displayed

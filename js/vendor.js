@@ -21,7 +21,7 @@ const categoryNameMap = {
 
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 //if the user presses the sort button, it sorts the bundles by price in either ascending or descending order depending on the current state. It then re-renders the bundles with the new order.
 const sortButton = document.getElementById("sortButton");

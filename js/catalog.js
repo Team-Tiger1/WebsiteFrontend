@@ -3,7 +3,7 @@ await isAuthenticated("USER");
 import {apiGet, apiPost} from "./connection.js";
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 
 //calling api for bundles and vendors

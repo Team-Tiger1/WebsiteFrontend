@@ -6,7 +6,7 @@ await isAuthenticated("VENDOR");
 const tableBody = document.getElementById("disputes");
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 // modal elements
 const modal = document.getElementById("disputeModal");

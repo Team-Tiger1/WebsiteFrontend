@@ -6,7 +6,7 @@ let lineChart = null;
 
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 
 //creates the configuration for the pie chart and line graph

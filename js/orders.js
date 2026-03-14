@@ -10,7 +10,7 @@ await isAuthenticated("USER");
 await loadOrders();
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 /**
  * Loads all the orders/reservations for the user.

@@ -8,7 +8,7 @@ const form = document.getElementById("createBundleForm");
 
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 /**
  * Loads all products belonging to the logged-in vendor.

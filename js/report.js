@@ -12,7 +12,7 @@ const disputeMsg = document.getElementById("disputeMsg");
 
 
 /*prevents XSS*/
-import {sanitise} from "./sanitise"
+import {sanitise} from "./sanitise.js"
 
 
 /**
