@@ -172,6 +172,34 @@ async function loadWasteLeaderboard(){
     document.getElementById("wasteUserPosition").innerHTML =
         `<p>Your position: #${data.position},  ${sanitise(data.username)},  ${(data.value/1000).toFixed(2)}kg</p>`; //adding the users positoon with 2 decimal places
 }
+
+/**
+ * shows the impact statistics for the user for the selected period for the impact statistics part of the impact page
+ * shows money saved, waste saved and total orders
+ */
+async function loadImpactStats(period = "week") {
+    const response = await apiGet(`/users/analytics?period=${period}`);
+    const msg = document.getElementById("impactMsg");
+    //if there is no response from back end
+    if (!response.ok) {
+        msg.textContent = "Could not load impact statistics";
+        return;
+    }
+
+    const data = await response.json(); //gets statistic information for given period
+
+    document.getElementById("impactMoney").textContent = `£${data.moneySaved.toFixed(2)}`; //shows money saved
+    document.getElementById("impactWaste").textContent = `${(data.wasteSaved / 1000).toFixed(2)}kg`; //shows waste saved in kg (returned in grams so divided by 1000 to get kg)
+    document.getElementById("impactOrders").textContent = data.totalOrders; //shows total orders
+}
+
+// reload stats when period changes to show new statistics
+document.getElementById("impactPeriod").addEventListener("change", (e) => {
+    loadImpactStats(e.target.value);
+});
+
+loadImpactStats();
+
 //call the functions when page loaded
 loadMoneyLeaderboard();
 loadWasteLeaderboard();

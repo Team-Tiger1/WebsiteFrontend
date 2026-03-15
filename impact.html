@@ -36,7 +36,38 @@
         </section>
 
         <h1>Impact Statistics</h1>
-
+        <section aria-labelledby="impactStatsTitle">
+            <div class="impact-period-select">
+                <!--Select time range for impact info-->
+                <label for="impactPeriod">Time Period:</label>
+                <select id="impactPeriod">
+                    <option value="week">This Week</option>
+                    <option value="month">This Month</option>
+                    <option value="year">This Year</option>
+                    <option value="all">All Time</option>
+                </select>
+            </div>
+            <!--Statistics based off imapct period-->
+            <div class="impact-stats" id="impactStats">
+                <!--Money-->
+                <div class="impact-card">
+                    <p class="impact-label">Money Saved</p>
+                    <p class="impact-value" id="impactMoney">-</p>
+                </div>
+                <!--Waste Saved-->
+                <div class="impact-card">
+                    <p class="impact-label">Waste Saved</p>
+                    <p class="impact-value" id="impactWaste">-</p>
+                </div>
+                <!--Total Orders-->
+                <div class="impact-card">
+                    <p class="impact-label">Total Orders</p>
+                    <p class="impact-value" id="impactOrders">-</p>
+                </div>
+            </div>
+            <!--error Msg-->
+            <p id="impactMsg"></p>
+        </section>
     </main>
 </div>
 <!--Footer-->
