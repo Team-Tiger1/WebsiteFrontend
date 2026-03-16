@@ -1,5 +1,3 @@
-/* manage disputes modal */
-
 .dispute-details p {
     margin: 0 0 10px 0;
 }
@@ -88,4 +86,340 @@
 
 .modal-actions {
     margin-top: 20px;
+}
+
+/*Moved wills code to the manage disput page*/
+.dashboard {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 30px 16px 60px;
+}
+
+.dashboard-header h2 {
+    margin: 0;
+}
+
+.text-muted {
+    opacity: 0.7;
+}
+
+/* section spacing */
+.dashboard-section,
+.dashboard-reservations {
+    margin-top: 30px;
+}
+
+.dashboard-reservations h3,
+.dashboard-section h3 {
+    margin: 18px 0 8px;
+    padding: 0;
+}
+
+/* summary boxes */
+.summary-boxes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 16px;
+    margin: 20px 0 30px;
+}
+
+.summary-box {
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 16px;
+    border: 1px solid #e6e6e6;
+    border-top: 5px solid #3f6f4e;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    min-width: 0;
+    min-height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.summary-box:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.08);
+}
+
+.summary-title {
+    font-size: 14px;
+    opacity: 0.75;
+    margin: 0;
+    text-align: center;
+}
+
+.summary-number {
+    font-size: 34px;
+    font-weight: 700;
+    margin: 10px 0 0;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+
+.summary-note {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-top: 6px;
+    text-align: center;
+}
+
+.unit {
+    font-size: 16px;
+}
+
+/* claim panel */
+.claim-panel {
+    margin-top: 14px;
+}
+
+.claim-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.claim-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.claim-bar input {
+    flex: 1;
+    min-width: 180px;
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    outline: none;
+}
+
+.claim-bar input:focus {
+    border-color: #8fcbd3;
+}
+
+.form-msg {
+    margin-top: 8px;
+}
+
+/* table / row areas */
+#bundle-container,
+#reservation-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.bundle-card-container {
+    background: #ffffff;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    min-height: 110px;
+    box-shadow:
+            0 2px 4px rgba(0, 0, 0, 0.05),
+            0 1px 2px rgba(0, 0, 0, 0.10);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.bundle-card-container:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+}
+
+.bundle-header {
+    font-weight: bold;
+    background: lightgrey;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+}
+
+.bundle-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 3fr) 70px 200px 150px minmax(160px, 220px);
+    align-items: center;
+    gap: 25px;
+    padding: 10px 25px;
+    min-width: 760px;
+}
+
+.reservation-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 2fr) minmax(80px, 1fr) minmax(180px, 3fr) minmax(120px, 2fr);
+    align-items: center;
+    gap: 25px;
+    padding: 10px 25px;
+    min-width: 620px;
+}
+
+.bundle-name {
+    font-weight: 600;
+}
+
+.bundle-card {
+    margin-top: 5px;
+}
+
+.reservation-card {
+    margin-top: 20px;
+}
+
+/* buttons inside cards */
+.bundle-card-container button {
+    background-color: inherit;
+    width: 85px;
+    height: 30px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+}
+
+.bundle-card-container button:hover {
+    background-color: lightgrey;
+}
+
+.bundle-card-container button img {
+    max-height: 20px;
+}
+
+.bundle-button-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.bundleActionButton {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#edit-button {
+    background-color: #e6f0fc;
+    border: 1px solid #243e5f;
+    color: #243e5f;
+}
+
+#remove-button {
+    background-color: #fdece5;
+    border: 1px solid #914343;
+    color: #914343;
+}
+
+/* reservation table */
+.reservation-table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.reservation-table th,
+.reservation-table td {
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.reservation-table thead th {
+    background: #f7f7f7;
+    font-weight: 600;
+}
+
+/* modal/dialog */
+.modal {
+    border: none;
+    border-radius: 12px;
+    padding: 20px;
+    width: min(400px, calc(100vw - 32px));
+    max-width: 100%;
+    background: #ffffff;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.modal::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+}
+
+dialog:not([open]) {
+    display: none;
+}
+
+.form-group {
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    padding-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 40px;
+    font-size: 16px;
+    padding: 8px 10px;
+    resize: vertical;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form-group textarea {
+    padding-top: 8px;
+}
+
+.error {
+    display: none;
+    color: red;
+}
+
+/* mobile */
+@media (max-width: 768px) {
+    .dashboard {
+        padding: 20px 14px 40px;
+    }
+
+    .summary-boxes {
+        grid-template-columns: 1fr;
+    }
+
+    .claim-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .claim-bar input,
+    .claim-bar button {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .bundle-row,
+    .reservation-row {
+        gap: 12px;
+        padding: 10px 14px;
+    }
+
+    .bundle-button-container,
+    .bundleActionButton {
+        justify-content: flex-start;
+    }
+
+    .reservation-table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+    }
+}
+
+.hidden {
+    display: none;
 }
