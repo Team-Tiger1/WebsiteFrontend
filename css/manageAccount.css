@@ -71,3 +71,24 @@ input[type="password"] {
     display: block;
     margin-top: 10px;
 }
+
+#changeEmailWrap {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 20px;
+}
+
+#changeEmailButton {
+    display: block;
+    margin: 20px auto;
+    background-color: green;
+    color: white;
+}
+
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}
