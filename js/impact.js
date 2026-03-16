@@ -70,7 +70,7 @@ async function loadBadges(badges){
         const formattedName = badge.name.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()); //format the name e.g. from what API retuns to what actualy is displayed by replacing it
 
         const progressBar = badge.grade === "UNRANKED" && progressPercent < 100 //sets the proguess bar based off the badge grade and the proguess bar presentage calculated earlier
-            ? `${progressPercent}% progress`
+            ? `${progressPercent}%`
             : progressPercent >= 100
                 ? "Max Grade reached!"
                 : `${progressPercent}%`; //if the max percentage just show max grade reached... otherwise just show percentage
