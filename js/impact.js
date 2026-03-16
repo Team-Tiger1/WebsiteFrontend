@@ -80,7 +80,7 @@ async function loadBadges(badges){
         const imageName = imageMap[badge.name];
         const gradeSuffix = gradeMap[badge.grade];
         const badgeImg = imageName && gradeSuffix
-            ? `<img src="img/${imageName}-${gradeSuffix}.png" alt="${formattedName} ${badge.grade} badge" style="width:70px; height:70px; object-fit:contain;">`
+            ? `<img src="img/${imageName}-${gradeSuffix}.png" alt="${formattedName} ${badge.grade} badge" style="width:70px; height:70px; object-fit:contain; padding: 4px;">`
             : `<div style="width:70px; height:70px; border-radius:8px; background:#ccc;"></div>`;
         //place each badges information into a card
         //use the badge theshold and current amount to show proguess again along with proguess bar
