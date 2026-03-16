@@ -11,6 +11,8 @@ const confirmDeleteButton = document.getElementById("confirmDeleteButton");
 const cancelDeleteButton = document.getElementById("cancelDeleteButton");
 const deleteAccountButton = document.getElementById("deleteAccountButton");
 const msg = document.getElementById("errorMsg");
+const errorEmailMsg = document.getElementById("errorEmailMsg");
+const changeEmailButton = document.getElementById("changeEmailButton");
 
 
 
@@ -67,11 +69,31 @@ changePasswordButton.addEventListener("click", async () => {
         oldPassword: oldPassword,
         newPassword: newPassword
     }, { method: "PATCH" });
-
+    //if the password change is successful
     if (response && response.ok) {
         msg.textContent = "Password changed successfully!";
     } else {
         msg.textContent = "Failed to change password. Check your old password is correct.";
+    }
+});
+//if the user clicks the change email button
+changeEmailButton.addEventListener("click", async () => {
+    const newEmail = document.getElementById("new-email-input").value.trim().toLowerCase(); //collect the new email and set to lowercase
+    //if no new email is entered
+    if (!newEmail) {
+        errorEmailMsg.textContent = "Please enter a new email address.";
+        return;
+    }
+
+    const response = await apiPost("/users/me", { //added the api path
+        email: newEmail
+    }, { method: "PATCH" });
+
+    if (response && response.ok) {
+        errorEmailMsg.textContent = "Email changed successfully!"; //if email is successfully changed
+        document.getElementById("new-email-input").value = "";
+    } else {
+        errorEmailMsg.textContent = "Failed to change email. Please try again."; //if the email change fails
     }
 });
 

@@ -41,6 +41,16 @@
             <button id="changePasswordButton">Change Password</button>
             <p id="errorMsg" role="alert" aria-live="polite"></p> <!--added role alert for screen readers-->
         </div>
+        <div id="changeEmailWrap">
+            <p>Would you like to change your email address?</p>
+            <div>
+                <!--collects the new email-->
+                <label for="new-email-input">New Email Address</label>
+                <input type="email" id="new-email-input" placeholder="New Email Address" required>
+            </div>
+            <button id="changeEmailButton">Change Email</button>
+            <p id="errorEmailMsg" role="alert" aria-live="polite"></p> <!--added role alert for screen readers-->
+        </div>
     </main>
 
     <dialog id="deletePopup" aria-labelledby="deletePopupTitle" aria-describedby="deleteDetails">
