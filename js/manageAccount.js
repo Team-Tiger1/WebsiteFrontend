@@ -1,4 +1,4 @@
-import {apiGet, apiPost} from "./connection.js";
+import {apiGet, apiPost, apiPatch} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
 
 const accessToken = localStorage.getItem("accessToken");
@@ -65,10 +65,10 @@ changePasswordButton.addEventListener("click", async () => {
         return;
     }
 
-    const response = await apiPost("/users/password", {
+    const response = await apiPatch("/users/password", {
         oldPassword: oldPassword,
         newPassword: newPassword
-    }, { method: "PATCH" });
+    });
     //if the password change is successful
     if (response && response.ok) {
         msg.textContent = "Password changed successfully!";
@@ -85,9 +85,9 @@ changeEmailButton.addEventListener("click", async () => {
         return;
     }
 
-    const response = await apiPost("/users/me", { //added the api path
+    const response = await apiPatch("/users/me", {
         email: newEmail
-    }, { method: "PATCH" });
+    });
 
     if (response && response.ok) {
         errorEmailMsg.textContent = "Email changed successfully!"; //if email is successfully changed

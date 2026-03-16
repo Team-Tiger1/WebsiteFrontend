@@ -70,7 +70,7 @@ async function loadBadges(badges){
         const formattedName = badge.name.replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase()); //format the name e.g. from what API retuns to what actualy is displayed by replacing it
 
         const progressBar = badge.grade === "UNRANKED" && progressPercent < 100 //sets the proguess bar based off the badge grade and the proguess bar presentage calculated earlier
-            ? `${progressPercent}% progress`
+            ? `${progressPercent}%`
             : progressPercent >= 100
                 ? "Max Grade reached!"
                 : `${progressPercent}%`; //if the max percentage just show max grade reached... otherwise just show percentage
@@ -80,7 +80,7 @@ async function loadBadges(badges){
         const imageName = imageMap[badge.name];
         const gradeSuffix = gradeMap[badge.grade];
         const badgeImg = imageName && gradeSuffix
-            ? `<img src="img/${imageName}-${gradeSuffix}.png" alt="${formattedName} ${badge.grade} badge" style="width:70px; height:70px; object-fit:contain;">`
+            ? `<img src="img/${imageName}-${gradeSuffix}.png" alt="${formattedName} ${badge.grade} badge" style="width:70px; height:70px; object-fit:contain; padding: 4px;">`
             : `<div style="width:70px; height:70px; border-radius:8px; background:#ccc;"></div>`;
         //place each badges information into a card
         //use the badge theshold and current amount to show proguess again along with proguess bar

@@ -196,14 +196,11 @@ function openModal(title, body, isHtml = false) {
         modalBody.textContent = body;
     }
 
-    modal.classList.remove("hidden");
+    modal.showModal();
 }
 
 function closeModal() {
-    modal.classList.add("hidden");
+    modal.close();
 }
 
 modalClose?.addEventListener("click", closeModal);
-modal?.addEventListener("click", (e) => {
-    if (e.target === modal) closeModal();
-});
