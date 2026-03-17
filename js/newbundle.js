@@ -1,5 +1,8 @@
 import {apiGet, apiPost} from "./connection.js";
 import {isAuthenticated} from "./auth.js";
+/*prevents XSS*/
+import {sanitise} from "./sanitise.js"
+await isAuthenticated("VENDOR")
 
 //Elements used on the Create Bundle page
 const productsList = document.getElementById("productsList");
@@ -7,39 +10,72 @@ const msg = document.getElementById("bundleMsg");
 const form = document.getElementById("createBundleForm");
 
 
-/*prevents XSS*/
-import {sanitise} from "./sanitise.js"
+const productSearch = document.getElementById("productSearch");
+const productsSummary = document.getElementById("productsSummary");
+
+let allProducts = []; //stores all vendor products loaded from the backend
+let selectedQuantities = {}; // stores chosen quantities using product id as the key
+
+
+
 
 /**
  * Loads all products belonging to the logged-in vendor.
- * These are displayed with quantity selectors so the vendor
- * can choose how many of each product to include in the bundle.
+ * the products are saved into all products so they can be
+ * - displayed in the product panel
+ * - searched using the search bar
+ * - re-rendered without the need of another api call
  */
-async function loadVendorsProducts(){
+//new load vendor products
+async function loadVendorsProducts() {
     productsList.innerHTML = "";
     msg.textContent = "";
+    productsSummary.textContent = "loading products...";
 
-    const productResponse = await apiGet("/products/vendor"); 
+    const productResponse = await apiGet("/products/vendor");
+
     if (!productResponse.ok) {
-        msg.textContent = "Could not load your products";
+        msg.textContent = "could not load your products";
+        productsSummary.textContent = "";
         return;
     }
+
     const products = await productResponse.json();
+    allProducts = products;
 
     if (products.length === 0) {
-            msg.textContent = "You have no products";
-            return;
-        }
-    
-    // creates a quantity selector for each product 
+        productsSummary.textContent = "You have no products";
+        productsList.innerHTML = `<p class="text-muted">You have no products</p>`;
+        return;
+    }
+
+    showProducts(allProducts);
+}
+
+/**
+ * display the given list of products in the right hand panel
+ * each product has a quantity input
+ * if a quantity was already chosen before, it is shown again
+ * using the value stored in selected quantities
+ */
+function showProducts(products) {
+    productsList.innerHTML = "";
+
+    if (products.length === 0) {
+        productsSummary.textContent = "No products match your search";
+        productsList.innerHTML = `<p class="text-muted">No products match your search</p>`;
+        return;
+    }
+
+    productsSummary.textContent = products.length + " product(s) shown";
+
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
+        const savedQty = selectedQuantities[product.id] || 0;
 
         const label = document.createElement("label");
         label.className = "product-item";
 
-    
-        
         label.innerHTML = `
             <div class="product-info">
                 <strong>${sanitise(product.name)}</strong>
@@ -51,7 +87,7 @@ async function loadVendorsProducts(){
                 type="number"
                 min="0"
                 step="1"
-                value="0"
+                value="${savedQty}"
                 inputmode="numeric"
                 data-product-id="${product.id}"
                 aria-label="Quantity for ${sanitise(product.name)}"
@@ -59,8 +95,57 @@ async function loadVendorsProducts(){
         `;
 
         productsList.appendChild(label);
-    } 
+    }
 }
+
+/**
+ * filters the vendors products suing the search bar text
+ *
+ * if the search bar is empty -- all products are shown
+ * otherwise only matching product name are displayed (if something is typed into the searchbar)
+ */
+function filterProducts() {
+    const searchText = productSearch.value.toLowerCase().trim();
+
+    if (searchText === "") {
+        showProducts(allProducts);
+        return;
+    }
+
+    const filteredProducts = [];
+
+    for (let i = 0; i < allProducts.length; i++) {
+        const product = allProducts[i];
+
+        if (product.name.toLowerCase().includes(searchText)) {
+            filteredProducts.push(product);
+        }
+    }
+
+    showProducts(filteredProducts);
+}
+//runs product filtering everytime the vendor types in the search bar
+productSearch.addEventListener("input", function () {
+    filterProducts();
+});
+
+/**
+ * save the quantity changes whenever a product input is changed
+ * we do this because filtered products may disappear from the screen, so the chosen quantities are stored separately
+ */
+productsList.addEventListener("input", function (e) {
+    if (e.target.classList.contains("qty-input")) {
+        const productId = e.target.dataset.productId;
+        const qty = parseInt(e.target.value, 10) || 0;
+
+        if (qty > 0) {
+            selectedQuantities[productId] = qty;
+        } else {
+            delete selectedQuantities[productId];
+        }
+    }
+});
+
 /**
  * Handles form submission when a vendor creates a bundle.
  * 
@@ -89,17 +174,14 @@ form.addEventListener("submit", async (e) => {
      * Then add the productsId to the array .
      * If quantity of a product is more than one (e.g. 3) we add the same id that many times (e.g the product id 3 times) .
      */
-    const qtyInputs = document.querySelectorAll("#productsList .qty-input");
     const productList = [];
 
-    qtyInputs.forEach((input) => {
-        const id = input.dataset.productId;
-        const qty = parseInt(input.value, 10) || 0;
-
+    for (const id in selectedQuantities) {
+        const qty = selectedQuantities[id];
         for (let i = 0; i < qty; i++) {
-            productList.push(id); // push same id multiple times
+            productList.push(id);
         }
-    });
+    }
 
     //Validation 
     if (!name) return (msg.textContent = "Enter a bundle name");
@@ -142,22 +224,15 @@ form.addEventListener("submit", async (e) => {
         form.reset();
 
         // Reset quantity selector to 0 
-        const allQty = document.querySelectorAll("#productsList .qty-input");
-        allQty.forEach((i) => (i.value = 0));
+        selectedQuantities = {};
+        productSearch.value = "";
+        showProducts(allProducts);
 
     } catch (err) {
         console.error(err);
         msg.textContent = err.message || "network failure";
     }
 });
-
-    
-
-
-
-
-
-
 
 // run when page loads
 loadVendorsProducts();
