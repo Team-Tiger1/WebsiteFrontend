@@ -21,86 +21,110 @@
             <h3>Add a new bundle</h3>
 
             <form class="product-form" id="createBundleForm">
-                <!-- bundle name -->
-                <div class="form-group">
-                    <label for="bundleName">Bundle Name</label>
-                    <input
-                        type="text"
-                        id="bundleName"
-                        placeholder="Enter Bundle Name Here"
-                        aria-label="Enter Bundle Name"
-                        required>
-                </div>
-                <!-- description -->
-                 <div class="form-group">
-                    <label for="bundleDescription">Description</label>
-                    <textarea
-                        id="bundleDescription"
-                        rows="3"
-                        placeholder="Extra details for customers"
-                        aria-label="Extra bundle description"
-                        required></textarea>
-                </div>
-                <!-- price users will pay -->
-                <div class="form-group">
-                    <label for="bundlePrice">Bundle Price</label>
-                    <input
-                        type="number"
-                        id="bundlePrice"
-                        step="0.01"
-                        min="0"
-                        placeholder="How much customers pay"
-                        aria-label="Enter Bundle Price here"
-                        required>
-                </div>
+                <div class="bundle-layout">
+                    <!-- left side of new bundles page  -->
+                    <div class="bundle-left">
+                        <div class="form-group">
+                            <label for="bundleName">Bundle Name</label>
+                            <input
+                                    type="text"
+                                    id="bundleName"
+                                    placeholder="Enter Bundle Name Here"
+                                    aria-label="Enter Bundle Name"
+                                    required>
+                        </div>
 
-                <!-- category -->
-                 <div class="form-group">
-                    <label for="bundleCategory">Category</label>
-                    <select id="bundleCategory" aria-label="Select bundle category" required>
-                        <option value="BREAD_BAKED_GOODS">Bread Baked Goods</option>
-                        <option value="SWEET_TREATS_DESSERTS">Sweet Treats Dessert</option>
-                        <option value="MEAT_PROTEIN">Meat Protein</option>
-                        <option value="FRUIT_VEGETABLES">Fruit and Vegetables</option>
-                        <option value="DAIRY_EGGS">Dairy Eggs</option>
-                        <option value="READY_MEALS_HOT_FOOD">Ready Meals (Hot Food)</option>
-                        <option value="SNACKS_SAVOURY_ITEMS">Savoury Snacks Items</option>
-                        <option value="BREAKFAST_ITEMS">Breakfast Items</option>
-                        <option value="VEGAN_VEGETARIAN">Vegan and Vegetarian</option>
-                        <option value="DRINKS_BEVERAGES">Drinks Beverages</option>
-                    </select>
-                </div>
+                        <div class="form-group">
+                            <label for="bundleDescription">Description</label>
+                            <textarea
+                                    id="bundleDescription"
+                                    rows="3"
+                                    placeholder="Extra details for customers"
+                                    aria-label="Extra bundle description"
+                                    required></textarea>
+                        </div>
 
-                <!-- start time for customer collection  -->
-                <div class="form-group">
-                    <label for="collectionStart">Collection Start</label>
-                    <input type="datetime-local" id="collectionStart" aria-label="Enter Collection Start date"
-                    required>
-                </div>
-                <!-- end time  -->
-                <div class="form-group">
-                    <label for="collectionEnd">Collection End</label>
-                    <input type="datetime-local" id="collectionEnd" aria-label="Select collection end time" required>
-                </div>
+                        <div class="form-group">
+                            <label for="bundlePrice">Bundle Price</label>
+                            <input
+                                    type="number"
+                                    id="bundlePrice"
+                                    step="0.01"
+                                    min="0"
+                                    placeholder="How much customers pay"
+                                    aria-label="Enter Bundle Price here"
+                                    required>
+                        </div>
 
-                <!-- list of products  -->
-                <div class="form-group">
-                    <label>Your products</label>
+                        <div class="form-group">
+                            <label for="bundleCategory">Category</label>
+                            <select id="bundleCategory" aria-label="Select bundle category" required>
+                                <option value="BREAD_BAKED_GOODS">Bread Baked Goods</option>
+                                <option value="SWEET_TREATS_DESSERTS">Sweet Treats Dessert</option>
+                                <option value="MEAT_PROTEIN">Meat Protein</option>
+                                <option value="FRUIT_VEGETABLES">Fruit and Vegetables</option>
+                                <option value="DAIRY_EGGS">Dairy Eggs</option>
+                                <option value="READY_MEALS_HOT_FOOD">Ready Meals (Hot Food)</option>
+                                <option value="SNACKS_SAVOURY_ITEMS">Savoury Snacks Items</option>
+                                <option value="BREAKFAST_ITEMS">Breakfast Items</option>
+                                <option value="VEGAN_VEGETARIAN">Vegan and Vegetarian</option>
+                                <option value="DRINKS_BEVERAGES">Drinks Beverages</option>
+                            </select>
+                        </div>
 
-                    
-                    <div id="productsList" class="checkbox-grid">
-                        <p class="text-muted">select the products you want in the bundle</p>
+                        <div class="form-group">
+                            <label for="collectionStart">Collection Start</label>
+                            <input
+                                    type="datetime-local"
+                                    id="collectionStart"
+                                    aria-label="Enter Collection Start date"
+                                    required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="collectionEnd">Collection End</label>
+                            <input
+                                    type="datetime-local"
+                                    id="collectionEnd"
+                                    aria-label="Select collection end time"
+                                    required>
+                        </div>
+
+                        <div class="bundle-actions">
+                            <button type="submit" class="primary-btn">
+                                Create bundle
+                            </button>
+
+                            <p id="bundleMsg" class="text-muted"></p>
+                        </div>
                     </div>
+
+                    <!-- right side of new bundles-->
+                    <aside class="bundle-right">
+                        <div class="products-panel">
+                            <div class="products-panel-header">
+                                <h3>Your products</h3>
+                                <p class="text-muted">Search and add quantities of products </p>
+                            </div>
+
+                            <div class="product-search-wrap">
+                                <input
+                                        type="search"
+                                        id="productSearch"
+                                        placeholder="Search for a product"
+                                        aria-label="Search for a product">
+                            </div>
+
+                            <p id="productsSummary" class="products-summary text-muted">
+                                Loading products...
+                            </p>
+
+                            <div id="productsList" class="products-scroll-list">
+                                <p class="text-muted">Select the products you want in the bundle</p>
+                            </div>
+                        </div>
+                    </aside>
                 </div>
-
-                <!-- create bundle button  -->
-                <button type="submit" class="primary-btn">
-                    Create bundle
-                </button>
-
-                <!-- error message -->
-                <p id="bundleMsg" class="text-muted"></p>
-
             </form>
 
         
