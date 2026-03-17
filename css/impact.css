@@ -74,7 +74,7 @@ main{
 
 .badge-grade{
     font-size: 14px;
-    color: gray;
+    color: #595959;
     font-weight: bold;
 }
 
@@ -99,7 +99,7 @@ main{
     transform: translate(-50%, -50%);
     font-size: 12px;
     font-weight: 600;
-    color: #333;
+    color: black;
     white-space: nowrap;
 }
 .badge-image {

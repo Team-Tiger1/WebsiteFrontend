@@ -92,11 +92,12 @@ async function loadBadges(badges){
                 <div class="progress-bar-fill" style="width: ${progressPercent}%;"></div>
                 <span class="progress-bar-label">${progressBar}</span>
             </div>
-            <div class="badge-amounts">${badge.currentAmount} / ${badge.threshold}</div>
+            <div class="badge-amounts">${badge.name === "WASTE_KING" ? `${(badge.currentAmount / 1000).toFixed(2)}kg / ${(badge.threshold / 1000).toFixed(2)}kg` : `${badge.currentAmount} / ${badge.threshold}`}</div>
          </div>
          <div class="badge-image">
             ${badgeImg}
          </div>`;
+        //if its wa
         //add that badges card
         list.appendChild(card);
     })
