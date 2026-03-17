@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>The Last Fork</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/headerFooter.css">
+    <link rel="stylesheet" href="css/managevendor.css">
+</head>
+<body>
+<div id="header"></div>
+
+<main class="dashboard">
+    <header class="dashboard-header">
+        <h2>Manage Vendor</h2>
+    </header>
+
+    <!--update the vendors details-->
+    <section class="manage-vendor">
+        <div id="changeVendorWrap">
+            <p>Would you like to update your vendor details?</p>
+            <p>Leave the field blank if you do not want to update it.</p>
+
+            <div>
+                <label for="company-name-input">Company Name</label>
+                <input type="text" id="company-name-input" placeholder="New Company Name">
+            </div>
+
+            <div>
+                <label for="vendor-email-input">Email Address</label>
+                <input type="email" id="vendor-email-input" placeholder="New Email Address">
+            </div>
+
+            <div>
+                <label for="street-address-input">Street Address</label>
+                <input type="text" id="street-address-input" placeholder="New Street Address">
+            </div>
+
+            <div>
+                <label for="postcode-input">Postcode</label>
+                <input type="text" id="postcode-input" placeholder="New Postcode">
+            </div>
+
+            <div>
+                <label for="phone-number-input">Phone Number</label>
+                <input type="text" id="phone-number-input" placeholder="New Phone Number">
+            </div>
+
+            <div>
+                <label for="description-input">Description</label>
+                <textarea id="description-input" placeholder="New Vendor Description"></textarea>
+            </div>
+
+            <button id="updateVendorButton">Save Changes</button>
+            <p id="vendorMsg" role="alert" aria-live="polite"></p>
+        </div>
+
+        <!--change the vendor's password section-->
+        <div id="changePasswordWrap">
+            <p>Would you like to update your password?</p>
+
+            <div>
+                <label for="old-password-input">Current Password</label>
+                <input type="password" id="old-password-input" placeholder="Current Password">
+            </div>
+
+            <div>
+                <label for="password-input">New Password</label>
+                <input type="password" id="password-input" placeholder="New Password">
+            </div>
+
+            <div>
+                <label for="repeat-password-input">Repeat New Password</label>
+                <input type="password" id="repeat-password-input" placeholder="Repeat New Password">
+            </div>
+
+            <button id="changePasswordButton">Change Password</button>
+            <p id="passwordMsg" role="alert" aria-live="polite"></p>
+        </div>
+        <!--delete vendor-->
+        <div id="deleteVendorWrap">
+            <p>Would you like to delete your vendor account and its information?</p>
+            <button id="deleteVendorButton">Delete Account</button>
+            <p id="deleteMsg" role="alert" aria-live="polite"></p>
+        </div>
+    </section>
+
+
+
+
+    <dialog id="deleteVendorPopup" aria-labelledby="deleteVendorPopupTitle" aria-describedby="deleteVendorDetails">
+        <h3 id="deleteVendorPopupTitle">Confirm Delete Account</h3>
+        <p id="deleteVendorDetails">This will delete your vendor account and all its information. Are you sure?</p>
+
+        <label for="deleteVendorConfirm">Type "delete" to confirm</label>
+        <input id="deleteVendorConfirm" placeholder='Type "delete" to confirm' type="text">
+
+        <div class="DeleteButton">
+            <button id="confirmDeleteVendorButton">Confirm</button>
+            <button id="cancelDeleteVendorButton">Cancel</button>
+        </div>
+    </dialog>
+
+
+
+</main>
+
+<div id="footer"></div>
+
+<script type="module" src="js/vendorHeaderFooter.js"></script>
+<script type="module" src="js/script.js"></script>
+<script type="module" src="js/manageVendor.js"></script>
+</body>
+</html>

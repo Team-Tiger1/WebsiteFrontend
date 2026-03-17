@@ -5,7 +5,7 @@
 
 ## Overview
 The Last Fork website is a food rescue marketplace designed to reduce food waste by connectin food vendors with consumers. Vendors can add their surplus products and create them into listed food bundles.
-Customers in turn can reserve these food bundles at reduced prices compared to the market price and collect them using a confirmation code at a vendors store when paid for. The users can view their reservation in 
+Customers in turn can reserve these food bundles at reduced prices compared to the market price and collect them using a confirmation code at a vendors store when paid for. The users can view their reservation in the order page. Furthermore, users can create disputes based off reserved bundles and recieve a vendor response either accepting or rejecting their claim. Users can also view a impact page where they can view leaderboards and their badges based off their usage of the cite including a personnel imapat summary section.
 their orders page with their relevant collection information. A vendors location and information can be accessed directly through each vendors page made accessbable on the catalog page vendor carousel. 
 
 The vendors side of the Last Fork website allows managers to view and manage pickups/reservations, create products and bundles.
@@ -20,7 +20,7 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 
 
 
-## Contributions:
+## Contributions CW1:
 
 **Author: Toby Beckett**
 
@@ -54,6 +54,28 @@ Furthermore the forecast page allows users to gain forecast on collection probab
   - Created List of Available Bundles with Drop-Down for Product List
 - Created Standard Header and Footer for all Web pages  
 - Created Analytics page so Vendor's can see bundle performance across different time spans
+- Created the badges
+
+<br>
+
+## Contributions CW2:
+
+**Author: Toby Beckett**
+- Added keyboard navigation to all pages
+- Made all pages have the required WCAG acccessibility colour contrast and text size
+- Created the user impact page: HTML, CSS, JS
+  - Added badges
+  - Waste and Money leaderboards
+  - Personnel impact summary
+- Created the user disputes page so the user could start disputes based on bundles they have collected/reserved/noshow: HTML, CSS, JS
+- Created search bar and filter catalog page
+- Made all pages resistant to XSS through sanitisation of displaying any user inputed information
+- Created manage acocunt page: HTML, CSS, JS
+  - change email
+  - change password
+  - delete account
+- Ensuring all pages and new ones are mobile accessible
+
 
 ## External Resources
 - Inline SVG elements were implemented using the W3C SVG namespace (http://www.w3.org/2000/svg). No external image assets were used.
