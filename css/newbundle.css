@@ -159,3 +159,25 @@
     max-height: 420px;
   }
 }
+
+/*optimise button*/
+.secondary-btn {
+  margin-bottom: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 999px;
+  border: 1px solid #cccccc;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.secondary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#optimiseMsg {
+  margin: 10px 0 14px;
+  font-size: 13px;
+  min-height: 20px;
+}

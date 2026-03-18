@@ -13,6 +13,10 @@ const form = document.getElementById("createBundleForm");
 const productSearch = document.getElementById("productSearch");
 const productsSummary = document.getElementById("productsSummary");
 
+// optimise button
+const optimiseBtn = document.getElementById("optimiseBtn");
+const optimiseMsg = document.getElementById("optimiseMsg");
+
 let allProducts = []; //stores all vendor products loaded from the backend
 let selectedQuantities = {}; // stores chosen quantities using product id as the key
 
@@ -147,16 +151,149 @@ productsList.addEventListener("input", function (e) {
 });
 
 /**
- * Handles form submission when a vendor creates a bundle.
+ * helper function that builds an array of selected product ids.
+ */
+function buildProductIdList() {
+    const productIdList = [];
+
+    for (const id in selectedQuantities) {
+        const qty = selectedQuantities[id];
+
+        for (let i = 0; i < qty; i++) {
+            productIdList.push(id);
+        }
+    }
+
+    return productIdList;
+}
+/**
+ * changes string into the format needed by datetime-local inputs
+ */
+function formatDateTimeLocal(dateString) {
+    const date = new Date(dateString);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
+}
+/**
+ * fills in the text fields with values returned by backend
+ */
+function applyOptimisedValues(data) {
+    optimiseMsg.textContent = "";
+
+    // if the API only returns a plain message string
+    if (typeof data === "string") {
+        optimiseMsg.textContent = data;
+        return;
+    }
+
+    // price
+    if (data.retail_price !== undefined) {
+        document.getElementById("bundlePrice").value = data.retail_price;
+    } else if (data.price !== undefined) {
+        document.getElementById("bundlePrice").value = data.price;
+    }
+
+    // collection start
+    if (data.collection_start) {
+        document.getElementById("collectionStart").value = formatDateTimeLocal(data.collection_start);
+    } else if (data.collectionStart) {
+        document.getElementById("collectionStart").value = formatDateTimeLocal(data.collectionStart);
+    }
+
+    // collection end
+    if (data.collection_end) {
+        document.getElementById("collectionEnd").value = formatDateTimeLocal(data.collection_end);
+    } else if (data.collectionEnd) {
+        document.getElementById("collectionEnd").value = formatDateTimeLocal(data.collectionEnd);
+    }
+
+    // explanation text
+    if (data.explanation) {
+        optimiseMsg.textContent = data.explanation;
+    } else if (data.message) {
+        optimiseMsg.textContent = data.message;
+    } else if (data.reason) {
+        optimiseMsg.textContent = data.reason;
+    } else {
+        optimiseMsg.textContent = "Bundle optimisation applied.";
+    }
+}
+/**
+ * this function calls forecast optimise and applies the returned values
+ */
+optimiseBtn.addEventListener("click", async function () {
+    optimiseMsg.textContent = "";
+    msg.textContent = "";
+
+    const category = document.getElementById("bundleCategory").value;
+    const productIdList = buildProductIdList();
+
+    if (!category) {
+        optimiseMsg.textContent = "Select a category first";
+        return;
+    }
+
+    if (productIdList.length === 0) {
+        optimiseMsg.textContent = "Select at least one product first";
+        return;
+    }
+
+    const optimiseData = {
+        product_id_list: productIdList,
+        category: category
+    };
+
+    try {
+        optimiseBtn.disabled = true;
+
+
+        const res = await apiPost("/forecast/optimise", optimiseData);
+
+        if (!res.ok) {
+            const text = await res.text();
+            optimiseMsg.textContent = "Could not optimise bundle" + (text ? `: ${text}` : "");
+            return;
+        }
+
+        const responseText = await res.text();
+
+        let data;
+
+        try {
+            data = JSON.parse(responseText);
+        } catch {
+            data = responseText;
+        }
+
+        applyOptimisedValues(data);
+
+    } catch (err) {
+        console.error(err);
+        optimiseMsg.textContent = err.message || "network failure";
+    } finally {
+        optimiseBtn.disabled = false;
+        optimiseBtn.textContent = "Optimise bundle";
+    }
+});
+
+
+/**
+ * handles form submission when a vendor creates a bundle
  * 
- * Validates:
- * - Required fields
- * - Price > 0
- * - Same-day collection window
- * - End time after start time
- * - At least one product selected
+ * validates:
+ * - required fields
+ * - price > 0
+ * - same-day collection window
+ * - end time after start time
+ * - at least one product selected
  * 
- * If valid, sends bundle data to backend.
+ * if valid, sends bundle data to backend.
  */
 form.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -170,9 +307,9 @@ form.addEventListener("submit", async (e) => {
     const collectionEnd = document.getElementById("collectionEnd").value;
 
     /**
-     * We build productList array.
-     * Then add the productsId to the array .
-     * If quantity of a product is more than one (e.g. 3) we add the same id that many times (e.g the product id 3 times) .
+     * we build productList array
+     * then add the productsId to the array
+     * if quantity of a product is more than one (e.g. 3) we add the same id that many times (e.g the product id 3 times)
      */
     const productList = [];
 
@@ -183,7 +320,7 @@ form.addEventListener("submit", async (e) => {
         }
     }
 
-    //Validation 
+    //validation
     if (!name) return (msg.textContent = "Enter a bundle name");
     if (!description) return (msg.textContent = "Enter a description");
     if (Number.isNaN(price) || price <= 0) return (msg.textContent = "Enter a valid price");
@@ -211,7 +348,7 @@ form.addEventListener("submit", async (e) => {
         collectionEnd: new Date(collectionEnd).toISOString(),
         
     };
-    //Attempt post 
+    //attempt post
     try {
         const res = await apiPost("/bundles", bundleData);
 
@@ -223,7 +360,7 @@ form.addEventListener("submit", async (e) => {
         msg.textContent = "bundle created"
         form.reset();
 
-        // Reset quantity selector to 0 
+        //reset quantity selector to 0
         selectedQuantities = {};
         productSearch.value = "";
         showProducts(allProducts);
@@ -233,6 +370,7 @@ form.addEventListener("submit", async (e) => {
         msg.textContent = err.message || "network failure";
     }
 });
+
 
 // run when page loads
 loadVendorsProducts();
