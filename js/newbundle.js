@@ -166,63 +166,21 @@ function buildProductIdList() {
 
     return productIdList;
 }
-/**
- * changes string into the format needed by datetime-local inputs
- */
 function formatDateTimeLocal(dateString) {
-    const date = new Date(dateString);
-
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-
-    return `${year}-${month}-${day}T${hours}:${minutes}`;
+    return dateString.replace(" ", "T").slice(0, 16);
 }
 /**
  * fills in the text fields with values returned by backend
  */
 function applyOptimisedValues(data) {
-    optimiseMsg.textContent = "";
+    document.getElementById("bundlePrice").value = data.price;
+    document.getElementById("collectionStart").value = formatDateTimeLocal(data.collection_start);
+    document.getElementById("collectionEnd").value = formatDateTimeLocal(data.collection_end);
 
-    // if the API only returns a plain message string
-    if (typeof data === "string") {
-        optimiseMsg.textContent = data;
-        return;
-    }
-
-    // price
-    if (data.retail_price !== undefined) {
-        document.getElementById("bundlePrice").value = data.retail_price;
-    } else if (data.price !== undefined) {
-        document.getElementById("bundlePrice").value = data.price;
-    }
-
-    // collection start
-    if (data.collection_start) {
-        document.getElementById("collectionStart").value = formatDateTimeLocal(data.collection_start);
-    } else if (data.collectionStart) {
-        document.getElementById("collectionStart").value = formatDateTimeLocal(data.collectionStart);
-    }
-
-    // collection end
-    if (data.collection_end) {
-        document.getElementById("collectionEnd").value = formatDateTimeLocal(data.collection_end);
-    } else if (data.collectionEnd) {
-        document.getElementById("collectionEnd").value = formatDateTimeLocal(data.collectionEnd);
-    }
-
-    // explanation text
-    if (data.explanation) {
-        optimiseMsg.textContent = data.explanation;
-    } else if (data.message) {
-        optimiseMsg.textContent = data.message;
-    } else if (data.reason) {
-        optimiseMsg.textContent = data.reason;
-    } else {
-        optimiseMsg.textContent = "Bundle optimisation applied.";
-    }
+    optimiseMsg.textContent =
+        data.explanation +
+        " Reservation chance: " + data.reservation_probability + "%." +
+        " Collection chance: " + data.collection_probability + "%.";
 }
 /**
  * this function calls forecast optimise and applies the returned values
@@ -252,7 +210,6 @@ optimiseBtn.addEventListener("click", async function () {
     try {
         optimiseBtn.disabled = true;
 
-
         const res = await apiPost("/forecast/optimise", optimiseData);
 
         if (!res.ok) {
@@ -261,21 +218,12 @@ optimiseBtn.addEventListener("click", async function () {
             return;
         }
 
-        const responseText = await res.text();
-
-        let data;
-
-        try {
-            data = JSON.parse(responseText);
-        } catch {
-            data = responseText;
-        }
-
+        const data = await res.json();
         applyOptimisedValues(data);
 
     } catch (err) {
         console.error(err);
-        optimiseMsg.textContent = err.message || "network failure";
+        optimiseMsg.textContent = err.message || "Network failure";
     } finally {
         optimiseBtn.disabled = false;
         optimiseBtn.textContent = "Optimise bundle";

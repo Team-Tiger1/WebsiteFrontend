@@ -181,3 +181,22 @@
   font-size: 13px;
   min-height: 20px;
 }
+.optimise-label {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  color: #666666;
+}
+
+/*learn more*/
+.learn-more-link {
+  display: inline-block;
+  margin: 2px 0 12px;
+  font-size: 13px;
+  text-decoration: underline;
+  color: #2f5d3a;
+  cursor: pointer;
+}
+
+.learn-more-link:hover {
+  color: #1f4028;
+}
