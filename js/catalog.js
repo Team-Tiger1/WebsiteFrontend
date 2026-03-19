@@ -203,9 +203,18 @@ function createBundleCard(bundle, targetCarousel) {
   `;
 
   const btn = card.querySelector(".reserveBtn");
-  btn.addEventListener("click", function () {
+  btn.addEventListener("click", function (e) {
+    e.stopPropagation(); //stops the card click also happening when pressing reserve
     openReservePopup(bundleId, name);
   });
+
+  card.style.cursor = "pointer";
+  card.addEventListener("click", function () {
+      localStorage.setItem("vendorId", bundle.vendorId);
+      localStorage.setItem("openBundleId", bundleId);
+      window.location.href = "vendor.html";
+    });
+
 //can activate reserve by pressing enter or space when the card is focused
    card.addEventListener("keydown", (e) => {
     if (e.key === "Enter" || e.key === " ") {

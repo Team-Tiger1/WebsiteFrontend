@@ -52,6 +52,8 @@ async function loadOrders() {
         const pickupStartTime = r.bundle.collectionStart;
         const pickupEndTime = r.bundle.collectionEnd;
         const pickupTime = formatPickupTime(r.bundle.collectionStart, r.bundle.collectionEnd);
+        const vendorName = r.vendorName;
+        const vendorLocation = `${r.streetAddress}, ${r.postcode}`;
 
 
         let claimCode = "";
@@ -59,7 +61,7 @@ async function loadOrders() {
             claimCode = await getClaimCode(reservationId);
         }
 
-        addReservation(bundleId, reservationId, claimCode, pickupTime, bundleName);
+        addReservation(bundleId, reservationId, claimCode, pickupTime, bundleName, vendorName, vendorLocation);
     }
 }
 
@@ -99,7 +101,7 @@ async function getClaimCode(reservationId) {
  * @param {*} claimCode 
  * @param {*} pickupTime
  */
-function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleName) {
+function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleName, vendorName, vendorLocation) {
     const tr = document.createElement("tr");
     tr.innerHTML = `
     <td style="padding: 12px; border-top: 1px solid #ffffff;">
@@ -112,6 +114,14 @@ function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleNa
 
     <td style="padding: 12px; border-top: 1px solid #ffffff; font-weight: bold;">
       ${sanitise(claimCode ?? "-")}
+    </td>
+    
+    <td style="padding: 12px; border-top: 1px solid #ffffff;">
+      ${sanitise(vendorName ?? "-")}
+    </td>
+    
+        <td style="padding: 12px; border-top: 1px solid #ffffff;">
+      ${sanitise(vendorLocation ?? "-")}
     </td>
   `;
     //adds the row to the table body

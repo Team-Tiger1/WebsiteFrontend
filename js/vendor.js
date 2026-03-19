@@ -96,6 +96,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     bundleList = await bundleResponse.json();
     renderBundles(bundleContainer, bundleList);
 
+    const openBundleId = localStorage.getItem("openBundleId"); //collect the bundleId that if clicked from catalog
+    if (openBundleId) {
+        localStorage.removeItem("openBundleID"); //once bundle found remove the stored bundleId
+        const targetBundle = bundleContainer.querySelector(`[data-id="${openBundleId}"]`);
+        if (targetBundle) {
+            targetBundle.scrollIntoView({ behavior: "smooth", block: "center" }); //scroll to the bundle and center it in the page
+            targetBundle.click(); //this click causes the dropdown to show, showing the description etc
+        }
+    }
 })
 /**
  * This function takes in a list of bundles and a container element, and renders the bundles as HTML elements inside the container. 
