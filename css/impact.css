@@ -147,3 +147,34 @@ main{
 section {
     margin-bottom: 30px;
 }
+
+.impact-stats {
+    gap: 16px;
+    display: flex;
+}
+
+.impact-label {
+    font-size: 13px;
+    color:black;
+    font-weight: bold;
+    margin: 0 0 8px 0;
+}
+
+.impact-card {
+    flex: 1;
+    padding: 20px;
+    text-align: center;
+}
+
+
+.impact-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: #3c6d3f;
+    margin: 0;
+}
+
+.impact-period-select {
+    display: flex;
+    align-items: center;
+}
