@@ -1,18 +1,31 @@
-/* Page container */
+/* page container */
 .create-products {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-/* Form layout */
+/*form shell */
 .product-form {
   background: #ffffff;
-  border-radius: 6px;
+  border-radius: 12px;
   padding: 24px;
   border: 1px solid #e6e6e6;
 }
 
-/* Form groups */
+/*two-column layout */
+.bundle-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.bundle-left,
+.bundle-right {
+  min-width: 0;
+}
+
+/*form groups */
 .form-group {
   margin-bottom: 18px;
 }
@@ -27,84 +40,163 @@
 .form-group textarea,
 .form-group select {
   width: 100%;
-  padding: 10px;
+  padding: 10px 12px;
   border: 1px solid #cccccc;
-  border-radius: 4px;
+  border-radius: 6px;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
 .form-group textarea {
   resize: vertical;
+  min-height: 120px;
 }
 
-/* Products list */
-#productsList {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  margin-top: 8px;
+/*right panel */
+.products-panel {
+  background: #fafafa;
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  padding: 18px;
 }
-#productsList .product-item {
+
+.products-panel-header h3 {
+  margin: 0 0 4px;
+}
+
+.products-panel-header p {
+  margin: 0 0 14px;
+}
+
+.product-search-wrap {
+  margin-bottom: 12px;
+}
+
+#productSearch {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #cccccc;
+  border-radius: 999px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.products-summary {
+  margin: 0 0 12px;
+  font-size: 13px;
+}
+
+/*scrollable products area */
+.products-scroll-list {
+  max-height: 560px;
+  overflow-y: auto;
+  padding-right: 6px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  padding: 12px;
-  border: 1px solid #e6e6e6;
-  border-radius: 8px;
-  background: #fff;
+  gap: 12px;
 }
 
-
-#productsList .qty-input {
-  width: 100%;
-  padding: 10px 12px;
-  border: 1px solid #cfcfcf;
-  border-radius: 6px;
-  font-size: 14px;
-}
-/* Single product row */
-.product-item {
-  display: flex;
-  justify-content: space-between;
+/*product row */
+.products-scroll-list .product-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px;
+  gap: 12px;
   align-items: center;
-  padding: 10px 12px;
-  border: 1px solid #e0e0e0;
-  border-radius: 4px;
-  background: #fafafa;
+  padding: 14px;
+  border: 1px solid #e6e6e6;
+  border-radius: 12px;
+  background: #ffffff;
 }
-
 
 .product-info strong {
   display: block;
-  font-size: 14px;
+  font-size: 15px;
+  margin-bottom: 4px;
 }
 
 .product-info p {
-  margin: 2px 0 0;
-  font-size: 12px;
+  margin: 0;
+  font-size: 13px;
   color: #666666;
 }
 
-/* qantity input */
 .qty-input {
-  width: 70px;
-  padding: 6px;
+  width: 100%;
+  padding: 10px 12px;
   text-align: center;
   border: 1px solid #cccccc;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 14px;
+  box-sizing: border-box;
 }
 
-/* submit button */
+.bundle-actions {
+  margin-top: 24px;
+}
+
+/*submit button */
 .primary-btn {
-  margin-top: 20px;
+  margin-top: 0;
   padding: 12px 20px;
   font-size: 14px;
-  border-radius: 4px;
+  border-radius: 999px;
 }
 
-/* message text */
+/*message text */
 #bundleMsg {
   margin-top: 12px;
   font-size: 13px;
+  min-height: 20px;
+}
+
+/*mobile compatibility */
+@media (max-width: 980px) {
+  .bundle-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .products-scroll-list {
+    max-height: 420px;
+  }
+}
+
+/*optimise button*/
+.secondary-btn {
+  margin-bottom: 10px;
+  padding: 12px 20px;
+  font-size: 14px;
+  border-radius: 999px;
+  border: 1px solid #cccccc;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.secondary-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#optimiseMsg {
+  margin: 10px 0 14px;
+  font-size: 13px;
+  min-height: 20px;
+}
+.optimise-label {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  color: #666666;
+}
+
+/*learn more*/
+.learn-more-link {
+  display: inline-block;
+  margin: 2px 0 12px;
+  font-size: 13px;
+  text-decoration: underline;
+  color: #2f5d3a;
+  cursor: pointer;
+}
+
+.learn-more-link:hover {
+  color: #1f4028;
 }
