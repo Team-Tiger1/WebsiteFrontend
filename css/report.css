@@ -48,6 +48,7 @@ select, textarea {
 }
 
 #disputeSubmitButton {
+    border: none;
     background-color: green;
     color: white;
     padding: 10px;

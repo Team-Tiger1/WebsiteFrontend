@@ -29,6 +29,7 @@ main {
 }
 
 #deleteAccountButton {
+    border: none;
     display: block;
     margin: 20px auto;
     background-color: red;
@@ -36,6 +37,7 @@ main {
 }
 
 #changePasswordButton {
+    border: none;
     display: block;
     margin: 20px auto;
     background-color: green;
@@ -77,6 +79,7 @@ input[type="password"] {
 }
 
 #changeEmailButton {
+    border: none;
     display: block;
     margin: 20px auto;
     background-color: green;
