@@ -92,3 +92,7 @@ input[type="email"] {
     margin: 8px 0;
     box-sizing: border-box;
 }
+
+.email-form {
+    margin-top: 15px;
+}

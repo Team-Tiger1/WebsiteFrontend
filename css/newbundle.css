@@ -139,7 +139,9 @@
   margin-top: 0;
   padding: 12px 20px;
   font-size: 14px;
-  border-radius: 999px;
+  border-radius: 10px;
+  width: 150px;
+  margin-left: 0px;
 }
 
 /*message text */
@@ -199,4 +201,12 @@
 
 .learn-more-link:hover {
   color: #1f4028;
+}
+
+h2 {
+  margin-bottom: 10px;
+}
+
+.spacing {
+  margin-bottom: 10px;
 }

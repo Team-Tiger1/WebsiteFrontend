@@ -7,7 +7,7 @@ import {sanitise} from "./sanitise.js"
 
 
 //calling api for bundles and vendors
-const bundles = await apiGet("/bundles").then(r => r.json());
+const bundles = await apiGet("/bundles?limit=10000").then(r => r.json());
 const vendors = await apiGet("/vendors").then(r => r.json());
 
 

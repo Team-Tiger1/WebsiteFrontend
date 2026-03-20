@@ -2,6 +2,10 @@
     margin: 0 0 10px 0;
 }
 
+.spacing {
+    margin-top: 10px;
+}
+
 .dispute-response-group {
     margin-top: 18px;
 }

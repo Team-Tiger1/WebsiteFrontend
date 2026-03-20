@@ -1,9 +1,9 @@
-
-
 /* page layout */
 .newproduct-page {
   margin: 20px auto;
   max-width: 900px;
+  min-width: 700px;
+  width: 700px;
   background-color: white;
   padding: 20px;
   border-radius: 8px;
@@ -12,8 +12,8 @@
 }
 
 /* header */
-.newproduct-header h2 {
-  margin: 0 0 6px;
+h2 {
+  margin-bottom: 15px;
 }
 
 .newproduct-header .text-muted {
@@ -65,12 +65,12 @@
   background-color: #8fcbd3;
   border: none;
   border-radius: 8px;
-  padding: 10px 16px;
   cursor: pointer;
   font-weight: bold;
   font-size: 15px;
   color: white;
   width: fit-content;
+  margin-left: 0px;
 }
 
 .primary-btn:hover {
@@ -109,6 +109,10 @@
 
 .allergy-table input[type="checkbox"] {
   accent-color: #8ccfd6;
+}
+
+.dashboard {
+  width: 600px;
 }
 
 /* mobile */

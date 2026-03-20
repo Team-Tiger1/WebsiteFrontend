@@ -111,10 +111,6 @@ function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleNa
     <td style="padding: 12px; border-top: 1px solid #ffffff;">
       ${sanitise(pickupTime)}
     </td>
-
-    <td style="padding: 12px; border-top: 1px solid #ffffff; font-weight: bold;">
-      ${sanitise(claimCode ?? "-")}
-    </td>
     
     <td style="padding: 12px; border-top: 1px solid #ffffff;">
       ${sanitise(vendorName ?? "-")}
@@ -122,6 +118,10 @@ function addReservation(bundleId, reservationId, claimCode, pickupTime, bundleNa
     
         <td style="padding: 12px; border-top: 1px solid #ffffff;">
       ${sanitise(vendorLocation ?? "-")}
+    </td>
+    
+    <td style="padding: 12px; border-top: 1px solid #ffffff; font-weight: bold;">
+      ${sanitise(claimCode ?? "-")}
     </td>
   `;
     //adds the row to the table body

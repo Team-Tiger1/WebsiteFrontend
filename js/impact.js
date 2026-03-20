@@ -36,17 +36,17 @@ const gradeMap = {
  */
 async function loadBadgesForUser(){
     const response = await apiGet("/users/badges");
-    if (!response.ok) { //if error in reponse
+    if (!response.ok) { //if error in response
         badge.textContent = "Could not load badges";
         return;
     }
     const badges = await response.json();
 
-    if (badges.length === 0) { //if there no error and simply the user has no badges
+    if (badges.length === 0) { //if there is no error and simply the user has no badges
         badge.textContent = "You have no badges";
         return;
     }
-    //if they do have badges send them to loadbadges to be loaded and diplayed in cards on the page
+    //if they do have badges send them to loadbadges to be loaded and displayed in cards on the page
     loadBadges(badges)
 }
 loadBadgesForUser();
