@@ -156,8 +156,17 @@ function renderBundles(bundleContainer, bundleList) {
         bundleContainer.insertAdjacentHTML('beforeend', html);
         const currentBundle = bundleContainer.lastElementChild;
 
+        currentBundle.setAttribute("tabindex", "0"); //making the drop down a keyboard accessible part
+        currentBundle.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { //if they press enter or space click the drop down
+                e.preventDefault();
+                currentBundle.click();
+            }
+        });
+
         //Add reserve button functionality
         const reserveButton = currentBundle.querySelector("button");
+        reserveButton.setAttribute("aria-label", `Reserve ${bundleJson.bundleName}`);
         reserveButton.addEventListener("click", function (e) {
            e.stopPropagation();
            openReservePopup(bundleJson.bundleId, bundleJson.bundleName);
@@ -235,6 +244,9 @@ function renderBundles(bundleContainer, bundleList) {
             `;
 
             currentBundle.insertAdjacentHTML('beforeend', dropDownHtml);
+            //keyboard accessible
+            currentBundle.setAttribute("tabindex", "0");
+            currentBundle.setAttribute("aria-label", `${bundleJson.bundleName}, £${bundleJson.price.toFixed(2)}`);
             const productListHtml = currentBundle.querySelector(".product-list");
             productListHtml.innerHTML = productHtml;
 

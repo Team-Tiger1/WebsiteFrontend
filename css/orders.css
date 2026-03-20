@@ -74,6 +74,8 @@ main{
 @media (max-width: 600px){
     main {
         margin: 12px 0;
+        max-width: 100%;
+        padding: 12px;
         }
 
     .orderWrapper{
@@ -83,7 +85,6 @@ main{
 
     .orderTable th, .orderTable td{
         padding: 6px 8px;
-        font-size: 14px;
+        font-size: 12px;
     }
 }
-
