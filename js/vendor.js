@@ -272,7 +272,10 @@ let selectedBundleId = null;
  */
 function openReservePopup(bundleId, bundleName){
     selectedBundleId = bundleId;
-    reserveDetails.textContent = `DISCLAIMER: Consumer at your own risk. Are you sure you want to reserve the bundle: ${bundleName}?`;
+    reserveDetails.innerHTML = `
+        DISCLAIMER: Consume at your own risk.<a href="https://thelastfork.shop/foodSafety.html" target="_blank" style="color: blue; text-decoration: underline;">See more</a> <br>
+        Are you sure you want to reserve the bundle: <b>${sanitise(bundleName)}<b>? 
+    `;
     reservePopup.showModal();
 }
 
