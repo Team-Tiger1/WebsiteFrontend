@@ -129,6 +129,7 @@ function renderBundles(bundleContainer, bundleList) {
                       <div class="bundle-element">
                         <p>${sanitise(bundleJson.bundleName)}</p>
                         <p class="category ${bundleJson.category}">${categoryNameMap[bundleJson.category]}</p>
+                        <p class="category ${bundleJson.category}">${categoryNameMap[bundleJson.category]}</p>
                         <p>Allergens: ${allergies.length > 0 ? allergies.map(a => capitaliseString(a)).join(", ") : "None"}</p>
                       </div>
                   </div>
@@ -263,7 +264,7 @@ let selectedBundleId = null;
 function openReservePopup(bundleId, bundleName){
     selectedBundleId = bundleId;
     reserveDetails.innerHTML = `
-        DISCLAIMER: Consume at your own risk.<a href="https://thelastfork.shop/foodSafety.html" target="_blank" style="color: blue; text-decoration: underline;">See more</a> <br>
+        DISCLAIMER: Consume at your own risk.<a href="https://thelastfork.shop/foodSafety.html"style="color: blue; text-decoration: underline;">See more</a> <br>
         Are you sure you want to reserve the bundle: <b>${sanitise(bundleName)}<b>? 
     `;
     reservePopup.showModal();
