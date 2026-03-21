@@ -129,7 +129,6 @@ function renderBundles(bundleContainer, bundleList) {
                       <div class="bundle-element">
                         <p>${sanitise(bundleJson.bundleName)}</p>
                         <p class="category ${bundleJson.category}">${categoryNameMap[bundleJson.category]}</p>
-                        <p class="category ${bundleJson.category}">${categoryNameMap[bundleJson.category]}</p>
                         <p>Allergens: ${allergies.length > 0 ? allergies.map(a => capitaliseString(a)).join(", ") : "None"}</p>
                       </div>
                   </div>
