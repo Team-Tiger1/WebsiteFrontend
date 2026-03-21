@@ -129,12 +129,11 @@ function renderBundles(bundleContainer, bundleList) {
                       <div class="bundle-element">
                         <p>${sanitise(bundleJson.bundleName)}</p>
                         <p class="category ${bundleJson.category}">${categoryNameMap[bundleJson.category]}</p>
-                        <p>Allergens: ${allergies.length > 0 ? allergies.map(a => capitaliseString(a)).join(", ") : "None"}</p>
                       </div>
+                      <p style="margin: 20px" class="allergens">Allergens: ${allergies.length > 0 ? allergies.map(a => capitaliseString(a)).join(", ") : "None"}</p>
                   </div>
                   <div class="bundle-element">
-                    <p>Price: £${bundleJson.price.toFixed(2)}</p>
-                    <button>Reserve</button>
+                    <p>Price: £${bundleJson.price.toFixed(2)} <button>Reserve</button></p>
                     <img class="arrow" src="../svg/down_arrow.svg" alt="expand bunlde for more details arrow">
                   </div>
                 </div>
