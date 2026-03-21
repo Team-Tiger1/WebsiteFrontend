@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const openBundleId = localStorage.getItem("openBundleId"); //collect the bundleId that if clicked from catalog
     if (openBundleId) {
-        localStorage.removeItem("openBundleID"); //once bundle found remove the stored bundleId
+        localStorage.removeItem("openBundleId"); //once bundle found remove the stored bundleId
         const targetBundle = bundleContainer.querySelector(`[data-id="${openBundleId}"]`);
         if (targetBundle) {
             targetBundle.scrollIntoView({ behavior: "smooth", block: "center" }); //scroll to the bundle and center it in the page
@@ -120,16 +120,7 @@ function renderBundles(bundleContainer, bundleList) {
     for (let i = 0; i < bundleList.length; i++) {
 
         const bundleJson = bundleList[i];
-        const allergies = bundleJson.allergens;
-        let allergyHtml = ``;
-        if(allergies.length > 0){
-            allergyHtml += `<div class="allergens">`;
-            for (let j = 0; j < allergies.length; j++) {
-                allergyHtml += `<p>${capitaliseString(allergies[j])}</p>`;
-            }
-            allergyHtml += `</div>`
-        }
-
+        const allergies = bundleJson.allergens
         let html =
             `
             <div class="bundle" data-id="${bundleJson.bundleId}">
@@ -137,16 +128,14 @@ function renderBundles(bundleContainer, bundleList) {
                   <div class="column">
                       <div class="bundle-element">
                         <p>${sanitise(bundleJson.bundleName)}</p>
-                        <p class="category ${bundleJson.category}"">${categoryNameMap[bundleJson.category]}</p>
+                        <p class="category ${bundleJson.category}">${categoryNameMap[bundleJson.category]}</p>
+                        <p>Allergens: ${allergies.length > 0 ? allergies.map(a => capitaliseString(a)).join(", ") : "None"}</p>
                       </div>
-                      
-                        ${allergyHtml}
-                      
                   </div>
                   <div class="bundle-element">
-                    <p>£${bundleJson.price.toFixed(2)}</p>
+                    <p>Price: £${bundleJson.price.toFixed(2)}</p>
                     <button>Reserve</button>
-                    <img class="arrow" src="../svg/down_arrow.svg" alt="">
+                    <img class="arrow" src="../svg/down_arrow.svg" alt="expand bunlde for more details arrow">
                   </div>
                 </div>
             </div>
@@ -157,6 +146,7 @@ function renderBundles(bundleContainer, bundleList) {
         const currentBundle = bundleContainer.lastElementChild;
 
         currentBundle.setAttribute("tabindex", "0"); //making the drop down a keyboard accessible part
+        currentBundle.setAttribute("aria-label", `${bundleJson.bundleName}, ${categoryNameMap[bundleJson.category]}, price £${bundleJson.price.toFixed(2)}, allergens: ${bundleJson.allergens.length > 0 ? bundleJson.allergens.join(", ") : "none"}, press enter to expand`); // give bundle name and allergens to screen reader with instructions to expand
         currentBundle.addEventListener("keydown", (e) => {
             if (e.key === "Enter" || e.key === " ") { //if they press enter or space click the drop down
                 e.preventDefault();
