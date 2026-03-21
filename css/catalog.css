@@ -12,7 +12,7 @@ h1{
 }
 
 body{
-    margin: 0px;
+    margin: 0;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f7f7f7;
     display: flex;
@@ -365,13 +365,9 @@ button:hover {
 
 .filter-btn {
     background-color: #f0f0f0;
-    color: #1a1a1a;
-    border: 2px solid transparent;
-    border-radius: 20px;
-    padding: 6px 14px;
+    border: 1px solid black;
     font-size: 13px;
     cursor: pointer;
-    transition: 150ms ease;
     margin-left: 0;
 }
 
