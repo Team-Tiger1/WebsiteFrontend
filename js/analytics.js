@@ -234,6 +234,12 @@ async function renderTables(period, data) {
     let collectedMoney = 0;
     let noShowMoney = 0;
     let expiredMoney = 0;
+    let collectedWeight = 0;
+    let collectedCount = 0;
+    let noShowWeight = 0;
+    let noShowCount=0;
+    let expiredWeight = 0;
+    let expiredcount=0;
 
     let collectedGraphData = [];
     let noShowGraphData = [];
@@ -246,16 +252,22 @@ async function renderTables(period, data) {
             collectedGraphData.push(currentBundle);
             collectedMoney += currentBundle.amountDue;
             collectedTable.appendChild(convertBundleToHTML(currentBundle))
+            collectedWeight += parseInt(currentBundle.weight);
+            collectedCount+=1;
         }
         if(currentBundle.status === "NO_SHOW") {
             noShowGraphData.push(currentBundle);
             noShowMoney += currentBundle.amountDue;
             noShowsTable.appendChild(convertBundleToHTML(currentBundle))
+            noShowWeight += parseInt(currentBundle.weight);
+            noShowCount+=1;
         }
         if(currentBundle.status === "EXPIRED") {
             expiredGraphData.push(currentBundle);
             expiredMoney += currentBundle.amountDue;
             expiredTable.appendChild(convertBundleToHTML(currentBundle))
+            expiredWeight += parseInt(currentBundle.weight);
+            expiredcount+=1;
         }
     }
 
@@ -264,9 +276,30 @@ async function renderTables(period, data) {
     const noShowMoneyLabel = document.getElementById("noshow-money");
     const expiredMoneyLabel = document.getElementById("expired-money");
 
+    //Weight and average weight
+    const collectedWeightLabel = document.getElementById("collected-weight");
+    const collectedAverageWeightLabel = document.getElementById("collected-average-weight")
+
+    const noshowWeightLabel=document.getElementById("noshow-weight")
+    const noshowAverageWeightLabel = document.getElementById("noshow-average-weight")
+
+    const expiredWeightLabel = document.getElementById("expired-weight");
+    const expiredAverageWeightLabel = document.getElementById("expired-average-weight")
+
+
     collectedMoneyLabel.innerText = "Revenue: £" + collectedMoney.toFixed(2);
     noShowMoneyLabel.innerText = "Loss: £" + noShowMoney.toFixed(2);
     expiredMoneyLabel.innerText = "Loss: £" + expiredMoney.toFixed(2);
+
+    // Weight and average weight
+    collectedWeightLabel.innerText = "Total Weight: " + formatWeight(collectedWeight);
+    collectedAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (collectedWeight / collectedCount).toFixed(2) : "0.00") + " g";
+
+    noshowWeightLabel.innerText = "Total Weight: " + formatWeight(expiredWeight);
+    noshowAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (expiredWeight / collectedCount).toFixed(2) : "0.00") + " g";
+
+    expiredWeightLabel.innerText = "Total Weight: " + formatWeight(noShowWeight);
+    expiredAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (noShowWeight / collectedCount).toFixed(2) : "0.00") + " g";
 
     //Load Line Graph
     await renderLineGraph(period, collectedGraphData, noShowGraphData, expiredGraphData);
