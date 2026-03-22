@@ -3,7 +3,7 @@ import {isAuthenticated} from "./auth.js";
 
 let pieChart = null;
 let lineChart = null;
-
+let barChart = null;
 
 /*prevents XSS*/
 import {sanitise} from "./sanitise.js"
@@ -57,6 +57,18 @@ const lineConfig = {
     ]
 }
 
+// Configuration for the new bar chart
+const barConfig = {
+    labels: ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"],
+    datasets: [{
+        label: "Proportion Collected",
+        data: [], // Will be populated dynamically waiting for dan to create checkpoint
+        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+        borderColor: 'rgb(75, 192, 192)',
+        borderWidth: 1
+    }]
+};
+
 document.addEventListener("DOMContentLoaded", async () => {
 
     await isAuthenticated("VENDOR");
@@ -71,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         ])
     }
 
+    await renderBarChart();
 
     //This adds an event listener to the period drop down, so that when the user changes the period, the tables and graphs are updated to reflect the new period
     const periodDropdown = document.getElementById("period-dropdown");
@@ -85,10 +98,71 @@ document.addEventListener("DOMContentLoaded", async () => {
                 renderOutline(dataJson)
             ])
         }
-
-
     });
 });
+
+/*Replace this later with a call to: await apiGet("/analytics/discounts")*/
+async function getDiscountData() {
+    return [
+        { band: "0-20%", collected: 20, notCollected: 80 },
+        { band: "20-40%", collected: 50, notCollected: 50 },
+        { band: "40-60%", collected: 75, notCollected: 25 },
+        { band: "60-80%", collected: 90, notCollected: 10 },
+        { band: "80-100%", collected: 99, notCollected: 1 }
+    ];
+}
+
+/* Renders the new Bar Chart showing the proportion of collected bundles per discount band.*/
+async function renderBarChart() {
+    const data = await getDiscountData();
+
+    const proportions = data.map(item => {
+        const total = item.collected + item.notCollected;
+        return total === 0 ? 0 : (item.collected / total);
+    });
+
+    barConfig.datasets[0].data = proportions;
+
+    if (barChart) {
+        barChart.update();
+        return;
+    }
+
+    const barChartPlaceholder = document.getElementById("bar-chart");
+
+    barChart = new Chart(barChartPlaceholder, {
+        type: 'bar',
+        data: barConfig,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1,
+                    title: {
+                        display: true,
+                        text: 'Proportion Collected'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Discount Bands'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return 'Collected: ' + (context.raw * 100).toFixed(1) + '%';
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
 /**
  * This function renders the outline section of the analytics page, which includes the headline statistics and the pie chart
  * It makes a call to the api call to get the number of bundles collected, no shows, and expired for the selected period, and then updates the HTML elements with the new data
@@ -99,6 +173,7 @@ async function renderOutline(data) {
     const collected = document.getElementById("bundlesCollected");
     const noShows = document.getElementById("bundleNoShow");
     const expired = document.getElementById("bundlesExpired");
+    const wasteSaved = document.getElementById("wasteSaved");
 
     const occurrenceMap = {
         "COLLECTED": 0,
@@ -106,23 +181,36 @@ async function renderOutline(data) {
         "EXPIRED": 0,
     }
 
+    // Calculating the total weight saved by the vendor
+    let totalWeightSaved = 0;
+
     for (let i = 0; i < data.length; i++) {
         const currentStatus = data[i].status;
         occurrenceMap[currentStatus]++;
+
+        // Only collected bundles count as waste saved
+        if (currentStatus === "COLLECTED") {
+            totalWeightSaved += Number(data[i].weight) || 0;
+        }
     }
 
     collected.textContent = occurrenceMap["COLLECTED"];
     noShows.textContent = occurrenceMap["NO_SHOW"];
     expired.textContent = occurrenceMap["EXPIRED"];
+    wasteSaved.textContent = formatWeight(totalWeightSaved);
 
     await renderPieChart([occurrenceMap["COLLECTED"], occurrenceMap["NO_SHOW"], occurrenceMap["EXPIRED"]]);
 }
 
 /**
- * This function renders the tables section of the analytics page, which includes a table for each bundle outcome (collected, no show, expired)
- * It makes an api call to get the bundles for the selected period, and then iterates through the bundles and adds them to the appropriate table based on their outcome
- * It also keeps track of the total revenue/loss for each outcome, and updates the labels at the top of each table with the new totals
- * Finally, it calls the renderLineGraph function to update the line graph with the new data
+ * This function changes weight saved from grams to kgs
+ */
+function formatWeight(weightInGrams) {
+    return `${(weightInGrams / 1000).toFixed(2)} kg`;
+}
+
+/**
+ * This function renders the tables section of the analytics page
  * @param period
  * @param {*} data
  */
@@ -144,7 +232,6 @@ async function renderTables(period, data) {
     let collectedGraphData = [];
     let noShowGraphData = [];
     let expiredGraphData = [];
-
 
     for (let i = 0; i < data.length; i++) {
         let currentBundle = data[i];
@@ -180,15 +267,11 @@ async function renderTables(period, data) {
 
 }
 /**
- * This function renders the line graph section of the analytics page, 
- * which shows the number of bundles collected, no shows, and expired over time for the selected period
- * 
- * 
- * @param {*} period 
- * @param {*} collectedData 
- * @param {*} noShowData 
- * @param {*} expiredData 
- * @returns 
+ * This function renders the line graph section of the analytics page
+ * @param {*} period
+ * @param {*} collectedData
+ * @param {*} noShowData
+ * @param {*} expiredData
  */
 async function renderLineGraph(period, collectedData, noShowData, expiredData) {
 
@@ -249,13 +332,9 @@ async function renderLineGraph(period, collectedData, noShowData, expiredData) {
 }
 
 /**
- * This function takes in the bundle data for a specific outcome (collected, no show, expired) and groups it by the appropriate time unit based on the selected period (hourly for day, daily for week and month, monthly for year)
- * It first generates a list of all the time units for the selected period, and initialises the count for each unit to 0
- * 
- * 
- * @param {*} data 
- * @param {*} period 
- * @returns 
+ * Groups graph data.
+ * @param {*} data
+ * @param {*} period
  */
 async function groupLineGraphData(data, period) {
     const total = await generatePaddingLists(period);
@@ -305,9 +384,8 @@ async function groupLineGraphData(data, period) {
 
 
 /**
- * This function generates a list of time units for the selected period, and initialises the count for each unit to 0
- * @param {*} period 
- * @returns 
+ * This function generates a list of time units for the selected period.
+ * @param {*} period
  */
 async function generatePaddingLists(period) {
     const list = {};
@@ -347,10 +425,8 @@ async function generatePaddingLists(period) {
 }
 
 /**
- * This function renders the pie chart section of the analytics page, which shows the proportion of bundles collected, no shows, and expired for the selected period
- * It takes in the number of bundles for each outcome, updates the pie chart configuration with the new data, and then either updates the existing chart or creates a new one if it doesn't exist
- * @param {*} data 
- * @returns 
+ * Renders pie chart
+ * @param {*} data
  */
 async function renderPieChart(data) {
 
@@ -373,11 +449,8 @@ async function renderPieChart(data) {
 }
 
 /**
- * This function takes in a bundle object and converts it to an HTML table row element, 
- * which can then be added to the table based on the bundle's outcome (collected, no show, expired)
- * 
- * @param {*} bundle 
- * @returns 
+ * Converts bundle to HTML row
+ * @param {*} bundle
  */
 function convertBundleToHTML(bundle) {
     const tr = document.createElement("tr");

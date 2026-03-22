@@ -2,6 +2,7 @@ main {
     max-width: none;
     margin: 0;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .analytics-outline {
@@ -12,11 +13,8 @@ main {
     position: relative;
     gap: 24px;
     margin-bottom: 16px;
-}
-
-.summary-box {
-    min-height: 120px;
-    max-height: 120px;
+    flex-wrap: wrap;
+    padding: 0 5%;
 }
 
 .analytics-display {
@@ -44,17 +42,20 @@ main {
 
 .analytics-display table {
     border-collapse: collapse;
+    width: 100%;
 }
 
 .analytics-display th, .analytics-display td {
     padding: 10px 15px 10px 0;
     text-align: left;
+    white-space: nowrap;
 }
 
 .drop-down {
-    position: absolute;
-    right: 5%;
-    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
 }
 
 #period-dropdown {
@@ -68,19 +69,28 @@ main {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    max-height: 400px;
     justify-content: center;
+    align-items: center;
     gap: 30px;
+    padding: 20px 5%;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+
+.chart-wrapper {
+    flex: 1 1 300px;
+    max-width: 400px;
+    position: relative;
+}
+
+.line-chart-wrapper,
+.bar-chart-wrapper {
+    flex: 2 1 500px;
+    max-width: 800px;
 }
 
 /* summary boxes */
-.summary-boxes {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 16px;
-    margin: 20px 0 30px;
-}
-
 .summary-box {
     background: #ffffff;
     padding: 22px;
@@ -88,12 +98,14 @@ main {
     border: 1px solid #e6e6e6;
     border-top: 5px solid #3f6f4e;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    min-width: 0;
-    min-height: 110px;
+    min-width: 180px;
+    min-height: 120px;
+    max-height: 120px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .summary-box:hover {
@@ -114,4 +126,46 @@ main {
     margin: 10px 0 0;
     text-align: center;
     overflow-wrap: anywhere;
+}
+
+@media (max-width: 980px) {
+    .analytics-outline {
+        flex-direction: column;
+        align-items: center;
+        padding: 0 15px;
+    }
+
+    .summary-box {
+        width: 100%;
+        max-width: 350px;
+    }
+
+
+    .analytics-display {
+        flex-direction: column;
+        padding: 0 15px;
+        gap: 30px;
+    }
+
+    .collected,
+    .no-shows,
+    .expired {
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 10px;
+    }
+
+    .charts-container {
+        flex-direction: column;
+        padding: 10px 15px;
+    }
+
+    .chart-wrapper,
+    .line-chart-wrapper,
+    .bar-chart-wrapper {
+        flex: 1 1 100%;
+        max-width: 100%;
+        width: 100%;
+        margin-bottom: 20px;
+    }
 }
