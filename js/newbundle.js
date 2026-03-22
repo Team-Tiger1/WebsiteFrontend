@@ -9,7 +9,6 @@ const productsList = document.getElementById("productsList");
 const msg = document.getElementById("bundleMsg");
 const form = document.getElementById("createBundleForm");
 
-
 const productSearch = document.getElementById("productSearch");
 const productsSummary = document.getElementById("productsSummary");
 
@@ -20,8 +19,13 @@ const optimiseMsg = document.getElementById("optimiseMsg");
 let allProducts = []; //stores all vendor products loaded from the backend
 let selectedQuantities = {}; // stores chosen quantities using product id as the key
 
+//pop up
+const successPopup = document.getElementById("successPopup");
+const closePopupBtn = document.getElementById("closePopupBtn");
 
-
+closePopupBtn.addEventListener("click", () => {
+    successPopup.close();
+});
 
 /**
  * Loads all products belonging to the logged-in vendor.
@@ -244,6 +248,7 @@ form.addEventListener("submit", async (e) => {
     e.preventDefault();
     msg.textContent = "";
 
+    const submitBtn = form.querySelector('button[type="submit"]');
     const name = document.getElementById("bundleName").value;
     const description = document.getElementById("bundleDescription").value;
     const price = parseFloat(document.getElementById("bundlePrice").value);
@@ -295,6 +300,10 @@ form.addEventListener("submit", async (e) => {
     };
     //attempt post
     try {
+        // disable button while waiting for response
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Creating Bundle...";
+
         const res = await apiPost("/bundles", bundleData);
 
         if (!res.ok) {
@@ -302,7 +311,10 @@ form.addEventListener("submit", async (e) => {
         msg.textContent = "failed to create bundle" + (text ? `: ${text}` : "");
         return;
         }
-        msg.textContent = "bundle created"
+
+        // show popup
+        successPopup.showModal();
+
         form.reset();
 
         //reset quantity selector to 0
@@ -313,6 +325,10 @@ form.addEventListener("submit", async (e) => {
     } catch (err) {
         console.error(err);
         msg.textContent = err.message || "network failure";
+    } finally {
+        // 3. Re-enable the button
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Create Bundle";
     }
 });
 
