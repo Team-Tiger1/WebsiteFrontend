@@ -99,23 +99,39 @@ async function renderOutline(data) {
     const collected = document.getElementById("bundlesCollected");
     const noShows = document.getElementById("bundleNoShow");
     const expired = document.getElementById("bundlesExpired");
+    const wasteSaved = document.getElementById("wasteSaved");
 
     const occurrenceMap = {
         "COLLECTED": 0,
         "NO_SHOW": 0,
         "EXPIRED": 0,
     }
-
+    //calculating the total weight saved by the vendor
+    let totalWeightSaved = 0;
     for (let i = 0; i < data.length; i++) {
         const currentStatus = data[i].status;
         occurrenceMap[currentStatus]++;
+
+        // only collected bundles count as waste saved
+        if (currentStatus === "COLLECTED") {
+            totalWeightSaved += Number(data[i].weight) || 0;
+        }
     }
+
 
     collected.textContent = occurrenceMap["COLLECTED"];
     noShows.textContent = occurrenceMap["NO_SHOW"];
     expired.textContent = occurrenceMap["EXPIRED"];
+    wasteSaved.textContent = formatWeight(totalWeightSaved);
 
     await renderPieChart([occurrenceMap["COLLECTED"], occurrenceMap["NO_SHOW"], occurrenceMap["EXPIRED"]]);
+}
+
+/**
+ * This function changes weight saved from grams to kgs
+ */
+function formatWeight(weightInGrams) {
+    return `${(weightInGrams / 1000).toFixed(2)} kg`;
 }
 
 /**
