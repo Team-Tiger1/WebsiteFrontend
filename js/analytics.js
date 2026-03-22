@@ -174,6 +174,7 @@ async function renderOutline(data) {
     const noShows = document.getElementById("bundleNoShow");
     const expired = document.getElementById("bundlesExpired");
     const wasteSaved = document.getElementById("wasteSaved");
+    const averageWeight = document.getElementById("averageWeight");
 
     const occurrenceMap = {
         "COLLECTED": 0,
@@ -198,6 +199,7 @@ async function renderOutline(data) {
     noShows.textContent = occurrenceMap["NO_SHOW"];
     expired.textContent = occurrenceMap["EXPIRED"];
     wasteSaved.textContent = formatWeight(totalWeightSaved);
+    averageWeight.textContent = ((Math.round((parseInt(totalWeightSaved)/Number(occurrenceMap["COLLECTED"]))) || 0 )+ "g");
 
     await renderPieChart([occurrenceMap["COLLECTED"], occurrenceMap["NO_SHOW"], occurrenceMap["EXPIRED"]]);
 }
