@@ -295,11 +295,11 @@ async function renderTables(period, data) {
     collectedWeightLabel.innerText = "Total Weight: " + formatWeight(collectedWeight);
     collectedAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (collectedWeight / collectedCount).toFixed(2) : "0.00") + " g";
 
-    noshowWeightLabel.innerText = "Total Weight: " + formatWeight(expiredWeight);
-    noshowAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (expiredWeight / collectedCount).toFixed(2) : "0.00") + " g";
+    noshowWeightLabel.innerText = "Total Weight: " + formatWeight(noShowWeight);
+    noshowAverageWeightLabel.innerText = "Avg Weight: " + (noShowCount > 0 ? (noShowWeight / noShowCount).toFixed(2) : "0.00") + " g";
 
-    expiredWeightLabel.innerText = "Total Weight: " + formatWeight(noShowWeight);
-    expiredAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (noShowWeight / collectedCount).toFixed(2) : "0.00") + " g";
+    expiredWeightLabel.innerText = "Total Weight: " + formatWeight(expiredWeight);
+    expiredAverageWeightLabel.innerText = "Avg Weight: " + (expiredcount > 0 ? (expiredWeight / expiredcount).toFixed(2) : "0.00") + " g";
 
     //Load Line Graph
     await renderLineGraph(period, collectedGraphData, noShowGraphData, expiredGraphData);
