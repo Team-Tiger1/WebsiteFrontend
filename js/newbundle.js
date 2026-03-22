@@ -177,10 +177,7 @@ function applyOptimisedValues(data) {
     document.getElementById("collectionStart").value = formatDateTimeLocal(data.collection_start);
     document.getElementById("collectionEnd").value = formatDateTimeLocal(data.collection_end);
 
-    optimiseMsg.textContent =
-        data.explanation +
-        " Reservation chance: " + data.reservation_probability + "%." +
-        " Collection chance: " + data.collection_probability + "%.";
+    optimiseMsg.textContent = data.explanation;
 }
 /**
  * this function calls forecast optimise and applies the returned values
