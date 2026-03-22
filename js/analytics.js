@@ -38,7 +38,6 @@ const lineConfig = {
             borderColor:  'rgb(255, 99, 132)',
             tension: 0.3,
         },
-
         {
             label: "No Shows",
             data: [],
@@ -46,7 +45,6 @@ const lineConfig = {
             borderColor: 'rgb(54, 162, 235)',
             tension: 0.3,
         },
-
         {
             label: "Expired",
             data: [],
@@ -57,12 +55,12 @@ const lineConfig = {
     ]
 }
 
-// Configuration for the new bar chart
+// Configuration for the new bar chart (labels and data are now dynamically populated)
 const barConfig = {
-    labels: ["0-20%", "20-40%", "40-60%", "60-80%", "80-100%"],
+    labels: [],
     datasets: [{
         label: "Proportion Collected",
-        data: [], // Will be populated dynamically waiting for dan to create checkpoint
+        data: [],
         backgroundColor: 'rgba(75, 192, 192, 0.6)',
         borderColor: 'rgb(75, 192, 192)',
         borderWidth: 1
@@ -73,13 +71,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await isAuthenticated("VENDOR");
 
-    const dataResponse = await apiGet("/bundles/analytics?period=day");
+    const dataResponse = await apiGet("/bundles/analytics?period=year");
     const jsonData = await dataResponse.json();
 
     if(dataResponse.ok) {
         await Promise.all([
             renderOutline(jsonData),
-            renderTables("day", jsonData)
+            renderTables("year", jsonData)
         ])
     }
 
@@ -101,27 +99,29 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
 });
 
-/*Replace this later with a call to: await apiGet("/analytics/discounts")*/
-async function getDiscountData() {
-    return [
-        { band: "0-20%", collected: 20, notCollected: 80 },
-        { band: "20-40%", collected: 50, notCollected: 50 },
-        { band: "40-60%", collected: 75, notCollected: 25 },
-        { band: "60-80%", collected: 90, notCollected: 10 },
-        { band: "80-100%", collected: 99, notCollected: 1 }
-    ];
-}
 
 /* Renders the new Bar Chart showing the proportion of collected bundles per discount band.*/
 async function renderBarChart() {
-    const data = await getDiscountData();
+    try {
+        const response = await apiGet("/bundles/analytics/discount");
 
-    const proportions = data.map(item => {
-        const total = item.collected + item.notCollected;
-        return total === 0 ? 0 : (item.collected / total);
-    });
+        if (!response.ok) {
+            console.error("Failed to fetch discount analytics");
+            return;
+        }
 
-    barConfig.datasets[0].data = proportions;
+        const data = await response.json();
+
+        // Sort data by startDiscount to ensure the chart renders from 0% up to 100% in order
+        data.sort((a, b) => a.startDiscount - b.startDiscount);
+
+        // Map the backend DTO data to Chart.js arrays
+        const labels = data.map(item => `${item.startDiscount}-${item.endDiscount}%`);
+        const proportions = data.map(item => item.collectionRate);
+
+        // Apply data to the chart configuration
+        barConfig.labels = labels;
+        barConfig.datasets[0].data = proportions;
 
     if (barChart) {
         barChart.update();
@@ -140,7 +140,7 @@ async function renderBarChart() {
                     max: 1,
                     title: {
                         display: true,
-                        text: 'Proportion Collected'
+                        text: 'Collection Rate'
                     }
                 },
                 x: {
@@ -154,13 +154,17 @@ async function renderBarChart() {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return 'Collected: ' + (context.raw * 100).toFixed(1) + '%';
+                            return 'Collection Rate: ' + (context.raw * 100).toFixed(1) + '%';
                         }
                     }
                 }
             }
         }
     });
+
+    } catch (err) {
+        console.error("Network error rendering bar chart:", err);
+    }
 }
 
 /**
