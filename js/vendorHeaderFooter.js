@@ -40,7 +40,6 @@ function addFooter() {
     <div class="col">
       <h4>Contact</h4>
       <p> <strong>Address:</strong> Northcote House, The Queens's Drive, Exeter, Devon, EX4 4QJ, United Kingdom</p>
-      <p> <strong>Phone:</strong> +07766832743</p>
       <p> <strong>Hours:</strong> 10:00-18:00, Mon - Sun</p>
      
     </div>
