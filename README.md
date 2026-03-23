@@ -47,8 +47,10 @@ Furthermore the forecast page allows users to gain forecast on collection probab
   - change email
   - change password
   - delete account
+- Created reservation popup
 - Ensuring all pages and new ones are mobile accessible
-- Added labels to the frontend pages for screen reading capability 
+- Added labels to the frontend pages for screen reading capability
+- Added a reminder popup for when a user is within a bundle collection window and within an hour before a collection window opens
 
 <br>
 
