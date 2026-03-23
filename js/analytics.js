@@ -179,6 +179,7 @@ async function renderOutline(data) {
     const expired = document.getElementById("bundlesExpired");
     const wasteSaved = document.getElementById("wasteSaved");
     const averageWeight = document.getElementById("averageWeight");
+    const C02Saved = document.getElementById("C02Saved")
 
     const occurrenceMap = {
         "COLLECTED": 0,
@@ -203,6 +204,7 @@ async function renderOutline(data) {
     noShows.textContent = occurrenceMap["NO_SHOW"];
     expired.textContent = occurrenceMap["EXPIRED"];
     wasteSaved.textContent = formatWeight(totalWeightSaved);
+    C02Saved.textContent = formatWeight(totalWeightSaved*2.53846)
     averageWeight.textContent = ((Math.round((parseInt(totalWeightSaved)/Number(occurrenceMap["COLLECTED"]))) || 0 )+ "g");
 
     await renderPieChart([occurrenceMap["COLLECTED"], occurrenceMap["NO_SHOW"], occurrenceMap["EXPIRED"]]);
@@ -286,19 +288,25 @@ async function renderTables(period, data) {
     const expiredWeightLabel = document.getElementById("expired-weight");
     const expiredAverageWeightLabel = document.getElementById("expired-average-weight")
 
+    const noshowC02Label = document.getElementById("noshow-C02")
+    const expiredC02Label = document.getElementById("expired-C02")
+    const collectedC02Label = document.getElementById("collected-C02")
 
     collectedMoneyLabel.innerText = "Revenue: £" + collectedMoney.toFixed(2);
     noShowMoneyLabel.innerText = "Loss: £" + noShowMoney.toFixed(2);
     expiredMoneyLabel.innerText = "Loss: £" + expiredMoney.toFixed(2);
 
-    // Weight and average weight
+    // Weight ,average weight, and C02
     collectedWeightLabel.innerText = "Total Weight: " + formatWeight(collectedWeight);
+    collectedC02Label.innerText = "C02 Saved: " + formatWeight(collectedWeight* 2.53846)
     collectedAverageWeightLabel.innerText = "Avg Weight: " + (collectedCount > 0 ? (collectedWeight / collectedCount).toFixed(2) : "0.00") + " g";
 
     noshowWeightLabel.innerText = "Total Weight: " + formatWeight(noShowWeight);
+    noshowC02Label.innerText = "C02 Wasted: " + formatWeight(noShowWeight* 2.53846)
     noshowAverageWeightLabel.innerText = "Avg Weight: " + (noShowCount > 0 ? (noShowWeight / noShowCount).toFixed(2) : "0.00") + " g";
 
     expiredWeightLabel.innerText = "Total Weight: " + formatWeight(expiredWeight);
+    expiredC02Label.innerText = "C02 Wasted: " + formatWeight(expiredWeight* 2.53846)
     expiredAverageWeightLabel.innerText = "Avg Weight: " + (expiredcount > 0 ? (expiredWeight / expiredcount).toFixed(2) : "0.00") + " g";
 
     //Load Line Graph

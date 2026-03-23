@@ -192,6 +192,7 @@ async function loadImpactStats(period = "week") {
     document.getElementById("impactMoney").textContent = `£${data.moneySaved.toFixed(2)}`; //shows money saved
     document.getElementById("impactWaste").textContent = `${(data.wasteSaved / 1000).toFixed(2)}kg`; //shows waste saved in kg (returned in grams so divided by 1000 to get kg)
     document.getElementById("impactOrders").textContent = data.totalOrders; //shows total orders
+    document.getElementById("impactC02").textContent = `${(((data.wasteSaved / 1000).toFixed(2))* 2.53846).toFixed(2)}kg`;
 }
 
 // reload stats when period changes to show new statistics
