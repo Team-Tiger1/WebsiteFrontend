@@ -20,7 +20,7 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 
 
 
-## Contributions CW1:
+## Contributions:
 
 **Author: Toby Beckett**
 
@@ -34,6 +34,21 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 - Created the suppliers forecast page: HTML, CSS and javascript
 - Created the index page: javascript and HTML
 - Created the README file for the front end repository
+- Added keyboard navigation to all pages
+- Made all pages have the required WCAG accessibility colour contrast and text size
+- Created the user impact page: HTML, CSS, JS
+  - Added badges
+  - Waste and Money leaderboards
+  - Personnel impact summary
+- Created the user disputes page so the user could start disputes based on bundles they have collected/reserved/noshow: HTML, CSS, JS
+- Created search bar and filter catalog page
+- Made all pages resistant to XSS through sanitization of displaying any user inputted information
+- Created manage account page: HTML, CSS, JS
+  - change email
+  - change password
+  - delete account
+- Ensuring all pages and new ones are mobile accessible
+- Added lables to the frontend pages for screen reading capability 
 
 <br>
 
@@ -42,6 +57,20 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 - Created the supplier Dashboard page: HTML, CSS, javascript
 - Created the supplier Create Products page: HTML, CSS, javascript
 - Created the supplier Create Bundles page: HTML, CSS, javascript
+- Created manage vendor account page: HTML, CSS, javascript
+- Created disputes page: HTML, CSS, javascript
+- 
+  - change vendor details (company name, email address, street address, postcode, phone number, description)
+  - change email
+  - change password
+  - delete account
+- Adding screen reader accessibility to vendor pages
+- Ensuring all pages and new ones are mobile accessible
+- Rework the create bundle page
+  - implement the optimise button
+  - scrollable product page
+  - search bar for products
+
 
 <br>
 
@@ -58,23 +87,6 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 
 <br>
 
-## Contributions CW2:
-
-**Author: Toby Beckett**
-- Added keyboard navigation to all pages
-- Made all pages have the required WCAG accessibility colour contrast and text size
-- Created the user impact page: HTML, CSS, JS
-  - Added badges
-  - Waste and Money leaderboards
-  - Personnel impact summary
-- Created the user disputes page so the user could start disputes based on bundles they have collected/reserved/noshow: HTML, CSS, JS
-- Created search bar and filter catalog page
-- Made all pages resistant to XSS through sanitization of displaying any user inputted information
-- Created manage account page: HTML, CSS, JS
-  - change email
-  - change password
-  - delete account
-- Ensuring all pages and new ones are mobile accessible
 
 <br>
 
@@ -96,7 +108,7 @@ Added minor bug fixes and features which included:
   - Added popup to make new bundle creation more clear
 - Supplier Register Page
   - Fixed phone number length constraint
-
+ 
 <br>
 
 ## External Resources
