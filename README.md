@@ -89,8 +89,9 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 <br>
 
 **Author: Alex Greasley**
-- Created Lofi designs for Forecast and Create Bundle pages
+- Created Lofi designs for Forecast, Simulate, and Create Bundle pages
 - Created the supplier Forecast page: HTML, CSS, JavaScript
+- Created the supplier Simulate page: HTML, CSS, JavaScript
 - Made minor adjustments across the frontend to improve UX
 
 <br>
