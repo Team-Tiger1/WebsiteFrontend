@@ -105,6 +105,8 @@ Added minor bug fixes and features which included:
   - Added mobile friendly formating
 - Catalog Page
   - Adjusted disclaimer popup to include link to our Food Safety & Allergies page
+  - Added Filter for location
+  - Added filters for Start and End time
 - New Bundle Page
   - Disabled create new bundle while waiting for response
   - Added popup to make new bundle creation more clear
