@@ -97,6 +97,24 @@
     margin-bottom: 20px;
 }
 
+.advice-footer {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+/* Styling for the average number of bundles badge */
+.bundle-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #f0f0f0;
+    color: #555;
+    border: 1px solid #e6e6e6;
+}
+
 .confidence-badge {
     display: inline-block;
     padding: 4px 10px;

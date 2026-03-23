@@ -39,7 +39,7 @@ async function fetchProductionAdvice() {
         }
 
         // Gets the advice for just the current day
-        renderAdvice(currentDay);
+        getAdvice(currentDay);
 
     } catch (error) {
         console.error("Failed to load forecast data:", error);
@@ -51,7 +51,7 @@ async function fetchProductionAdvice() {
  * Adds the advice to the UI
  * @param dayFilter
  */
-function renderAdvice(dayFilter) {
+function getAdvice(dayFilter) {
     adviceContainer.innerHTML = "";
 
     // Filter recommendations based on selected day
@@ -75,9 +75,16 @@ function renderAdvice(dayFilter) {
                 </div>
                 <div class="advice-recommendation">${sanitise(advice.recommendation)}</div>
                 <div class="advice-rationale">${sanitise(advice.rationale)}</div>
-                <span class="confidence-badge confidence-${sanitise(advice.confidence)}">
-                    ${sanitise(advice.confidence)} Confidence
-                </span>
+                
+                <div class="advice-footer">
+                    <span class="confidence-badge confidence-${sanitise(advice.confidence)}">
+                        ${sanitise(advice.confidence)} Confidence
+                    </span>
+                    <span class="bundle-badge">
+                        ${sanitise(advice.avg_bundles)} Bundles Posted / Week
+                    </span>
+                </div>
+                
             </div>
         `;
         adviceContainer.insertAdjacentHTML('beforeend', boxHTML);
@@ -91,7 +98,7 @@ filterButtons.forEach(button => {
         e.target.classList.add("active");
 
         const selectedDay = e.target.getAttribute("data-day");
-        renderAdvice(selectedDay);
+        getAdvice(selectedDay);
     });
 });
 
