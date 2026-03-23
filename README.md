@@ -25,14 +25,14 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 **Author: Toby Beckett**
 
 - Created the Lofi Designs for the Login (supplier and user), register(Supplier and user), Orders, catalog, impact, and the report issue pages that are all on the user side of the website
-- Created the user Login page: HTML, CSS and javascript
-- Created the user Signup page: HTML, CSS and javascript
-- Created the supplier Login page: HTML, CSS and javascript
-- Created the supplier Signup page: HTML, CSS and javascript
-- Created the users Catalog page: HTML, CSS and javascript
-- Created the users Orders page: HTML, CSS and javascript
-- Created the suppliers forecast page: HTML, CSS and javascript
-- Created the index page: javascript and HTML
+- Created the user Login page: HTML, CSS and JavaScript
+- Created the user Signup page: HTML, CSS and JavaScript
+- Created the supplier Login page: HTML, CSS and JavaScript
+- Created the supplier Signup page: HTML, CSS and JavaScript
+- Created the users Catalog page: HTML, CSS and JavaScript
+- Created the users Orders page: HTML, CSS and JavaScript
+- Created the suppliers forecast page: HTML, CSS and JavaScript
+- Created the index page: JavaScript and HTML
 - Created the README file for the front end repository
 - Added keyboard navigation to all pages
 - Made all pages have the required WCAG accessibility colour contrast and text size
@@ -48,28 +48,27 @@ Furthermore the forecast page allows users to gain forecast on collection probab
   - change password
   - delete account
 - Ensuring all pages and new ones are mobile accessible
-- Added lables to the frontend pages for screen reading capability 
+- Added labels to the frontend pages for screen reading capability 
 
 <br>
 
 **Author: William Foulger**
-- Created the Lofi designs for the Dashboard, Forecast, Create produce, create bundle, Analytics and forecast pages
-- Created the supplier Dashboard page: HTML, CSS, javascript
-- Created the supplier Create Products page: HTML, CSS, javascript
-- Created the supplier Create Bundles page: HTML, CSS, javascript
-- Created manage vendor account page: HTML, CSS, javascript
-- Created disputes page: HTML, CSS, javascript
-- 
-  - change vendor details (company name, email address, street address, postcode, phone number, description)
-  - change email
-  - change password
-  - delete account
+- Created the Lofi designs for the Dashboard, Create Product, and Analytics pages
+- Created the supplier Dashboard page: HTML, CSS, JavaScript
+- Created the supplier Create Products page: HTML, CSS, JavaScript
+- Created the supplier Create Bundles page: HTML, CSS, JavaScript
+- Created disputes page: HTML, CSS, JavaScript
+- Created manage vendor account page: HTML, CSS, JavaScript
+  - Change vendor details (company name, email address, street address, postcode, phone number, description)
+  - Change email
+  - Change password
+  - Delete account
 - Adding screen reader accessibility to vendor pages
 - Ensuring all pages and new ones are mobile accessible
 - Rework the create bundle page
-  - implement the optimise button
-  - scrollable product page
-  - search bar for products
+  - Implement the optimise button
+  - Scrollable product page
+  - Search bar for products
 
 
 <br>
@@ -87,11 +86,14 @@ Furthermore the forecast page allows users to gain forecast on collection probab
 
 <br>
 
+**Author: Alex Greasley**
+- Created Lofi designs for Forecast and Create Bundle pages
+- Created the supplier Forecast page: HTML, CSS, JavaScript
+- Made minor adjustments across the frontend to improve UX
 
 <br>
 
 **Author: Jed Leas**
-
 Added minor bug fixes and features which included:
 - Analytics page
   - Discount sell through rates graph
