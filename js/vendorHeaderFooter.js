@@ -16,6 +16,7 @@ function addHeader() {
         <li><a href="newbundle.html">Create Bundle</a></li>
         <li><a href="managedisputes.html">Manage Disputes</a></li>
         <li><a href="analytics.html">Analytics</a></li>
+        <li><a href="simulate.html">Simulate</a></li>
         <li><a href="forecast.html">Forecast</a></li>
         <li><a href="managevendor.html">Manage Account</a></li>
         <li><a href="#" id="logout">Log Out</a></li>

@@ -5,110 +5,43 @@
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>The Last Fork</title>
     <link rel="stylesheet" href="css/styles.css"/>
-    <link rel="stylesheet" href="css/forecast.css"/>
     <link rel="stylesheet" href="css/headerFooter.css"/>
+    <link rel="stylesheet" href="css/forecast.css"/>
 </head>
 <body>
 <div id="header"></div>
 
-<div class="forecast-container">
+<main class="dashboard">
 
-    <!-- Short intro sentence to the webpage -->
-    <div class="forecast-intro">
-        <h1>Forecast Simulator</h1>
-        <p>Adjust the variables below to see how they affect the chances of your bundles being reserved and
-            collected.</p>
-        <hr>
+    <!--  Information explaining the web page purpose  -->
+    <header class="dashboard-header">
+        <h2>Production Forecast & Advice</h2>
+        <p class="text-muted">
+            This page will support you in reducing your waste based upon your bundle postings over the last 3 months.
+        </p>
+    </header>
+
+    <!-- Filter buttons to filter by day -->
+    <div class="advanced-filters">
+        <button class="filter-btn" data-day="ALL">All Days</button>
+        <button class="filter-btn" data-day="Monday">Monday</button>
+        <button class="filter-btn" data-day="Tuesday">Tuesday</button>
+        <button class="filter-btn" data-day="Wednesday">Wednesday</button>
+        <button class="filter-btn" data-day="Thursday">Thursday</button>
+        <button class="filter-btn" data-day="Friday">Friday</button>
+        <button class="filter-btn" data-day="Saturday">Saturday</button>
+        <button class="filter-btn" data-day="Sunday">Sunday</button>
     </div>
 
-    <div id="simulationErrorDisplay"></div>
+    <section class="summary-boxes" id="adviceContainer">
+        <p id="loadingMsg">Analysing...</p>
+    </section>
 
-    <div class="forecast-page-content">
-        <div class="sliders-panel column">
-            <h2>Simulation Factors</h2>
-
-            <!-- Input box for the user to type the retail price -->
-            <div class="slider-group">
-                <label for="retailPriceInput">Retail Price (£):</label>
-                <input type="number" id="retailPriceInput" min="0" max="999.99" step="0.5" value="25.00" placeholder="e.g. 25.00" aria-label="Enter retail price">
-            </div>
-
-            <!-- Sliders for the various variables -->
-            <div class="slider-group">
-                <label for="discountSlider">Discount (%): <span id="discountValue">50%</span></label>
-                <input type="range" id="discountSlider" min="0" max="100" step="1" value="50" aria-label="Select discount percentage">
-            </div>
-
-            <div class="slider-group">
-                <label for="leadTimeSlider">Lead Time: <span id="leadTimeValue">4 Hour(s)</span></label>
-                <input type="range" id="leadTimeSlider" min="0" max="8" step="0.5" value="4" aria-label="Select lead time">
-            </div>
-
-            <div class="slider-group">
-                <label for="collectionTimeSlider">Collection Time: <span id="collectionTimeValue">14:00</span></label>
-                <input type="range" id="collectionTimeSlider" min="6" max="22" step="0.5" value="14" aria-label="Select collection time">
-            </div>
-
-            <div class="slider-group">
-                <label for="windowLengthSlider">Window Length: <span id="windowLengthValue">4.5 Hour(s)</span></label>
-                <input type="range" id="windowLengthSlider" min="0.5" max="8.5" step="0.5" value="4.5" aria-label="Select window length">
-            </div>
-
-            <div class="slider-group">
-                <label for="daySlider">Day: <span id="dayValue">Thursday</span></label>
-                <input type="range" id="daySlider" min="0" max="6" step="1" value="3" aria-label="Select day of the week">
-            </div>
-            <div class="slider-group">
-                <label for="weatherSlider">Weather Conditions: <span id="weatherValue">Overcast</span></label>
-                <input type="range" id="weatherSlider" min="0" max="4" step="1" value="2" aria-label="Select weather conditions">
-            </div>
-
-            <div class="slider-group">
-                <label for="temperatureSlider">Temperature (°C): <span id="temperatureValue">10°C</span></label>
-                <input type="range" id="temperatureSlider" min="-10" max="30" step="1" value="10" aria-label="Select temperature">
-            </div>
-
-            <!-- Box with options to select the category -->
-            <div class="slider-group">
-                <label for="categorySelect">Category:</label>
-                <select id="categorySelect" aria-label="Select a category">
-                    <option value="BREAD_BAKED_GOODS">Bread & Baked Goods</option>
-                    <option value="BREAKFAST_ITEMS" selected>Breakfast Items</option>
-                    <option value="DAIRY_EGGS">Dairy & Eggs</option>
-                    <option value="DRINKS_BEVERAGES">Drinks & Beverages</option>
-                    <option value="FRUIT_VEGETABLES">Fruit & Vegetables</option>
-                    <option value="MEAT_PROTEIN">Meat & Protein</option>
-                    <option value="READY_MEALS_HOT_FOOD">Ready Meals & Hot Food</option>
-                    <option value="SNACKS_SAVOURY_ITEMS">Snacks & Savoury Items</option>
-                    <option value="SWEET_TREATS_DESSERTS">Sweet Treats & Desserts</option>
-                    <option value="VEGAN_VEGETARIAN">Vegan & Vegetarian</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Splits the webpage and shows the results on one side -->
-        <div class="results-panel row">
-            <div class="circle-container">
-                <h3>Reservation Chance</h3>
-                <div class="progress-circle" id="reservationChanceCircle">
-                    <span id="reservationChanceText">0%</span>
-                </div>
-            </div>
-
-            <div class="circle-container">
-                <h3>Collection Chance</h3>
-                <div class="progress-circle" id="collectionChanceCircle">
-                    <span id="collectionChanceText">0%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</main>
 
 <div id="footer"></div>
 
 <script type="module" src="js/vendorHeaderFooter.js"></script>
-<script type="module" src="js/script.js"></script>
 <script type="module" src="js/forecast.js"></script>
 </body>
 </html>

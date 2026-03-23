@@ -1,0 +1,203 @@
+/* Layout */
+.simulate-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1800px;
+    width: 95%;
+    margin: 0 auto;
+    padding: 3rem;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+}
+
+.simulate-page-content {
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+    width: 100%;
+}
+
+/* Title and intro */
+.simulate-intro {
+    width: 100%;
+}
+
+.simulate-intro h1 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-size: 2rem;
+    text-align: left;
+}
+
+.simulate-intro p {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.simulate-intro hr {
+    border: 0;
+    height: 1px;
+    background: #eaeaea;
+    margin: 0;
+    margin-bottom: 2rem;
+}
+
+/* Sliders */
+.sliders-panel {
+    flex: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sliders-panel h2 {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.slider-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.slider-group label {
+    font-weight: 600;
+    color: #444;
+    display: flex;
+    justify-content: space-between;
+}
+
+.slider-group span {
+    color: #888;
+    font-weight: normal;
+}
+
+.slider-group input[type="range"] {
+    width: 100%;
+    cursor: pointer;
+    accent-color: #4CAF50;
+}
+
+.slider-group input[type="number"],
+.slider-group select {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Prediction circles */
+.results-panel {
+    flex: 1;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-container {
+    text-align: center;
+    width: 100%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.circle-container h3 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+/* Horseshoe gauge */
+.progress-circle {
+    --fill: 0%;
+    --color: #4CAF50;
+
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    position: relative;
+
+    /* Creates the colored gauge */
+    background: conic-gradient(from 225deg,
+    var(--color) var(--fill),
+    #444 0%,
+    #444 75%,
+    transparent 75%
+    );
+
+    /* Centers the percentage inside */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Removed the center of the gauge */
+.progress-circle::after {
+    content: "";
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    right: 30px;
+    bottom: 30px;
+    background: #ffffff;
+    border-radius: 50%;
+    z-index: 1;
+}
+
+/* Percentage text */
+.progress-circle span {
+    position: relative;
+
+    /* Moves the text above the removed centre  */
+    z-index: 2;
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* --- Error Message Box --- */
+#simulationErrorDisplay {
+    color: #F44336;
+    background: #feebeb;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+    margin-bottom: 2rem;
+}
+
+/* Mobile compatibility */
+@media (max-width: 600px) {
+    .simulate-container {
+        padding: 1.5rem;
+    }
+
+    /* Stacks the sliders above the gauges */
+    .simulate-page-content {
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    /* Scales the gauges */
+    .results-panel {
+        min-width: unset;
+    }
+}
