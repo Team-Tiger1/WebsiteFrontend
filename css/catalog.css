@@ -253,17 +253,17 @@ button:hover {
 }
 
 /* resevervation popup */
-#reservePopup{
+#reservePopup,
+#reminderPopup{
     border: none;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     padding: 20px;
     width: 300px;
     /*Centering the pop up*/
     position: fixed;
-    top: 50%;
+    top: 50%; /*place in the center of the page*/
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); /*then moves it so the center of the popup is then centered rather ran the corner*/
 }
 
 #reservePopup h3{
@@ -271,11 +271,24 @@ button:hover {
     text-align: center;
 }
 
+#reminderPopup h3{
+    text-align: center;
+}
+
+#reminderPopup p {
+    margin: 10px 0 10px;
+}
+
 .reservationBtn{
     display: flex;
     justify-content: space-around;
     margin-top: 20px;
     gap: 10px;
+}
+
+#reminderPopup button{
+    display: block;
+    margin: 0 auto;
 }
 
 @media (max-width: 600px){
@@ -407,7 +420,7 @@ button:hover {
     flex-direction: column;
 }
 
-/* Advanced Filters */
+/*advanced Filters - time and location */
 .advanced-filters {
     display: flex;
     flex-wrap: wrap;

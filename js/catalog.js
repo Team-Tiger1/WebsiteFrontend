@@ -18,6 +18,11 @@ const msg = document.getElementById("msg");
 const companyBundles = document.getElementById("companyBundles");
 const streak = document.querySelector(".streak");
 
+//close the reminder when they click close
+document.getElementById("reminderClose").addEventListener("click", function () {
+    document.getElementById("reminderPopup").close();
+})
+
 //category names to be displayed to users
 const categoryNameMap = {
     BREAD_BAKED_GOODS: "Bread & Baked Goods",
@@ -482,3 +487,51 @@ function setupFilters() {
     }
 }
 setupFilters();
+
+/**
+ * Checks the user's reservations and shows a popup if:
+ * - their collection window is open right now
+ * - their collection window opens within the next hour
+ */
+async function showCollectionReminder() {
+    //collect the users reservations to check if we need to show the reminder popup
+    let reservations;
+    try {
+        const response = await apiGet("/reservations?status=RESERVED");
+        if (!response.ok) return;
+        reservations = await response.json();
+    } catch (err) {
+        console.error(err);
+        return;
+    }
+
+    const now = new Date();
+    const oneHourFromNow = new Date(now.getTime() + 60 * 60 * 1000);
+
+    for (let i = 0; i < reservations.length; i++) {
+        const r = reservations[i];
+        const windowStart = new Date(r.bundle.collectionStart); //collect the start and end collection date/times into a date
+        const windowEnd = new Date(r.bundle.collectionEnd);
+
+        const endTime = windowEnd.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }); //convert the time to a string
+        const startTime = windowStart.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+
+        // window is open right now
+        if (now >= windowStart && now <= windowEnd) {
+            document.getElementById("reminderHeading").textContent = "Collect your order!";
+            document.getElementById("reminderDetails").textContent = `Your ${r.bundle.name} collection window is open now until ${endTime}. Head to the vendor to collect it!`;
+            document.getElementById("reminderPopup").showModal();
+            return; // only show one popup at a time
+        }
+
+        //window opens in next hour
+        if (windowStart > now && windowStart <= oneHourFromNow) {
+            document.getElementById("reminderHeading").textContent = "Collection coming up within 1 hour!";
+            document.getElementById("reminderDetails").textContent = `Your "${r.bundle.name}" collection window opens at ${startTime}. Get ready to collect!`;
+            document.getElementById("reminderPopup").showModal();
+            return;
+        }
+    }
+}
+
+await showCollectionReminder();
