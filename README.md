@@ -47,8 +47,10 @@ Furthermore the forecast page allows users to gain forecast on collection probab
   - change email
   - change password
   - delete account
+- Created reservation popup
 - Ensuring all pages and new ones are mobile accessible
-- Added labels to the frontend pages for screen reading capability 
+- Added labels to the frontend pages for screen reading capability
+- Added a reminder popup for when a user is within a bundle collection window and/or within an hour before a collection window opens
 
 <br>
 
@@ -105,6 +107,8 @@ Added minor bug fixes and features which included:
   - Added mobile friendly formating
 - Catalog Page
   - Adjusted disclaimer popup to include link to our Food Safety & Allergies page
+  - Added Filter for location
+  - Added filters for Start and End time
 - New Bundle Page
   - Disabled create new bundle while waiting for response
   - Added popup to make new bundle creation more clear
