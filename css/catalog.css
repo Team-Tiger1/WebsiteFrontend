@@ -406,3 +406,40 @@ button:hover {
     display: flex;
     flex-direction: column;
 }
+
+/* Advanced Filters */
+.advanced-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 16px;
+}
+
+.advanced-filters .form-group {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 150px;
+}
+
+.advanced-filters label {
+    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #222;
+}
+
+.advanced-filters input {
+    padding: 10px 12px;
+    font-size: 14px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-family: inherit;
+    transition: border-color 150ms ease;
+}
+
+.advanced-filters input:focus {
+    outline: none;
+    border-color: #8fcbd3;
+}

@@ -188,8 +188,16 @@ function createBundleCard(bundle, targetCarousel) {
     } else if (typeof a === "string" && a.trim() !== "") {
         allergyText = a;
     }
-  //create card in HTML
-  card.innerHTML = `
+
+    // store time and postcode for filtering
+    card.dataset.start = bundle.collectionStart || "";
+    card.dataset.end = bundle.collectionEnd || "";
+    card.dataset.postcode = bundle.postcode || "";
+
+    const postCodeHTML = bundle.postcode ? `<p class="postcodeInfo">Location: ${sanitise(bundle.postcode)}</p>` : "";
+
+    //create card in HTML
+    card.innerHTML = `
     <h3>${sanitise(name)}</h3>
     <span class="category ${category}">
       ${categoryNameMap[category] ?? category}
@@ -197,6 +205,7 @@ function createBundleCard(bundle, targetCarousel) {
     <p>${price !== undefined ? "£" + Number(price).toFixed(2) : ""}</p>
 
     <p class="pickupTime">Pickup: ${pickupText}</p>
+    ${postCodeHTML}
     <p class="allergyInfo">Allergies: ${allergyText}</p>
 
     <button class="reserveBtn">Reserve</button>
@@ -381,59 +390,95 @@ enableScrollKeys(vendorCarousel)
 enableScrollKeys(bundleCarousel)
 
 /**
- * this function filters the bundles based off the category the bundle is
+ * this function filters the bundles based off the category the bundle is, the location, and time.
  * 
  */
-function CategoryFilter(){
-    //gets the flter buttons and adds event listener to each one to filter 
-    //the bundles shown in the company bundles and the bundle carousel
-    const filterBar = document.getElementById("filterBar");
-    filterBar.addEventListener("click", (e) => {
-        const button = e.target.closest(".filter-btn"); //if clicked then get the button element
-        if(!button) return;
+function applyFilters() {
+    const searchInput = document.getElementById("bundleSearch");
+    const query = searchInput ? searchInput.value.toLowerCase() : "";
+    const activeCategoryBtn = document.querySelector(".filter-btn.active");
+    const selectedCategory = activeCategoryBtn ? activeCategoryBtn.dataset.category : "ALL";
 
-        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active")); //remove all active classes 
-        button.classList.add("active"); //add active to clicked button for CSS
+    const filterFromInput = document.getElementById("filterFrom");
+    const filterTillInput = document.getElementById("filterTill");
+    const postcodeInput = document.getElementById("postcodeFilter");
 
-        const selected = button.dataset.category; //collects the buttons category
+    const filterFromStr = filterFromInput ? filterFromInput.value : "";
+    const filterTillStr = filterTillInput ? filterTillInput.value : "";
+    const postcodeQuery = postcodeInput ? postcodeInput.value.toLowerCase() : "";
 
-        document.querySelectorAll(".bundleCard").forEach(card => {
-            if (selected === "ALL" || card.querySelector(`.category.${selected}`)){ //loop through each card to see if it should still be shown based off the category selected
-                card.style.display = ""; //left in default state to be shown if in category
+    const filterFromTime = filterFromStr ? new Date(filterFromStr).getTime() : null;
+    const filterTillTime = filterTillStr ? new Date(filterTillStr).getTime() : null;
+
+    document.querySelectorAll(".bundleCard").forEach(card => {
+        let show = true;
+
+        // search filter
+        if (query && !card.textContent.toLowerCase().includes(query)) show = false;
+
+        // filter category
+        if (selectedCategory !== "ALL" && !card.querySelector(`.category.${selectedCategory}`)) show = false;
+
+        // filter date
+        const bundleStartStr = card.dataset.start;
+        const bundleEndStr = card.dataset.end;
+
+        if (filterFromTime || filterTillTime) {
+            if (!bundleStartStr || !bundleEndStr) {
+                show = false;
             } else {
-                card.style.display = "none"; //not shown in not in category
-            }
-        });
+                const bundleStartTime = new Date(bundleStartStr).getTime();
+                const bundleEndTime = new Date(bundleEndStr).getTime();
 
-        document.querySelectorAll("#companyBundles section").forEach(section => { //after filtering the cards we loop through each company section to see if they have any visible cards left, if not we hide the whole section
-            const visibleCards = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
-            section.style.display = visibleCards ? "" : "none";
-        });
+                //check overlapp
+                if (filterFromTime && bundleEndTime < filterFromTime) show = false;
+                if (filterTillTime && bundleStartTime > filterTillTime) show = false;
+            }
+        }
+
+        // filter postcode
+        const bundlePostcode = card.dataset.postcode ? card.dataset.postcode.toLowerCase() : "";
+        if (postcodeQuery && !bundlePostcode.startsWith(postcodeQuery)) show = false;
+
+        card.style.display = show ? "" : "none"; //not shown in not in category
+    });
+
+    //after filtering the cards we loop through each company section to see if they have any visible cards left, if not we hide the whole section
+    document.querySelectorAll("#companyBundles section").forEach(section => {
+        const visibleCards = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
+        section.style.display = visibleCards ? "" : "none";
     });
 }
-
-CategoryFilter();
 
 /**
- * Search bar function to filter the bundles based on the search query entered by the user
+ * Attaches event listeners to inputs triggering applyFilters()
  */
-function searchBar(){
-    const searchInput = document.getElementById("bundleSearch"); //gets user input
-    searchInput.addEventListener("input", () => {
-        const query = searchInput.value.toLowerCase(); //converts input to lower case
+function setupFilters() {
+    // search and advanced filters
+    const searchInput = document.getElementById("bundleSearch");
+    if(searchInput) searchInput.addEventListener("input", applyFilters);
 
-        document.querySelectorAll(".bundleCard").forEach(card => { //loops through each card to see if search matches the cards text
-            const text = card.textContent.toLowerCase();
-            card.style.display = text.includes(query) ? "" : "none";
-        });
+    const filterFromInput = document.getElementById("filterFrom");
+    if(filterFromInput) filterFromInput.addEventListener("input", applyFilters);
 
-        document.querySelectorAll("#companyBundles section").forEach(section => { //after filtering the cards we loop through each company section to see if they have any visible cards left, if not we hide the whole section
-            const visible = [...section.querySelectorAll(".bundleCard")].some(c => c.style.display !== "none");
-            section.style.display = visible ? "" : "none";
+    const filterTillInput = document.getElementById("filterTill");
+    if(filterTillInput) filterTillInput.addEventListener("input", applyFilters);
+
+    const postcodeInput = document.getElementById("postcodeFilter");
+    if(postcodeInput) postcodeInput.addEventListener("input", applyFilters);
+
+    // category filters
+    const filterBar = document.getElementById("filterBar");
+    if (filterBar) {
+        filterBar.addEventListener("click", (e) => {
+            const button = e.target.closest(".filter-btn");
+            if (!button) return;
+
+            document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+            button.classList.add("active");
+
+            applyFilters();
         });
-    });
+    }
 }
-
-searchBar();
-
-
+setupFilters();
