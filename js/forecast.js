@@ -81,7 +81,7 @@ function getAdvice(dayFilter) {
                         ${sanitise(advice.confidence)} Confidence
                     </span>
                     <span class="bundle-badge">
-                        ${sanitise(advice.avg_bundles)} Bundles Posted / Week
+                        You post an averge of ${sanitise(advice.avg_bundles)} bundles on this day every week
                     </span>
                 </div>
                 
